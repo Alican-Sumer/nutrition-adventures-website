@@ -631,6 +631,77 @@ setup.buildFeedbackList = function(mealType) {
 &lt;&lt;set $nextText to &quot;Play Again&quot;&gt;&gt;
 &lt;&lt;set $nextPassage to &quot;Intro&quot;&gt;&gt;
 &lt;&lt;print setup.buildCard()&gt;&gt;
+</tw-passagedata><tw-passagedata pid="14" name="Scenario4Intro" tags="" position="1000,2100" size="100,100">&lt;&lt;run setup.resetAll()&gt;&gt;
+&lt;&lt;set _image to setup.elementConstructor([
+	{ element: &quot;img&quot;, src: &#39;https://i.ibb.co/rGT1M9cj/One-Earth.jpg&#39;, alt: &#39;One Earth Dining Hall&#39;,  class: &#39;diningHallImg&#39; }
+    ])&gt;&gt;
+&lt;&lt;set _elements to setup.elementConstructor([
+	{ element: &quot;div&quot;, class: &#39;center&#39;, content: _image },
+    { element: &#39;div&#39;, content: `In this scenario, you will test your knowledge of protein content for common foods. You will see a variety of items you may find at One Earth in the Talley Student Center. Your goal is to select the amount of protein for one standard serving of the food. Please use the food label to help guide you. You will get feedback to help you learn along the way!`},
+    { element: &#39;p&#39;, content: `Click &lt;b&gt;&#39;Next&#39;&lt;/b&gt; to proceed.` }
+])&gt;&gt;
+&lt;&lt;set $title to &quot;Scenario 4: Protein Content&quot;&gt;&gt;
+&lt;&lt;set $description to _elements&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Menu&quot;&gt;&gt;
+&lt;&lt;set $backText to &quot;&quot;&gt;&gt;
+&lt;&lt;set $backPassage to &quot;&quot;&gt;&gt;
+&lt;&lt;print setup.buildCard()&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="Asian" tags="" position="1200,2100" size="100,100">&lt;&lt;set $title to &quot;Asian cuisine...&quot;&gt;&gt;
+&lt;&lt;set _nestedOptions to setup.elementConstructor([
+{ element: &quot;div&quot;, content: &quot;Bourbon Chicken&quot; },
+{ element: &quot;div&quot;, content: &quot;Crispy Bourbon Tofu&quot; },
+{ element: &quot;div&quot;, content: &quot;Vegetable Samosa&quot; }
+])&gt;&gt;
+&lt;&lt;set $description to setup.elementConstructor([
+{element: &quot;div&quot;, content: `Today, asian cuisine has the following options:`},
+{element: &quot;div&quot;, class: &quot;options&quot;, content: _nestedOptions},
+{element: &quot;div&quot;, content: &quot;Click “Next” to proceed.&quot;}
+])&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Bourbon Chicken&quot;&gt;&gt;
+
+&lt;&lt;print setup.buildCard()&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="Global" tags="" position="1400,2100" size="100,100">&lt;&lt;set $title to &quot;Global cuisine...&quot;&gt;&gt;
+&lt;&lt;set _nestedOptions to setup.elementConstructor([
+{ element: &quot;div&quot;, content: &quot;Caribbean Chickpea Curry&quot; },
+{ element: &quot;div&quot;, content: &quot;Cumin Black Bleans&quot; },
+{ element: &quot;div&quot;, content: &quot;Jerk Pork with Pineapple Relish&quot; }
+])&gt;&gt;
+&lt;&lt;set $description to setup.elementConstructor([
+{element: &quot;div&quot;, content: `Today, global cuisine has the following options:`},
+{element: &quot;div&quot;, class: &quot;options&quot;, content: _nestedOptions},
+{element: &quot;div&quot;, content: &quot;Click “Next” to proceed.&quot;}
+])&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Caribbean Chickpea Curry&quot;&gt;&gt;
+
+&lt;&lt;print setup.buildCard()&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="Mediterranean" tags="" position="1600,2100" size="100,100">&lt;&lt;set $title to &quot;Mediterranean cuisine...&quot;&gt;&gt;
+&lt;&lt;set _nestedOptions to setup.elementConstructor([
+{ element: &quot;div&quot;, content: &quot;Cavatappi Alfredo&quot; },
+{ element: &quot;div&quot;, content: &quot;Grilled Italian Chicken&quot; }
+])&gt;&gt;
+&lt;&lt;set $description to setup.elementConstructor([
+{element: &quot;div&quot;, content: `Today, mediterranean cuisine has the following options:`},
+{element: &quot;div&quot;, class: &quot;options&quot;, content: _nestedOptions},
+{element: &quot;div&quot;, content: &quot;Click “Next” to proceed.&quot;}
+])&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Cavatappi Alfredo&quot;&gt;&gt;
+
+&lt;&lt;print setup.buildCard()&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="S4 Salad Bar" tags="" position="1800,2100" size="100,100">&lt;&lt;set $title to &quot;Salad Bar...&quot;&gt;&gt;
+&lt;&lt;set _nestedOptions to setup.elementConstructor([
+{ element: &quot;div&quot;, content: &quot;Quinoa Corn Salad&quot; },
+{ element: &quot;div&quot;, content: &quot;Chipotle Chicken Salad&quot; }
+])&gt;&gt;
+&lt;&lt;set $description to setup.elementConstructor([
+{element: &quot;div&quot;, content: `Today, the salad bar has the following options:`},
+{element: &quot;div&quot;, class: &quot;options&quot;, content: _nestedOptions},
+{element: &quot;div&quot;, content: &quot;Click “Next” to proceed.&quot;}
+])&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Quinoa Corn Salad&quot;&gt;&gt;
+
+&lt;&lt;print setup.buildCard()&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="Exit Screen" tags="" position="2000,2100" size="100,100">&lt;&lt;set $title to &quot;Scenario 4: Protein Content&quot;&gt;&gt;
+&lt;&lt;set $description to setup.description([`Great job! Now you are more familiar with how protein content and serving size differ across foods and how that affects your overall nutrition. Paying attention to the label helps you connect numbers to real meals.`, `Remember:`, `- Animal proteins (e.g., chicken and eggs) are complete sources.`, `- Plant proteins (e.g., quinoa and chickpeas) are powerful too and combining them creates balance.`, `- The right amount for you depends on your activity, goals, and hunger. Use the serving size and protein grams on food labels to make informed, balanced choices.`])&gt;&gt;
 </tw-passagedata><tw-passagedata pid="14" name="Grill Station" tags="" position="1200,1100" size="100,100">&lt;&lt;set $title to &quot;At the Grill Station...&quot;&gt;&gt;
 &lt;&lt;set _nestedOptions to setup.elementConstructor([
 { element: &quot;div&quot;, content: &quot;Grilled Chicken&quot; },
@@ -708,6 +779,7 @@ setup.buildFeedbackList = function(mealType) {
 
 &lt;&lt;print
   setup.buildCard()
+&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Menu" tags="" position="1000,2300" size="100,100">&lt;&lt;set $title to &quot;Menu&quot;&gt;&gt;
 &gt;&gt;
 </tw-passagedata><tw-passagedata pid="20" name="Menu" tags="" position="1000,1300" size="100,100">&lt;&lt;set $title to &quot;Menu&quot;&gt;&gt;
 &lt;&lt;set $nextText to&quot;&quot; &gt;&gt;
@@ -715,6 +787,114 @@ setup.buildFeedbackList = function(mealType) {
 &lt;&lt;set $description to `Select a Category:&lt;br&gt;` + setup.menu()&gt;&gt;
 
 &lt;&lt;print setup.buildCard()&gt;&gt;
+</tw-passagedata><tw-passagedata pid="21" name="Bourbon Chicken" tags="" position="1200,2300" size="100,100">&lt;&lt;print setup.proteinCard(&quot;bourbonChickenProtein&quot;, &quot;bourbon chicken&quot;, [10, 15, 20, 25, 30], &quot;gram&quot;, &quot;Bourbon Chicken Protein&quot;, &quot;https://i.ibb.co/QjQt6J3b/Bourbon-Chicken.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="Caribbean Chickpea Curry" tags="" position="1400,2300" size="100,100">&lt;&lt;print setup.proteinCard(&quot;caribbeanChickpeaCurryProtein&quot;, &quot;caribbean chickpea curry&quot;, [2, 4, 6, 8], &quot;gram&quot;, &quot;Caribbean Chickpea Curry Protein&quot;, &quot;https://i.ibb.co/HLWYVSy4/Caribbean-Chickpea-Curry.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="Cavatappi Alfredo" tags="" position="1600,2300" size="100,100">&lt;&lt;print setup.proteinCard(&quot;cavatappiAlfredoProtein&quot;, &quot;cavatappi alfredo&quot;, [5, 10, 15, 20, 25], &quot;gram&quot;, &quot;Cavatappi Alfredo Protein&quot;, &quot;https://i.ibb.co/v6gHTNDW/Cavatappi-Alfredo.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="Quinoa Corn Salad" tags="" position="1800,2300" size="100,100">&lt;&lt;print setup.proteinCard(&quot;quinoaCornSaladProtein&quot;, &quot;quinoa corn salad&quot;, [3, 6, 9 ,12], &quot;gram&quot;, &quot;Quinoa Corn Salad Protein&quot;, &quot;https://i.ibb.co/svS4NPxt/Quinoa-Corn-Salad.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="Bourbon Chicken Protein" tags="" position="1200,2500" size="100,100">&lt;&lt;set _varName to &quot;bourbonChickenProtein&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 25&gt;&gt;
+&lt;&lt;set _incorrectFeedback to `Close! Based on the serving size of 1/2 this providesapproximately 25 g of protein. Chicken is a high-quality complete protein that supportsmuscle repair and fullness. The sweet bourbon sauce adds flavor, but also some extra sugar and sodium, so balance it with veggies or rice.`&gt;&gt;
+&lt;&lt;set _feedbackOptions to [_incorrectFeedback, `Great job! Based on the serving size of 1/2 this provides approximately 25 g of protein. Chicken is a high-quality complete protein that supports muscle repair and fullness. The sweet bourbon sauce adds flavor, but also some extra sugar and sodium, so balance it with veggies or rice.`,  _incorrectFeedback]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Bourbon Chicken Nutrition Label&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/DgD3yFsx/Bourbon-Chicken.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Bourbon Chicken Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Crispy Bourbon Tofu&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="Caribbean Chickpea Curry Protein" tags="" position="1400,2500" size="100,100">&lt;&lt;set _varName to &quot;caribbeanChickpeaCurryProtein&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 4&gt;&gt;
+&lt;&lt;set _incorrectFeedback to `Close! A ½ cup serving of this Caribbean chickpea curry
+provides approximately 4 g of protein. Although chickpeas are a little lower in protein,
+they are low in fat and rich in fiber to help keep you full longer.`&gt;&gt;
+&lt;&lt;set _feedbackOptions to [_incorrectFeedback, `Great job! A ½ cup serving of this Caribbean chickpea curry provides approximately 4 g of protein. Although chickpeas are a little lower in protein, they are low in fat and rich in fiber to help keep you full longer.`,  _incorrectFeedback]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Caribbean Chickpea Curry Nutrition Label&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/7dw2V0b3/Caribbean-Chickpea-Curry.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Caribbean Chickpea Curry Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Cumin Black Beans&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="Cavatappi Alfredo Protein" tags="" position="1600,2500" size="100,100">&lt;&lt;set _varName to &quot;cavatappiAlfredoProtein&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 15&gt;&gt;
+&lt;&lt;set _incorrectFeedback to `Close! Great job! A serving of Cavatappi Alfredo has about 15 grams of protein, mostly from the cheese and milk in the sauce. It’s creamy and satisfying, but it’s higher in fat and calories. Pair it with grilled chicken or vegetables for balance.`&gt;&gt;
+&lt;&lt;set _feedbackOptions to [_incorrectFeedback, `Great job! A serving of Cavatappi Alfredo has about 15 grams of protein, mostly from the cheese and milk in the sauce. It’s creamy and satisfying, but it’s higher in fat and calories. Pair it with grilled chicken or vegetables for balance.`,  _incorrectFeedback]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Cavatappi Alfredo Nutrition Label&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/YFXg417v/Cavatappi-Alfredo.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Cavatappi Alfredo Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Grilled Italian Chicken&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="Quinoa Corn Salad Protein" tags="" position="1800,2500" size="100,100">&lt;&lt;set _varName to &quot;quinoaCornSaladProtein&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 3&gt;&gt;
+&lt;&lt;set _incorrectFeedback to `Close! A serving of the quinoa corn salad provides approximately 3g of protein. Quinoa is a complete plant protein, while corn adds fiber and flavor. Add beans or tofu to make it even more filling.`&gt;&gt;
+&lt;&lt;set _feedbackOptions to [_incorrectFeedback, `Great job! A serving of the quinoa corn salad provides approximately 3g of protein. Quinoa is a complete plant protein, while corn adds fiber and flavor. Add beans or tofu to make it even more filling.`,  _incorrectFeedback]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Quinoa Corn Salad Nutrition Label&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/jPcRD3Nz/Quinoa-Corn-Salad.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Quinoa Corn Salad  Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Chipotle Chicken Salad&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="Crispy Bourbon Tofu" tags="" position="1200,2700" size="100,100">&lt;&lt;print setup.proteinCard(&quot;crispyBourbonTofuProtein&quot;, &quot;crispy bourbon tofu&quot;, [5, 7, 9, 11, 13], &quot;gram&quot;, &quot;Crispy Bourbon Tofu Protein&quot;, &quot;https://i.ibb.co/jkZM7qth/Crispy-Bourbon-Tofu.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="Cumin Black Beans" tags="" position="1400,2700" size="100,100">&lt;&lt;print setup.proteinCard(&quot;cuminBlackBeansProtein&quot;, &quot;cumin black beans&quot;, [2, 4, 6, 8, 10], &quot;gram&quot;, &quot;Cumin Black Beans Protein&quot;, &quot;https://i.ibb.co/YrNw2Rb/Cumin-Black-Beans.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="31" name="Grilled Italian Chicken" tags="" position="1600,2700" size="100,100">&lt;&lt;print setup.proteinCard(&quot;grilledItalianChickenProtein&quot;, &quot;grilled italian chicken&quot;, [15, 20, 25, 30, 35], &quot;gram&quot;, &quot;Grilled Italian Chicken Protein&quot;, &quot;https://i.ibb.co/DDrHq8nJ/Grilled-Italian-Chicken.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="Chipotle Chicken Salad" tags="" position="1800,2700" size="100,100">&lt;&lt;print setup.proteinCard(&quot;chipotleChickenSaladProtein&quot;, &quot;chipotle chicken salad&quot;, [5, 7, 10, 12, 15], &quot;gram&quot;, &quot;Chipotle Chicken Salad Protein&quot;, &quot;https://i.ibb.co/MxMwR3gT/Chipotle-Chicken-Salad.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="Crispy Bourbon Tofu Protein" tags="" position="1200,2900" size="100,100">&lt;&lt;set _varName to &quot;crispyBourbonTofuProtein&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 9&gt;&gt;
+&lt;&lt;set _incorrectFeedback to `Close! A ½ cup serving of this crispy bourbon tofu offers
+approximately 9 grams of protein. Tofu is a complete plant protein which is great for
+vegetarians and anyone mixing up their protein sources.`&gt;&gt;
+&lt;&lt;set _feedbackOptions to [_incorrectFeedback, `Great job! A ½ cup serving of this crispy bourbon tofu offers approximately 9 grams of protein. Tofu is a complete plant protein which is great for vegetarians and anyone mixing up their protein sources.`,  _incorrectFeedback]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Crispy Bourbon Tofu Nutrition Label&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/JjmgB8Bn/Crispy-Bourbon-Tofu.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Cripsy Bourbon Tofu Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Vegetable Samosa&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Cumin Black Beans Protein" tags="" position="1400,2900" size="100,100">&lt;&lt;set _varName to &quot;cuminBlackBeansProtein&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 2&gt;&gt;
+&lt;&lt;set _incorrectFeedback to `Close! A ¼ cup serving provides about 2 grams of protein. Black beans are a solid plant-based protein source and also provide fiber to support fullness and gut health. Combine them with rice or quinoa to make a complete protein.`&gt;&gt;
+&lt;&lt;set _feedbackOptions to [_incorrectFeedback, `Great job! A ¼ cup serving provides about 2 grams of protein. Black beans are a solid plant-based protein source and also provide fiber to support fullness and gut health. Combine them with rice or quinoa to make a complete protein.`,  _incorrectFeedback]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Cumin Black Beans Nutrition Label&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/d4vQPwqH/Cumin-Black-Beans.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Cumin Black Beans Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to `Jerk Pork with Pineapple Relish`&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Grilled Italian Chicken Protein" tags="" position="1600,2900" size="100,100">&lt;&lt;set _varName to &quot;grilledItalianChickenProtein&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 25&gt;&gt;
+&lt;&lt;set _incorrectFeedback to `Close! A ½ cup (3 oz) serving provides approximately 25g of protein. Grilled chicken is lean complete protein source. It is helpful to be mindful of
+creamy dressings or sauces that can add sodium or fat.`&gt;&gt;
+&lt;&lt;set _feedbackOptions to [_incorrectFeedback, `Great job! A ½ cup (3 oz) serving provides approximately 25 g of protein. Grilled chicken is lean complete protein source. It is helpful to be mindful of creamy dressings or sauces that can add sodium or fat.`,  _incorrectFeedback]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Grilled Italian Chicken Nutrition Label&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/FbTm7fNn/Grilled-Italian-Chicken.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Grilled Italian Chicken Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Menu&quot;&gt;&gt;
+
+&lt;&lt;set $mediterraneanDone to true&gt;&gt;
+
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Chipotle Chicken Salad Protein" tags="" position="1800,2900" size="100,100">&lt;&lt;set _varName to &quot;chipotleChickenSaladProtein&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 12&gt;&gt;
+&lt;&lt;set _incorrectFeedback to `Close! Based on the ½ cup serving, this salad provides about 12 grams of protein. The food labels reminds to be mindful of chipotle dressings or sauces that can raise sodium levels.`&gt;&gt;
+&lt;&lt;set _feedbackOptions to [_incorrectFeedback, `Great job! Based on the ½ cup serving, this salad provides about 12 grams of protein. The food label reminds to be mindful of chipotle dressings or sauces that can raise sodium levels.`,  _incorrectFeedback]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Chipotle Chicken Salad Nutrition Label&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/sdVLLzzS/Chipotle-Chicken-Salad.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Chipotle Chicken Salad Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Menu&quot;&gt;&gt;
+
+&lt;&lt;set $saladBarDone to true&gt;&gt;
+
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Vegetable Samosa" tags="" position="1200,3100" size="100,100">&lt;&lt;print setup.proteinCard(&quot;vegetableSamosaProtein&quot;, &quot;vegetable samosa&quot;, [6, 9, 12, 15, 18], &quot;gram&quot;, &quot;Vegetable Samosa Protein&quot;, &quot;https://i.ibb.co/dsv8McN6/Vegetable-Samosa.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Jerk Pork with Pineapple Relish" tags="" position="1400,3100" size="100,100">&lt;&lt;print setup.proteinCard(&quot;jerkPorkProtein&quot;, &quot;jerk pork with pineapple relish&quot;, [10, 15, 20, 25, 30], &quot;gram&quot;, &quot;Jerk Pork Protein&quot;, &quot;https://i.ibb.co/7xB3rn2M/Jerk-Pork-with-Pineapple-Relish.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="Vegetable Samosa Protein" tags="" position="1200,3300" size="100,100">&lt;&lt;set _varName to &quot;vegetableSamosaProtein&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 6&gt;&gt;
+&lt;&lt;set _incorrectFeedback to `Close! Based on the serving size of 3 samosa (180 g), this dish provides about 6 grams of protein. Most of its calories come from the fried pastry and potato filling, so it’s more of a carb and fat source than a protein food. It’s tasty, but pair it with lentils or chicken to boost your meal’s protein content.`&gt;&gt;
+&lt;&lt;set _feedbackOptions to [_incorrectFeedback, `Great job! Based on the serving size of 3 samosa (180 g), this dish provides about 6 grams of protein. Most of its calories come from the fried pastry and potato filling, so it’s more of a carb and fat source than a protein food. It’s tasty, but pair it with lentils or chicken to boost your meal’s protein content.`, _incorrectFeedback]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Vegetable Samosa Nutrition Label&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/jvTbxWpf/Vegetable-Samosa.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Vegetable Samosa Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Menu&quot;&gt;&gt;
+
+&lt;&lt;set $asianDone to true&gt;&gt;
+
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="Jerk Pork Protein" tags="" position="1400,3300" size="100,100">&lt;&lt;set _varName to &quot;jerkPorkProtein&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 25&gt;&gt;
+&lt;&lt;set _incorrectFeedback to `Close! A ½ cup serving provides about 25 grams of protein. Pork is a complete, high-quality protein and also provides important B-vitamins and iron.`&gt;&gt;
+&lt;&lt;set _feedbackOptions to [_incorrectFeedback, `Great job! A ½ cup serving provides about 25 grams of protein. Pork is a complete, high-quality protein and also provides important B-vitamins and iron.`, _incorrectFeedback]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Jerk Pork with Pineapple Relish Nutrition Label&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/fzG9P90v/Jerk-Pork-with-Pineapple-Relish.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Jerk Pork Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Menu&quot;&gt;&gt;
+
+&lt;&lt;set $globalDone to true&gt;&gt;
+
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata></tw-storydata>
 </tw-passagedata><tw-passagedata pid="21" name="Chicken" tags="" position="1200,1300" size="100,100">&lt;&lt;print setup.portionCard(&quot;chickenAmount&quot;, &quot;grilled chicken&quot;, [1, 2, 3, 4, 5, 6], &quot;ounce&quot;, &quot;Chicken Feedback&quot;, &quot;https://i.ibb.co/39h1DVj1/Grilled-Chicken-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="Brown Rice" tags="" position="1400,1300" size="100,100">&lt;&lt;print setup.portionCard(&quot;brownRiceAmount&quot;, &quot;brown rice&quot;, [&quot;1/4&quot;, &quot;1/2&quot;, &quot;3/4&quot;, 1, &quot;1 1/2&quot;, 2], [&quot;cup&quot;],  &quot;Brown Rice Feedback&quot;, &quot;https://i.ibb.co/prfwtbL6/Brown-Rice-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="Steamed Broccoli" tags="" position="1600,1300" size="100,100">&lt;&lt;print setup.portionCard(&quot;broccoliAmount&quot;, &quot;steamed broccoli&quot;, [&quot;1/4&quot;, &quot;1/2&quot;, &quot;3/4&quot;, 1,&quot;1 1/2&quot;, 2], &quot;cup&quot;, &quot;Steamed Broccoli Feedback&quot;, &quot;https://i.ibb.co/FLKq2Fcw/Steamed-Broccoli-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="Chicken Salad" tags="" position="1800,1300" size="100,100">&lt;&lt;print setup.portionCard(&quot;chickenSaladAmount&quot;, &quot;chicken salad&quot;,  [ &quot;1/4&quot;, &quot;1/3&quot;, &quot;1/2&quot;, &quot;2/3&quot;, &quot;3/4&quot;, &quot;1&quot;], &quot;cup&quot;, &quot;Chicken Salad Feedback&quot;, &quot;https://i.ibb.co/3mQgQFvd/Chicken-Salad-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="Ice Cream" tags="" position="2000,1300" size="100,100">&lt;&lt;print setup.portionCard(&quot;iceCreamAmount&quot;, &quot;Howling Cow ice cream&quot;, [ &quot;1/4&quot;, &quot;1/3&quot;, &quot;1/2&quot;, &quot;2/3&quot;, &quot;3/4&quot;, &quot;1&quot;], &quot;cup&quot;, &quot;Ice Cream Feedback&quot;, &quot;https://i.ibb.co/tMKDkpTC/Ice-Cream-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="Chicken Feedback" tags="" position="1200,1500" size="100,100">&lt;&lt;set _varName to &quot;chickenAmount&quot;&gt;&gt;
 &lt;&lt;set _correctAmount to 3&gt;&gt;
 &lt;&lt;set _feedbackOptions to [&quot;That’s less than the standard serving. A serving of chicken is about 3 ounces, roughly the size of a deck of cards or the palm of your hand. Protein is important for muscle repair, satiety, and overall health. Smaller servings are okay, however be sure to include a variety of protein sources throughout the day.&quot;, &quot;Well done! A standard serving of grilled chicken is about 3 ounces, roughly the size of a deck of cards or the palm of your hand. This provides a solid source of lean protein to help with muscle repair and satiety.&quot;,  &quot;That’s more than the standard 3-ounce serving, roughly the size of a deck of cards or the palm of your hand. Larger portions can fit for highly active individuals, but sticking closer to the standard serving makes it easier to balance protein with vegetables, grains, and healthy fats.&quot;]&gt;&gt;
