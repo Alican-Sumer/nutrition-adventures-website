@@ -104,7 +104,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<tw-storydata name="FullGame" startnode="1" creator="Twine" creator-version="2.10.0" format="SugarCube" format-version="2.37.3" ifid="A55BB7BC-9066-4AB3-B5F6-4637B1A6A586" options="" tags="" zoom="0.8" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* GENERIC CSS (Paste at top of story css)*/
+	<tw-storydata name="FullGame" startnode="1" creator="Twine" creator-version="2.11.1" format="SugarCube" format-version="2.37.3" ifid="A55BB7BC-9066-4AB3-B5F6-4637B1A6A586" options="" tags="" zoom="0.8" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* GENERIC CSS (Paste at top of story css)*/
 #story { 
   box-sizing: border-box; 
   height: 100vh; 
@@ -631,6 +631,218 @@ setup.buildFeedbackList = function(mealType) {
 &lt;&lt;set $nextText to &quot;Play Again&quot;&gt;&gt;
 &lt;&lt;set $nextPassage to &quot;Intro&quot;&gt;&gt;
 &lt;&lt;print setup.buildCard()&gt;&gt;
+</tw-passagedata><tw-passagedata pid="14" name="Grill Station" tags="" position="1200,1100" size="100,100">&lt;&lt;set $title to &quot;At the Grill Station...&quot;&gt;&gt;
+&lt;&lt;set _nestedOptions to setup.elementConstructor([
+{ element: &quot;div&quot;, content: &quot;Grilled Chicken&quot; },
+{ element: &quot;div&quot;, content: &quot;Salmon&quot; },
+{ element: &quot;div&quot;, content: &quot;Grilled Tofu&quot; }
+])&gt;&gt;
+&lt;&lt;set $description to setup.elementConstructor([
+{element: &quot;div&quot;, content: &quot;Today the Grill Station has the following options:&quot;},
+{element: &quot;div&quot;, class: &quot;options&quot;, content: _nestedOptions},
+{element: &quot;div&quot;, content: &quot;Click “Next” to proceed.&quot;}
+])&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Chicken&quot;&gt;&gt;
+
+&lt;&lt;print setup.buildCard()&gt;&gt;
+</tw-passagedata><tw-passagedata pid="15" name="Homestyle Entree Station" tags="" position="1400,1100" size="100,100">&lt;&lt;set $title to &quot;At the Homestyle Entrée Station ... &quot;&gt;&gt;
+&lt;&lt;set _nestedOptions to setup.elementConstructor([
+{ element: &quot;div&quot;, content: &quot;Brown Rice&quot; },
+{ element: &quot;div&quot;, content: &quot;Pasta&quot; },
+{ element: &quot;div&quot;, content: &quot;Roasted Potatoes&quot; }
+])&gt;&gt;
+&lt;&lt;set $description to setup.elementConstructor([
+{element: &quot;div&quot;, content: &quot;Today the Homestyle Entrée Station has the following options:&quot;},
+{element: &quot;div&quot;, class: &quot;options&quot;, content: _nestedOptions},
+{element: &quot;div&quot;, content: &quot;Click “Next” to proceed.&quot;},
+])&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Brown Rice&quot;&gt;&gt;
+
+&lt;&lt;print setup.buildCard()&gt;&gt;
+</tw-passagedata><tw-passagedata pid="16" name="Simply Made" tags="" position="1600,1100" size="100,100">&lt;&lt;set $title to &quot;At the Simply Made Station ... &quot;&gt;&gt;
+&lt;&lt;set _nestedOptions to setup.elementConstructor([
+{ element: &quot;div&quot;, content: &quot;Steamed Broccoli&quot; },
+{ element: &quot;div&quot;, content: &quot;Sauteed Green Bean&quot; }
+])&gt;&gt;
+&lt;&lt;set $description to setup.elementConstructor([
+{element: &quot;div&quot;, content: &quot;Today Simply Made has the following options:&quot;},
+{element: &quot;div&quot;, class: &quot;options&quot;, content: _nestedOptions},
+{element: &quot;div&quot;, content: &quot;Click “Next” to proceed.&quot;},
+])&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Steamed Broccoli&quot;&gt;&gt;
+
+&lt;&lt;print setup.buildCard()&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="Deli Station" tags="" position="1800,1100" size="100,100">&lt;&lt;set $title to &quot;At the Deli Station ... &quot;&gt;&gt;
+&lt;&lt;set _nestedOptions to setup.elementConstructor([
+{ element: &quot;div&quot;, content: &quot;Chicken Salad&quot; },
+{ element: &quot;div&quot;, content: &quot;Deli Meat&quot; },
+{ element: &quot;div&quot;, content: &quot;Sliced Cheese&quot; },
+{ element: &quot;div&quot;, content: &quot;Whole Wheat Bread&quot; }
+])&gt;&gt;
+&lt;&lt;set $description to setup.elementConstructor([
+{element: &quot;div&quot;, content: &quot;Today the Deli Station has the following options:&quot;},
+{element: &quot;div&quot;, class: &quot;options&quot;, content: _nestedOptions},
+{element: &quot;div&quot;, content: &quot;Click “Next” to proceed.&quot;},
+])&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Chicken Salad&quot;&gt;&gt;
+
+&lt;&lt;print setup.buildCard()&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="Desert Bar" tags="" position="2000,1100" size="100,100">&lt;&lt;set $title to &quot;At the Dessert Bar ... &quot;&gt;&gt;
+&lt;&lt;set _nestedOptions to setup.elementConstructor([
+{ element: &quot;div&quot;, content: &quot;Howling Cow Ice Cream&quot; }
+])&gt;&gt;
+&lt;&lt;set $description to setup.elementConstructor([
+{element: &quot;div&quot;, content: &quot;Today the Dessert Bar has the following option:&quot;},
+{element: &quot;div&quot;, class: &quot;options&quot;, content: _nestedOptions},
+{element: &quot;div&quot;, content: &quot;Click “Next” to proceed.&quot;},
+])&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Ice Cream&quot;&gt;&gt;
+
+&lt;&lt;print setup.buildCard()&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="Exit Screen" tags="" position="2200,1100" size="100,100">&lt;&lt;set $title to &quot;Scenario 2: Dining Hall Buffet&quot;&gt;&gt;
+&lt;&lt;set $description to &quot;Well done! As a reminder, a serving size is a standard reference amount found on nutrition labels, while a portion is the amount you choose to eat. Your portion might be bigger or smaller depending on your hunger, activity level, or nutrition goals. Understanding this difference helps you make balanced, intentional choices. The key is being aware so you can make choices that work best for you as awareness, not perfection, leads to healthier habits.&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Restart&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Scenario Introduction&quot;&gt;&gt;
+
+&lt;&lt;print
+  setup.buildCard()
+&gt;&gt;
+</tw-passagedata><tw-passagedata pid="20" name="Menu" tags="" position="1000,1300" size="100,100">&lt;&lt;set $title to &quot;Menu&quot;&gt;&gt;
+&lt;&lt;set $nextText to&quot;&quot; &gt;&gt;
+&lt;&lt;set $nextPassage to &quot;&quot;&gt;&gt;
+&lt;&lt;set $description to `Select a Category:&lt;br&gt;` + setup.menu()&gt;&gt;
+
+&lt;&lt;print setup.buildCard()&gt;&gt;
+</tw-passagedata><tw-passagedata pid="21" name="Chicken" tags="" position="1200,1300" size="100,100">&lt;&lt;print setup.portionCard(&quot;chickenAmount&quot;, &quot;grilled chicken&quot;, [1, 2, 3, 4, 5, 6], &quot;ounce&quot;, &quot;Chicken Feedback&quot;, &quot;https://i.ibb.co/39h1DVj1/Grilled-Chicken-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="Brown Rice" tags="" position="1400,1300" size="100,100">&lt;&lt;print setup.portionCard(&quot;brownRiceAmount&quot;, &quot;brown rice&quot;, [&quot;1/4&quot;, &quot;1/2&quot;, &quot;3/4&quot;, 1, &quot;1 1/2&quot;, 2], [&quot;cup&quot;],  &quot;Brown Rice Feedback&quot;, &quot;https://i.ibb.co/prfwtbL6/Brown-Rice-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="Steamed Broccoli" tags="" position="1600,1300" size="100,100">&lt;&lt;print setup.portionCard(&quot;broccoliAmount&quot;, &quot;steamed broccoli&quot;, [&quot;1/4&quot;, &quot;1/2&quot;, &quot;3/4&quot;, 1,&quot;1 1/2&quot;, 2], &quot;cup&quot;, &quot;Steamed Broccoli Feedback&quot;, &quot;https://i.ibb.co/FLKq2Fcw/Steamed-Broccoli-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="Chicken Salad" tags="" position="1800,1300" size="100,100">&lt;&lt;print setup.portionCard(&quot;chickenSaladAmount&quot;, &quot;chicken salad&quot;,  [ &quot;1/4&quot;, &quot;1/3&quot;, &quot;1/2&quot;, &quot;2/3&quot;, &quot;3/4&quot;, &quot;1&quot;], &quot;cup&quot;, &quot;Chicken Salad Feedback&quot;, &quot;https://i.ibb.co/3mQgQFvd/Chicken-Salad-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="Ice Cream" tags="" position="2000,1300" size="100,100">&lt;&lt;print setup.portionCard(&quot;iceCreamAmount&quot;, &quot;Howling Cow ice cream&quot;, [ &quot;1/4&quot;, &quot;1/3&quot;, &quot;1/2&quot;, &quot;2/3&quot;, &quot;3/4&quot;, &quot;1&quot;], &quot;cup&quot;, &quot;Ice Cream Feedback&quot;, &quot;https://i.ibb.co/tMKDkpTC/Ice-Cream-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="Chicken Feedback" tags="" position="1200,1500" size="100,100">&lt;&lt;set _varName to &quot;chickenAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 3&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;That’s less than the standard serving. A serving of chicken is about 3 ounces, roughly the size of a deck of cards or the palm of your hand. Protein is important for muscle repair, satiety, and overall health. Smaller servings are okay, however be sure to include a variety of protein sources throughout the day.&quot;, &quot;Well done! A standard serving of grilled chicken is about 3 ounces, roughly the size of a deck of cards or the palm of your hand. This provides a solid source of lean protein to help with muscle repair and satiety.&quot;,  &quot;That’s more than the standard 3-ounce serving, roughly the size of a deck of cards or the palm of your hand. Larger portions can fit for highly active individuals, but sticking closer to the standard serving makes it easier to balance protein with vegetables, grains, and healthy fats.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Deck of Cards&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/z160mwD/Deck-of-Cards.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Grilled Chicken Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Salmon&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="Brown Rice Feedback" tags="" position="1400,1500" size="100,100">&lt;&lt;set _varName to &quot;brownRiceAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 1/2&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;You chose less than the standard serving. A typical serving of rice is about ½ cup. While a smaller portion can work if you’re pairing it with other grains or sides, this amount may not give you the energy and balance that a full serving provides, but sometimes less is the right choice to keep your meal balanced.&quot;, &quot;Great job! The recommended serving of rice for an adult is typically ½ cup. This can vary based on individual calorie needs, activity level, and the type of meal, but following this standard can help control portion sizes and maintain a balanced diet.&quot;,  &quot;That’s more than the typical ½ cup serving of rice. Larger portions can be appropriate if you’re very active or need more energy, but sticking closer to the standard serving can help with balance across the whole meal.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Brown Rice Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Pasta&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="Steamed Broccoli Feedback" tags="" position="1600,1500" size="100,100">&lt;&lt;set _varName to &quot;broccoliAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 1&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;That’s less than the typical 1-cup serving. Smaller portions are still nutritious, but a full serving provides more fiber, vitamins, and minerals.&quot;, &quot;Great job! A standard serving of steamed broccoli is about 1 cup, roughly the size of a baseball or your clenched fist. This helps you meet daily veggie goals.&quot;,  &quot;That’s more than the standard 1-cup serving. Extra broccoli is always nutrient-rich, but it may crowd out other food groups. Balance is key.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Baseball&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/nqV4jXxH/Baseball.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Steamed Broccoli Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Sauteed Green Bean&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="Chicken Salad Feedback" tags="" position="1800,1500" size="100,100">&lt;&lt;set _varName to &quot;chickenSaladAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 1/2&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;That’s less than the standard serving. A typical portion is about ½ cup, which is enough to fill a small scoop or the size of half a baseball. Protein is important for muscle repair, satiety, and overall health. Smaller servings are okay, but be sure to balance your protein intake with other sources throughout the day.&quot;, &quot;Great job! A standard serving of chicken salad is about ½ cup, which is enough to fill a small scoop or the size of half a baseball. This balances protein with the other parts of your meal.&quot;,  &quot;That’s more than the standard ½-cup serving, which is enough to fill a small scoop or the size of half a baseball. A larger scoop can work, but staying closer to the standard helps keep calories and balance in check.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Half a Baseball&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/577Jg48/Half-a-Baseball.png &quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Chicken Salad Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Deli Meat&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="Ice Cream Feedback" tags="" position="2000,1500" size="100,100">&lt;&lt;set _varName to &quot;iceCreamAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to [.66, .67]&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;That’s less than the standard serving. According to the updated FDA Nutrition Facts label, a serving of ice cream is generally defined as 2/3 cup, though some dietitians still recommend ½ cup as a sensible amount. Having a smaller portion is completely okay. Sometimes less is the right choice to keep balance in your overall meal or snack.&quot;, &quot;Great job! A standard serving of ice cream is 2/3 cup. The FDA updated Nutrition Facts labels to reflect this more realistic portion size, though some dietitians still recommend ½ cup as a balanced treat. Sometimes less is the right choice to keep balance in your overall meal or snack.&quot;,  &quot;That’s more than the standard serving size (2/3 cup). Bigger bowls are common, but calories and sugar can add up quickly. Remember, it’s totally fine to enjoy more occasionally, just balance it out with other food choices during the day.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Howling Cow Ice Cream Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Menu&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;
+&lt;&lt;set $dessertDone to true&gt;&gt;</tw-passagedata><tw-passagedata pid="31" name="Salmon" tags="" position="1200,1700" size="100,100">&lt;&lt;print setup.portionCard(&quot;salmonAmount&quot;, &quot;salmon&quot;, [1, 2, 3, 4, 5, 6], &quot;ounce&quot;, &quot;Salmon Feedback&quot;, &quot;https://i.ibb.co/QvBg60kf/Grilled-Salmon-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="Pasta" tags="" position="1400,1700" size="100,100">&lt;&lt;print setup.portionCard(&quot;pastaAmount&quot;, &quot;pasta&quot;, [&quot;1/4&quot;, &quot;1/2&quot;, &quot;3/4&quot;, 1,&quot;1 1/2&quot;, 2], &quot;cup&quot;, &quot;S2 Pasta Feedback&quot;, &quot;https://i.ibb.co/p6n9cFvt/Pasta-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="Sauteed Green Bean" tags="" position="1600,1700" size="100,100">&lt;&lt;print setup.portionCard(&quot;greenBeanAmount&quot;, &quot;sauteed green beans&quot;, [&quot;1/4&quot;, &quot;1/2&quot;, &quot;3/4&quot;, 1,&quot;1 1/2&quot;, 2], &quot;cup&quot;, &quot;Sauteed Green Bean Feedback&quot;, &quot;https://i.ibb.co/YFPV7GJ6/Green-Beans-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Deli Meat" tags="" position="1800,1700" size="100,100">&lt;&lt;print setup.portionCard(&quot;deliMeatAmount&quot;, &quot;deli meat&quot;, [1,2,3,4,5,6], &quot;slice&quot;, &quot;Deli Meat Feedback&quot;, &quot;https://i.ibb.co/pBfY4fBR/Deli-Meat-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Salmon Feedback" tags="" position="1200,1900" size="100,100">&lt;&lt;set _varName to &quot;salmonAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 4&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;That’s less than the standard serving. A serving of salmon is about 4 ounces, which is about the size of a checkbook or your palm with fingers extended. Protein is important for muscle repair, satiety, and overall health. Having a slightly smaller portion occasionally is okay, but be sure to include other protein sources throughout the day for balance.&quot;, &quot;Well done! A standard serving is about 4 ounces, which is about the size of a checkbook or your palm with fingers extended. This portion provides a balance of protein and heart-healthy omega-3 fatty acids.&quot;,  &quot;That’s more than the standard serving of approximately 4 ounces, which is about the size of a checkbook or your palm with fingers extended. Larger portions can be fine occasionally, especially if salmon is your main protein, but keeping closer to a standard serving supports balance across the meal.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Checkbook&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/YTYbCcB7/Check-Book.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Salmon Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Tofu&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="S2 Pasta Feedback" tags="" position="1400,1900" size="100,100">&lt;&lt;set _varName to &quot;pastaAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 1&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;You chose less than the standard serving. The standard serving is about 1 cup cooked pasta. Pasta is a good source of energy, especially if it’s your main dish; however, a smaller portion can still fit perfectly, and sometimes less is the right choice to keep balance in your overall meal.&quot;, &quot;Great job! A standard pasta serving is 2 ounces of dry pasta, which yields about 1 cup cooked, but portion sizes can vary based on individual needs and whether the pasta is a main dish or a first course.&quot;,  &quot;That’s a bigger portion than the standard 1 cup of cooked pasta. This might work if pasta is your main course, but in a balanced meal, keeping closer to the standard serving can help leave room for protein and veggies.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;S2 Pasta Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Roasted Potatoes&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Sauteed Green Bean Feedback" tags="" position="1600,1900" size="100,100">&lt;&lt;set _varName to &quot;greenBeanAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 1&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;That’s smaller than the usual 1-cup serving. Even a little is great, but a full serving offers more fiber and nutrients.&quot;, &quot;Great job! A standard serving of green beans is about 1 cup, which is close to the size of a baseball or your fist. This amount is perfect for a balanced plate.&quot;,  &quot;That’s more than the typical serving. Extra green beans add nutrients, but keeping closer to 1 cup leaves room for other foods too.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Baseball&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/nqV4jXxH/Baseball.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Sauteed Green Beans Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Menu&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;
+&lt;&lt;set $simplyMadeDone to true&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Deli Meat Feedback" tags="" position="1800,1900" size="100,100">&lt;&lt;set _varName to &quot;deliMeatAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to [2, 3]&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;That’s fewer than the standard 2–3 slices. Although, protein is important for muscle repair, satiety, and overall health, it’s okay to have a smaller portion because deli meats are processed and high in sodium; just be sure to balance your protein intake with other, lower-sodium sources throughout the day.&quot;, &quot;Great job! A standard serving of deli meat is about 2–3 slices. This provides a good balance of protein for a sandwich or wrap.&quot;,  &quot;That’s more than the typical 2–3 slices. Larger portions may add extra sodium, so sticking closer to the standard helps with balance.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Deli Meat Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Sliced Cheese&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="Tofu" tags="" position="1200,2100" size="100,100">&lt;&lt;print setup.portionCard(&quot;tofuAmount&quot;, &quot;grilled tofu&quot;, [&quot;1/4&quot;, &quot;1/3&quot;, &quot;1/2&quot;, &quot;2/3&quot;, &quot;3/4&quot;, &quot;1&quot;], &quot;cup&quot;, &quot;Tofu Feedback&quot;, &quot;https://i.ibb.co/0VMCB6Pf/Grilled-Tofu-Serving-Size.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="Roasted Potato" tags="" position="1400,2100" size="100,100">&lt;&lt;print setup.portionCard(&quot;potatoAmount&quot;, &quot;roasted potatoes&quot;, [&quot;1/4&quot;, &quot;1/2&quot;, &quot;3/4&quot;, 1,&quot;1 1/2&quot;, 2], &quot;cup&quot;, &quot;Roasted Potatoes Feedback&quot;, &quot;https://i.ibb.co/3mgg5mkf/Roasted-Potatoes-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="Sliced Cheese" tags="" position="1800,2100" size="100,100">&lt;&lt;print setup.portionCard(&quot;slicedCheeseAmount&quot;, &quot;sliced cheese&quot;, [.25, .5, .75, 1, 1.25, 1.5], &quot;ounce&quot;, &quot;Sliced Cheese Feedback&quot;, &quot;https://i.ibb.co/3mhdC7vj/Sliced-Cheese-Serving-Size.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Tofu Feedback" tags="" position="1200,2300" size="100,100">&lt;&lt;set _varName to &quot;tofuAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to .5&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;That’s less than the standard serving. A serving of tofu is about ½ cup, similar in size to half a baseball or a small fist. Protein is important for muscle repair, satiety, and overall health. While a lighter portion works if you’re combining it with other proteins, you may not get as much plant-based protein as recommended.&quot;, &quot;Well done! A standard serving of tofu is about ½ cup, similar in size to half a baseball or a small fist, which provides a good amount of plant-based protein and nutrients.&quot;,  &quot;That’s more than the typical ½ cup serving of tofu, similar in size to half a baseball or a small fist. A larger portion can fit well in plant-based meals, but keeping closer to a standard serving helps with variety and balance in your meal.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;Half a Baseball&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/577Jg48/Half-a-Baseball.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Grilled Tofu Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Menu&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;
+&lt;&lt;set $grillDone to true&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="Roasted Potato Feedback" tags="" position="1400,2300" size="100,100">&lt;&lt;set _varName to &quot;potatoAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 1&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;You chose less than the standard serving. A standard serving of roasted potatoes is about 1 cup, but having a smaller portion is fine if you are balancing other foods on your plate.&quot;, &quot;Great job! A standard serving size for roasted potatoes is about 1 cup. This amount is a good starting point, though portion sizes can vary depending on the context of the meal and personal dietary needs. For example, if potatoes are the primary focus of a meal, you might have a larger serving, but if it’s one of many side dishes, a smaller portion would be more appropriate.&quot;,  &quot;That’s a generous serving and more than the standard 1 cup. Larger portions can fit into some meals, especially for active individuals, but sticking closer to a standard portion helps keep balance when adding other sides.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Roasted Potatoes Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Menu&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;
+&lt;&lt;set $homestyleDone to true&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="Sliced Cheese Feedback" tags="" position="1800,2300" size="100,100">&lt;&lt;set _varName to &quot;slicedCheeseAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 1&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;That’s less than the usual serving of cheese. A standard portion is 1 ounce or 1 slice, similar in size to 2 dice. It’s okay to have a smaller portion because cheese is higher in fat; just be sure to balance your protein intake with other sources throughout the day.&quot;, &quot;Great job! A standard serving of sliced cheese is 1 ounce or 1 slice similar in size to 2 dice. This adds flavor and calcium without going overboard.&quot;,  &quot;That’s more than the standard serving. More cheese can add protein and flavor, but it also increases saturated fat and sodium, so balance is helpful.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;2 Dice&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;https://i.ibb.co/nv9CVNk/2-dice.png&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Sliced Cheese Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Whole Wheat Bread&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="Whole Wheat Bread" tags="" position="1800,2500" size="100,100">&lt;&lt;print setup.portionCard(&quot;breadAmount&quot;, &quot;whole wheat bread&quot;, [1,2,3,4,5,6], &quot;slice&quot;, &quot;Bread Feedback&quot;, &quot;https://i.ibb.co/4wnWgjjn/Bread-Serving-Sizes.png&quot;)&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="Bread Feedback" tags="" position="1800,2700" size="100,100">&lt;&lt;set _varName to &quot;breadAmount&quot;&gt;&gt;
+&lt;&lt;set _correctAmount to 1&gt;&gt;
+&lt;&lt;set _feedbackOptions to [&quot;That’s less than the standard serving. A single slice is considered one serving of bread, even though many people think of two slices as the norm for a sandwich.&quot;, &quot;Great job! A standard serving of whole wheat bread is just 1 slice. Many people assume it’s two because that’s what’s used in a sandwich, but nutrition labels are based on one slice to help with calorie and carb balance.&quot;,  &quot;That’s more than the standard 1-slice serving. Many people assume it’s two because that’s what’s used in a sandwich, but nutrition labels are based on one slice to help with calorie and carb balance.&quot;]&gt;&gt;
+&lt;&lt;set _imageAlt to &quot;&quot;&gt;&gt;
+&lt;&lt;set _imageSrc to &quot;&quot;&gt;&gt;
+&lt;&lt;set $title to &quot;Whole Wheat Bread Feedback&quot;&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Menu&quot;&gt;&gt;
+&lt;&lt;print setup.feedbackCard(_varName, _correctAmount, _feedbackOptions, _imageAlt, _imageSrc )&gt;&gt;
+&lt;&lt;set $deliDone to true&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="Scenerio2Intro" tags="" position="1000,1100" size="100,100">&lt;&lt;run setup.resetAll()&gt;&gt;
+&lt;&lt;set _image to setup.elementConstructor([
+	{ element: &quot;img&quot;, src: &#39;https://i.ibb.co/tMLxwDJV/Fountain.jpg&#39;, alt: &#39;Clark Dining Hall&#39;,  class: &#39;diningHallImg&#39; }
+    ])&gt;&gt;
+&lt;&lt;set _elements to setup.elementConstructor([
+	{ element: &quot;div&quot;, class: &#39;center&#39;, content: _image },
+    { element: &#39;div&#39;, content: `In this scenario, you will test your knowledge of serving sizes for common foods across different categories. You will see a variety of items from the Fountain Dining Hall, and your goal is to select the amount that equals one standard serving size`},
+    { element: &#39;div&#39;, content: `Remember, a serving size is the recommended amount for one person, while a portion is the amount you actually choose to eat. Try your best. You will get feedback to help you learn along the way!`},
+    { element: &#39;p&#39;, content: `Click &lt;b&gt;&#39;Next&#39;&lt;/b&gt; to proceed.` }
+])&gt;&gt;
+&lt;&lt;set $title to &quot;Scenario 2: Dining Hall Buffet&quot;&gt;&gt;
+&lt;&lt;set $description to _elements&gt;&gt;
+&lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
+&lt;&lt;set $nextPassage to &quot;Menu&quot;&gt;&gt;
+&lt;&lt;set $backText to &quot;&quot;&gt;&gt;
+&lt;&lt;set $backPassage to &quot;&quot;&gt;&gt;
+&lt;&lt;print setup.buildCard()&gt;&gt;
+
+
 </tw-passagedata></tw-storydata>
 	<script id="script-sugarcube" type="text/javascript">
 	/*! SugarCube JS */
