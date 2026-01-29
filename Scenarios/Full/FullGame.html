@@ -453,6 +453,17 @@ setup.buildFeedbackList = function(mealType) {
     html += "</ul>";
     return html;
 };
+
+setup.optionConstructor = function (promptText, options) {
+    let html = `<p>${promptText}</p><div class="options">`;
+
+    options.forEach(opt => {
+        html += `[[${opt.text}->${opt.passage}]]<br>`;
+    });
+
+    html += `</div>`;
+    return html;
+};
 </script><tw-passagedata pid="1" name="Main Menu" tags="" position="800,200" size="100,100">&lt;&lt;set $title to &quot;All Scenarios&quot;&gt;&gt;
 &lt;&lt;set $description to setup.elementConstructor([
   { element: &quot;div&quot;, content: &quot;Choose a scenario to launch:&quot; },
