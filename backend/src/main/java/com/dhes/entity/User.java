@@ -28,6 +28,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<GameSession> gameSessions;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Grade> grades;
+
     public Long getId() {
         return id;
     }
@@ -74,5 +80,21 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<GameSession> getGameSessions() {
+        return gameSessions;
+    }
+
+    public void setGameSessions(Set<GameSession> gameSessions) {
+        this.gameSessions = gameSessions;
+    }
+
+    public Set<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(Set<Grade> grades) {
+        this.grades = grades;
     }
 }
