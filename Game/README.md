@@ -13,7 +13,7 @@ Phaser-based 2D game prototype with:
 
 ## Project Folder
 ```powershell
-cd "c:\Users\Junia\OneDrive\Desktop\SeniorDesignProject\SeniorDesignExp_V1"
+cd "c:\Users\Junia\OneDrive\Desktop\SeniorDesignProject\SeniorDesignExp_V1\Game"
 ```
 
 ## Run The Game (Recommended)
