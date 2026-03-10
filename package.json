@@ -1,9 +1,0 @@
-{
-  "name": "nutrition-adventures",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Local dev server for Nutrition Adventures Phaser project",
-  "scripts": {
-    "start": "node scripts/dev-server.mjs"
-  }
-}
