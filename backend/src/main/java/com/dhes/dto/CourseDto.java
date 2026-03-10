@@ -8,8 +8,12 @@ public class CourseDto {
     private String name;
     private String section;
     private List<UserDto> users;
+    private String code;
 
     // Getters
+    public String getCode() {
+        return code;
+    }
     public Long getId() {
         return id;
     }
@@ -27,6 +31,9 @@ public class CourseDto {
     }
 
     // Setters
+    public void setCode(String code) {
+        this.code = code;
+    }
     public void setId(Long id) {
         this.id = id;
     }
