@@ -38,29 +38,37 @@ export class Start extends Phaser.Scene {
 
         this.player = new StudentPlayer(this, startX, startY, 'jtquresh');
         this.playerRadius = 6;
+        this.triggerActivationRadius = 16;
         this.playerSpeed = 220;
         this.lastDirection = 'down';
         this.moveKeys = this.input.keyboard.addKeys('W,A,S,D');
         this.twineOverlay = new TwineOverlay();
         this.collisionZones = this.createRectanglesFromObjectLayer(map, 'collisions');
-        this.triggerZones = this.createRectanglesFromObjectLayer(map, 'triggers');
+        this.triggerZones = this.createTriggerZonesFromObjectLayer(map, 'triggers');
+        this.triggerToScenario = {
+            clark_door_trigger: 'scenario1',
+            fountain_door_trigger: 'scenario2',
+            case_door_trigger: 'scenario3',
+            talley_door_trigger: 'scenario4'
+        };
+        this.activeTriggerScenario = null;
 
         this.scenarios = {
             scenario1: {
                 title: 'Scenario 1',
-                htmlPath: './src/Scenarios/Scenario1/Scenario1.html'
+                htmlPath: './src/Scenarios_new/Scenario1/Scenario1.html'
             },
             scenario2: {
                 title: 'Scenario 2',
-                htmlPath: './src/Scenarios/Scenario2/Scenario2.html'
+                htmlPath: './src/Scenarios_new/Scenario2/Scenario2.html'
             },
             scenario3: {
                 title: 'Scenario 3',
-                htmlPath: './src/Scenarios/Scenario3/Scenario3.html'
+                htmlPath: './src/Scenarios_new/Scenario3/Scenario3.html'
             },
             scenario4: {
                 title: 'Scenario 4',
-                htmlPath: './src/Scenarios/Scenario4/Scenario4.html'
+                htmlPath: './src/Scenarios_new/Scenario4/Scenario4.html'
             }
         };
 
@@ -99,6 +107,7 @@ export class Start extends Phaser.Scene {
 
         if (inputX === 0 && inputY === 0) {
             this.player.setMovementDirection(this.lastDirection, false);
+            this.checkTriggerScenarioActivation();
             return;
         }
 
@@ -114,6 +123,7 @@ export class Start extends Phaser.Scene {
         const vec = new Phaser.Math.Vector2(inputX, inputY).normalize().scale(this.playerSpeed * dt);
         this.tryMovePlayer(vec.x, 0);
         this.tryMovePlayer(0, vec.y);
+        this.checkTriggerScenarioActivation();
     }
 
     openScenario(scenarioId) {
@@ -143,6 +153,21 @@ export class Start extends Phaser.Scene {
             .map((obj) => new Phaser.Geom.Rectangle(obj.x, obj.y, obj.width || 0, obj.height || 0));
     }
 
+    createTriggerZonesFromObjectLayer(map, layerName) {
+        const objectLayer = map.getObjectLayer(layerName);
+        if (!objectLayer || !objectLayer.objects) {
+            return [];
+        }
+
+        return objectLayer.objects
+            .filter((obj) => typeof obj.x === 'number' && typeof obj.y === 'number' && (obj.width || 0) > 0 && (obj.height || 0) > 0)
+            .map((obj) => ({
+                name: (obj.name || '').trim().toLowerCase(),
+                type: (obj.type || '').trim().toLowerCase(),
+                rect: new Phaser.Geom.Rectangle(obj.x, obj.y, obj.width || 0, obj.height || 0)
+            }));
+    }
+
     tryMovePlayer(dx, dy) {
         const nextX = this.player.x + dx;
         const nextY = this.player.y + dy;
@@ -158,6 +183,28 @@ export class Start extends Phaser.Scene {
         }
 
         this.player.setPosition(nextX, nextY);
+    }
+
+    checkTriggerScenarioActivation() {
+        const triggerCircle = new Phaser.Geom.Circle(this.player.x, this.player.y, this.triggerActivationRadius);
+        const hitZone = this.triggerZones.find((zone) => Phaser.Geom.Intersects.CircleToRectangle(triggerCircle, zone.rect));
+        if (!hitZone) {
+            this.activeTriggerScenario = null;
+            return;
+        }
+
+        const triggerKey = hitZone.name || hitZone.type;
+        const scenarioId = this.triggerToScenario[triggerKey];
+        if (!scenarioId) {
+            return;
+        }
+
+        if (this.activeTriggerScenario === scenarioId || this.twineOverlay.isOpen()) {
+            return;
+        }
+
+        this.activeTriggerScenario = scenarioId;
+        this.openScenario(scenarioId);
     }
 
     createPlayerAnimations() {

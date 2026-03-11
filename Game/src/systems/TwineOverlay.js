@@ -29,6 +29,10 @@ export class TwineOverlay {
         document.removeEventListener('keydown', this.handleEsc);
     }
 
+    isOpen() {
+        return Boolean(this.container) && this.container.style.display !== 'none';
+    }
+
     complete() {
         if (this.completeCallback && this.currentScenarioId) {
             this.completeCallback(this.currentScenarioId);
@@ -50,7 +54,8 @@ export class TwineOverlay {
         this.container = document.createElement('div');
         this.container.style.position = 'fixed';
         this.container.style.inset = '0';
-        this.container.style.background = 'rgba(0, 0, 0, 0.72)';
+        this.container.style.background = 'radial-gradient(circle at top, rgba(53, 28, 10, 0.55), rgba(0, 0, 0, 0.82))';
+        this.container.style.backdropFilter = 'blur(2px)';
         this.container.style.zIndex = '9999';
         this.container.style.display = 'none';
         this.container.style.alignItems = 'center';
@@ -59,38 +64,42 @@ export class TwineOverlay {
         const panel = document.createElement('div');
         panel.style.width = '90vw';
         panel.style.height = '90vh';
-        panel.style.background = '#0f172a';
-        panel.style.border = '2px solid #9ca3af';
+        panel.style.background = 'linear-gradient(180deg, #2b1b10 0%, #1f140d 100%)';
+        panel.style.border = '3px solid #b38a4a';
         panel.style.borderRadius = '12px';
         panel.style.overflow = 'hidden';
         panel.style.display = 'flex';
         panel.style.flexDirection = 'column';
+        panel.style.boxShadow = '0 0 0 3px rgba(57, 37, 18, 0.9), 0 22px 45px rgba(0, 0, 0, 0.55)';
 
         const header = document.createElement('div');
         header.style.display = 'flex';
         header.style.justifyContent = 'space-between';
         header.style.alignItems = 'center';
         header.style.padding = '10px 14px';
-        header.style.background = '#111827';
-        header.style.color = '#f9fafb';
-        header.style.fontFamily = 'Arial, sans-serif';
+        header.style.background = 'linear-gradient(180deg, #493015 0%, #362311 100%)';
+        header.style.color = '#f6deb0';
+        header.style.fontFamily = 'Cinzel, Georgia, serif';
+        header.style.letterSpacing = '0.04em';
+        header.style.borderBottom = '1px solid #c79f60';
 
         this.titleEl = document.createElement('div');
         this.titleEl.textContent = 'Scenario';
         this.titleEl.style.fontWeight = '700';
+        this.titleEl.style.fontSize = '18px';
 
         const buttons = document.createElement('div');
         buttons.style.display = 'flex';
         buttons.style.gap = '8px';
 
         const completeBtn = document.createElement('button');
-        completeBtn.textContent = 'Complete Scenario';
-        completeBtn.style.cursor = 'pointer';
+        completeBtn.textContent = 'Complete Quest';
+        this.applyButtonTheme(completeBtn);
         completeBtn.onclick = () => this.complete();
 
         const closeBtn = document.createElement('button');
         closeBtn.textContent = 'Close';
-        closeBtn.style.cursor = 'pointer';
+        this.applyButtonTheme(closeBtn);
         closeBtn.onclick = () => this.close();
 
         buttons.appendChild(completeBtn);
@@ -102,11 +111,23 @@ export class TwineOverlay {
         this.iframeEl.style.border = '0';
         this.iframeEl.style.width = '100%';
         this.iframeEl.style.height = '100%';
+        this.iframeEl.style.background = '#f3ead8';
         this.iframeEl.setAttribute('title', 'Twine Scenario');
 
         panel.appendChild(header);
         panel.appendChild(this.iframeEl);
         this.container.appendChild(panel);
         document.body.appendChild(this.container);
+    }
+
+    applyButtonTheme(button) {
+        button.style.cursor = 'pointer';
+        button.style.background = 'linear-gradient(180deg, #e3c285 0%, #bf8a48 100%)';
+        button.style.border = '1px solid #6d4a21';
+        button.style.color = '#2d1807';
+        button.style.fontFamily = 'Cinzel, Georgia, serif';
+        button.style.fontWeight = '700';
+        button.style.padding = '7px 12px';
+        button.style.borderRadius = '6px';
     }
 }
