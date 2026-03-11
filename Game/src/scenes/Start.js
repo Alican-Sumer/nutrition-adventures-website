@@ -72,11 +72,6 @@ export class Start extends Phaser.Scene {
             }
         };
 
-        this.input.keyboard.on('keydown-ONE', () => this.openScenario('scenario1'));
-        this.input.keyboard.on('keydown-TWO', () => this.openScenario('scenario2'));
-        this.input.keyboard.on('keydown-THREE', () => this.openScenario('scenario3'));
-        this.input.keyboard.on('keydown-FOUR', () => this.openScenario('scenario4'));
-
         this.createPlayerAnimations();
         this.player.setMovementDirection('down', false);
 
