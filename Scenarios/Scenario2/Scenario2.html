@@ -104,72 +104,171 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<tw-storydata name="Scenario 2" startnode="1" creator="Twine" creator-version="2.11.1" format="SugarCube" format-version="2.37.3" ifid="AC7DBF81-C641-41E1-9988-658FBD99E51D" options="" tags="" zoom="0.6" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* GENERIC CSS (Paste at top of story css)*/
-#story { 
-  box-sizing: border-box; 
-  height: 100vh; 
+	<tw-storydata name="Scenario 2" startnode="1" creator="Twine" creator-version="2.11.1" format="SugarCube" format-version="2.37.3" ifid="AC7DBF81-C641-41E1-9988-658FBD99E51D" options="" tags="" zoom="0.6" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* === 2D RPG THEME === */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* --- Base layout & background --- */
+body {
   margin: 0;
-  padding: 1.5em;
+  padding: 0;
+  background-image: url('../Scenario1/background images/ChatGPT Image Mar 5, 2026, 04_54_22 PM.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  font-family: 'Press Start 2P', monospace;
+  min-height: 100vh;
 }
 
-.passage {
-  line-height: 1;
-}
-
-br {
-  display:none;
+#story {
+  box-sizing: border-box;
+  height: 100vh;
+  margin: 0;
+  padding: 1em;
+  background: transparent;
 }
 
 #passages {
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .passage {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   height: 100%;
+  line-height: 1;
 }
 
-#passages div {
-  font-size: 1.5rem;
+br {
+  display: none;
 }
 
+/* --- JRPG Dialog Card --- */
 .card {
-  min-height: 50%;
+  background: rgba(0, 0, 15, 0.90);
+  border: 4px solid #c8a84b;
+  outline: 2px solid #7a5a1a;
+  box-shadow: 0 0 0 6px rgba(0,0,0,0.7), inset 0 0 24px rgba(200,168,75,0.07), 0 8px 32px rgba(0,0,0,0.8);
+  border-radius: 6px;
+  padding: 1.5em 2em;
+  width: 100%;
+  max-width: 740px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 1em;
+  color: #e8e8d0;
+  font-family: 'Press Start 2P', monospace;
 }
 
+/* --- Title --- */
 #passages .title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 1em;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.1rem;
+  font-weight: normal;
+  color: #f0d060;
+  text-shadow: 2px 2px 0 #7a4f00, 0 0 12px rgba(240,208,96,0.35);
+  letter-spacing: 2px;
+  margin-bottom: 0.5em;
+  line-height: 1.5;
 }
 
+/* --- Description / body text --- */
 .description {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  gap: 0.6em;
   padding: 0;
-  gap: .5em;
+  color: #e8e8d0;
+  font-size: 0.65rem;
+  line-height: 2;
 }
 
+#passages div {
+  font-size: 0.7rem;
+}
+
+/* --- Options row (food choices) --- */
 .options {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  margin: 1em;
+  margin: 0.5em 0;
   gap: 1em;
+  flex-wrap: wrap;
 }
 
+/* --- Food choice item frames --- */
+.choice-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 15, 0.75);
+  border: 2px solid #c8a84b;
+  border-radius: 4px;
+  padding: 0.8em;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.choice-pair:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 14px rgba(200, 168, 75, 0.55);
+}
+
+.choice-pair a {
+  color: #f0d060 !important;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  text-decoration: none;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.choice-pair a:hover {
+  color: #fff8c0 !important;
+}
+
+/* --- Food images --- */
+.example {
+  display: block;
+  margin: auto;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  object-fit: contain;
+  border: 2px solid #7a5a1a;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.diningHallImg {
+  max-width: 320px;
+  width: 100%;
+  border: 3px solid #c8a84b;
+  border-radius: 4px;
+}
+
+/* --- Footer nav bar --- */
 .footer {
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: space-between; 
+  justify-content: space-between;
+  margin-top: 0.5em;
+  padding-top: 0.75em;
+  border-top: 1px solid rgba(200,168,75,0.4);
 }
 
 .footer.single {
@@ -178,36 +277,83 @@ br {
 
 .back {
   display: flex;
-  justify-content: left;
+  justify-content: flex-start;
 }
 
 .next {
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
 }
 
+/* --- Next / Back RPG buttons --- */
+.footer a,
+.next a,
+.back a {
+  display: inline-block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  color: #f0d060;
+  background: rgba(0, 0, 15, 0.92);
+  border: 3px solid #c8a84b;
+  border-radius: 3px;
+  padding: 0.6em 1.1em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease, color 0.15s ease;
+  letter-spacing: 1px;
+}
+
+.footer a:hover,
+.next a:hover,
+.back a:hover {
+  background: rgba(200, 168, 75, 0.25);
+  transform: scale(1.06);
+  color: #fff8c0;
+}
+
+.footer a:active,
+.next a:active,
+.back a:active {
+  transform: scale(0.97);
+}
+
+.next a::before { content: '▶ '; }
+.back a::before { content: '◀ '; }
+
+/* --- General link colors --- */
+#passages a {
+  color: #f0d060;
+  font-family: 'Press Start 2P', monospace;
+  text-decoration: none;
+}
+
+#passages a:hover {
+  color: #fff8c0;
+}
+
+#passages a:visited {
+  color: #c8a84b;
+}
+
+/* --- Misc --- */
 .signs {
   width: 50px;
 }
 
 .clickable {
-    cursor: pointer;
-    transition: transform 0.1s ease;
+  cursor: pointer;
+  transition: transform 0.1s ease;
 }
 
 .clickable:hover {
-    transform: scale(1.05);
-}
-
-.visited {
-  color:  #4169e1;
+  transform: scale(1.05);
 }
 
 .menu {
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1em;
+  gap: 0.8em;
 }
 
 .menu span {
@@ -216,28 +362,16 @@ br {
   padding: 0;
 }
 
-.example {
-  display: block;
-  margin: auto auto;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-}
-
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* STORY SPECIFIC CSS */
-.example {
-  max-width: 400px;
-}
-
-.diningHallImg {
-  max-width: 400px;
-  width: 100%;
+ul {
+  margin: 0.2em 0;
+  padding-left: 1.2em;
+  line-height: 2;
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">// GENERIC JAVASCRIPT (Paste at top of story javascript)
 window.setup = window.setup || {};
 
