@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,11 +24,9 @@ import com.dhes.service.UserService;
 public class CourseController {
 
     private CourseService courseService;
-    private UserService userService;
 
-    public CourseController(CourseService courseService, UserService userService) {
+    public CourseController(CourseService courseService) {
         this.courseService = courseService;
-        this.userService = userService;
     }
 
     @PostMapping
@@ -34,21 +35,41 @@ public class CourseController {
         return ResponseEntity.ok(courseDto);
     }
 
-    @GetMapping
-    public ResponseEntity<CourseDto> getCourseById(Long courseId) {
+    @GetMapping("/{courseId}")
+    public ResponseEntity<CourseDto> getCourseById(@PathVariable ("courseId")Long courseId) {
         CourseDto courseDto = this.courseService.getCourseById(courseId);
         if (courseDto != null) return ResponseEntity.ok(courseDto);
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
-    @GetMapping
-    public ResponseEntity<List<Course>> getAllCourses() {
-        
+    @GetMapping()
+    public ResponseEntity<List<CourseDto>> getAllCourses() {
+        return ResponseEntity.ok(courseService.getAllCourses());
     }
-+ updateCourse(Long): CourseDto
-+ deleteCourse(Long): void
-+ addUser(Long, Long): CourseDto
-+ removeUser(Long, Long): CourseDto
-+ getUsers(Long): List<User>
+
+    @PutMapping("/{courseId}")
+    public ResponseEntity<CourseDto> updateCourse(CourseDto courseDto) {
+        return ResponseEntity.ok(courseService.updateCourse(courseDto));
+    }
+
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<String> deleteCourse(Long courseId) {
+        courseService.deleteCourse(courseId);
+        return ResponseEntity.ok("");
+    }
+
+    @PutMapping("/{courseId}/{userId}")
+    public ResponseEntity<CourseDto> addUser(Long courseId, Long userId) {
+        return ResponseEntity.ok(courseService.addUser(courseId, userId));
+    }
+
+    @DeleteMapping("/{courseId}/{userId}")
+    public ResponseEntity<CourseDto> removeUser(Long courseId, Long userId) {
+        return ResponseEntity.ok(courseService.removeUser(courseId, userId));
+    }
+
+    @GetMapping( "/{courseId}/students")
+    public ResponseEntity<List<UserDto>> getUsers(@PathVariable ("courseId")Long courseId) {
+        return ResponseEntity.ok(courseService.getUsers(courseId));
+    }
 }
