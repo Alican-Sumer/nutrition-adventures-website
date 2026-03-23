@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dhes.dto.CourseDto;
 import com.dhes.dto.UserDto;
-import com.dhes.entity.Course;
 import com.dhes.service.CourseService;
-import com.dhes.service.UserService;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -30,7 +28,7 @@ public class CourseController {
     }
 
     @PostMapping
-    private ResponseEntity<CourseDto> createCourse(CourseDto courseDto) {
+    public ResponseEntity<CourseDto> createCourse(@RequestBody CourseDto courseDto) {
         this.courseService.createCourse(courseDto);
         return ResponseEntity.ok(courseDto);
     }
@@ -42,29 +40,29 @@ public class CourseController {
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<CourseDto>> getAllCourses() {
         return ResponseEntity.ok(courseService.getAllCourses());
     }
 
     @PutMapping("/{courseId}")
-    public ResponseEntity<CourseDto> updateCourse(CourseDto courseDto) {
+    public ResponseEntity<CourseDto> updateCourse(@RequestBody CourseDto courseDto) {
         return ResponseEntity.ok(courseService.updateCourse(courseDto));
     }
 
     @DeleteMapping("/{courseId}")
-    public ResponseEntity<String> deleteCourse(Long courseId) {
+    public ResponseEntity<String> deleteCourse(@PathVariable ("courseId") Long courseId) {
         courseService.deleteCourse(courseId);
         return ResponseEntity.ok("");
     }
 
     @PutMapping("/{courseId}/{userId}")
-    public ResponseEntity<CourseDto> addUser(Long courseId, Long userId) {
+    public ResponseEntity<CourseDto> addUser(@PathVariable ("courseId") Long courseId, @PathVariable ("userId")Long userId) {
         return ResponseEntity.ok(courseService.addUser(courseId, userId));
     }
 
     @DeleteMapping("/{courseId}/{userId}")
-    public ResponseEntity<CourseDto> removeUser(Long courseId, Long userId) {
+    public ResponseEntity<CourseDto> removeUser(@PathVariable ("courseId") Long courseId, @PathVariable ("userId")Long userId) {
         return ResponseEntity.ok(courseService.removeUser(courseId, userId));
     }
 

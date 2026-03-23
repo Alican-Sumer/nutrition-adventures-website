@@ -2,9 +2,7 @@ package com.dhes.service.impl;
 
 import com.dhes.dto.UserDto;
 import com.dhes.entity.User;
-import com.dhes.mapper.CourseMapper;
 import com.dhes.mapper.UserMapper;
-import com.dhes.repository.CourseRepository;
 import com.dhes.repository.UserRepository;
 import com.dhes.service.UserService;
 
@@ -21,11 +19,8 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-
-
 		private final UserRepository userRepository;
 		
-
 		private UserMapper userMapper = new UserMapper();
 
 	public UserServiceImpl(UserRepository userRepository) {
@@ -86,6 +81,4 @@ public class UserServiceImpl implements UserService {
 			System.err.println(e.getMessage());
 		}
 	}
-
-
 }

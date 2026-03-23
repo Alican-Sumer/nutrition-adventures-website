@@ -25,7 +25,7 @@ public class CourseMapper {
         courseDto.setSection(course.getSection());
         courseDto.setCode(course.getCode());
         List<UserDto> usersDto = new ArrayList<>();
-        for (User user: course.getUsers()) usersDto.add(userMapper.toDto(user));
+        if (course.getUsers() != null) for (User user: course.getUsers()) usersDto.add(userMapper.toDto(user));
         courseDto.setUsers(usersDto);
         return courseDto;
     }
@@ -37,7 +37,7 @@ public class CourseMapper {
         course.setCode(courseDto.getSection());
         course.setSection(courseDto.getSection());
         List<User> users = new ArrayList<>();
-        for (UserDto userDto: courseDto.getUsers()) users.add(userMapper.toEntity(userDto));
+        if (courseDto.getUsers() != null) for (UserDto userDto: courseDto.getUsers()) users.add(userMapper.toEntity(userDto));
         course.setUsers(users);
         return course;
     }
