@@ -1,7 +1,8 @@
 package com.dhes.entity;
 
 import jakarta.persistence.*;
-import java.util.Set;
+
+import java.util.List;
 
 @Entity
 @Table(name = "courses")
@@ -16,21 +17,13 @@ public class Course {
 
     private String code;
 
-    private String term;
-
     private String section;
 
     @ManyToMany
     @JoinTable(name = "course_users",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> users;
-
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
-    private Set<GameSession> gameSessions;
-
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
-    private Set<Grade> grades;
+    private List<User> users;
 
     public Long getId() {
         return id;
@@ -56,14 +49,6 @@ public class Course {
         this.code = code;
     }
 
-    public String getTerm() {
-        return term;
-    }
-
-    public void setTerm(String term) {
-        this.term = term;
-    }
-
     public String getSection() {
         return section;
     }
@@ -72,27 +57,13 @@ public class Course {
         this.section = section;
     }
 
-    public Set<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 
-    public Set<GameSession> getGameSessions() {
-        return gameSessions;
-    }
 
-    public void setGameSessions(Set<GameSession> gameSessions) {
-        this.gameSessions = gameSessions;
-    }
-
-    public Set<Grade> getGrades() {
-        return grades;
-    }
-
-    public void setGrades(Set<Grade> grades) {
-        this.grades = grades;
-    }
 }

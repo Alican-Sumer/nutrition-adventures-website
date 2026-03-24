@@ -4,8 +4,6 @@ import com.dhes.dto.UserDto;
 import com.dhes.entity.User;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
@@ -18,13 +16,6 @@ public class UserMapper {
         dto.setUsername(entity.getUsername());
         dto.setEmail(entity.getEmail());
         dto.setDisplayName(entity.getDisplayName());
-        if (entity.getRoles() != null) {
-            dto.setRoles(entity.getRoles().stream()
-                    .map(role -> role.getName())
-                    .collect(Collectors.toSet()));
-        } else {
-            dto.setRoles(Collections.emptySet());
-        }
         return dto;
     }
 

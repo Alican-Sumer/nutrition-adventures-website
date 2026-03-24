@@ -10,7 +10,16 @@ public class UserDto {
     private String email;
     private String displayName;
     private Set<String> roles;
+    private double grade;
 
+
+    public Double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
     public Long getId() {
         return id;
     }
