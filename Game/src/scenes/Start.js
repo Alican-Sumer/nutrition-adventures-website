@@ -75,6 +75,14 @@ export class Start extends Phaser.Scene {
         this.createPlayerAnimations();
         this.player.setMovementDirection('down', false);
 
+        window.addEventListener('message', (event) => {
+            if (event.data?.type === 'LOAD_PROGRESS') {
+                for (const scenarioId of event.data.completedScenarios) {
+                    this.player.completeScenario(scenarioId);
+                }
+            }
+        });
+
         const fitZoomX = this.scale.width / mapWidth;
         const fitZoomY = this.scale.height / mapHeight;
         const fitZoom = Math.min(fitZoomX, fitZoomY);

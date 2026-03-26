@@ -36,6 +36,9 @@ export class TwineOverlay {
     complete() {
         if (this.completeCallback && this.currentScenarioId) {
             this.completeCallback(this.currentScenarioId);
+            window.parent.postMessage(
+                { type: 'SCENARIO_COMPLETE', scenarioId: this.currentScenarioId }, '*'
+            );
         }
         this.close();
     }
