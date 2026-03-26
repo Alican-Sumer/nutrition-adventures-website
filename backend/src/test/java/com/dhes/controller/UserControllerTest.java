@@ -11,8 +11,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -49,10 +50,12 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     void createUser_ReturnsOk() throws Exception {
         when(userService.createUser(any(UserDto.class))).thenReturn(userDto);
 
         mockMvc.perform(post("/api/users")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userDto)))
                 .andExpect(status().isOk())
@@ -63,21 +66,24 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getUserById_ReturnsUser() throws Exception {
         when(userService.getUserById(1L)).thenReturn(userDto);
 
-        mockMvc.perform(get("/api/users/1"))
+        mockMvc.perform(get("/api/users/1").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.username").value("jdoe123"));
     }
 
     @Test
+    @WithMockUser
     void updateUser_ReturnsUpdatedUser() throws Exception {
         // Note: Your controller uses @PostMapping("/{userId}") for updates
         when(userService.updateUser(eq(1L), any(UserDto.class))).thenReturn(userDto);
 
         mockMvc.perform(post("/api/users/1")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userDto)))
                 .andExpect(status().isOk())
@@ -85,18 +91,20 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getAllUsers_ReturnsList() throws Exception {
         when(userService.getAllUsers()).thenReturn(Arrays.asList(userDto));
 
-        mockMvc.perform(get("/api/users"))
+        mockMvc.perform(get("/api/users").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].username").value("jdoe123"))
                 .andExpect(jsonPath("$.length()").value(1));
     }
 
     @Test
+    @WithMockUser
     void deleteUser_ReturnsOk() throws Exception {
-        mockMvc.perform(delete("/api/users/1"))
+        mockMvc.perform(delete("/api/users/1").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
     }
