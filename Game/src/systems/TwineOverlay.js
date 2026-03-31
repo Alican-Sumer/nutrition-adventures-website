@@ -5,17 +5,23 @@ export class TwineOverlay {
         this.iframeEl = null;
         this.completeCallback = null;
         this.currentScenarioId = null;
+        this.completionPassages = [];
+        this.twineloadHandlerAttached = false;
+        this.messageHandlerBound = this.handleMessage.bind(this);
         this.handleEsc = this.handleEsc.bind(this);
+        this.handleIframeLoad = this.handleIframeLoad.bind(this);
     }
 
-    show({ scenarioId, title, htmlPath, onComplete }) {
+    show({ scenarioId, title, htmlPath, completionPassages = [], onComplete }) {
         this.ensureElements();
         this.currentScenarioId = scenarioId;
         this.completeCallback = onComplete;
+        this.completionPassages = completionPassages;
         this.titleEl.textContent = title;
         this.iframeEl.src = htmlPath;
         this.container.style.display = 'flex';
         document.addEventListener('keydown', this.handleEsc);
+        window.addEventListener('message', this.messageHandlerBound);
     }
 
     close() {
@@ -26,7 +32,9 @@ export class TwineOverlay {
         this.iframeEl.src = 'about:blank';
         this.currentScenarioId = null;
         this.completeCallback = null;
+        this.completionPassages = [];
         document.removeEventListener('keydown', this.handleEsc);
+        window.removeEventListener('message', this.messageHandlerBound);
     }
 
     isOpen() {
@@ -44,6 +52,67 @@ export class TwineOverlay {
         if (event.key === 'Escape') {
             this.close();
         }
+    }
+
+    handleMessage(event) {
+        if (event.source !== this.iframeEl?.contentWindow) {
+            return;
+        }
+
+        const data = event.data;
+        if (!data || typeof data !== 'object') {
+            return;
+        }
+
+        if (data.type === 'twine:complete') {
+            this.complete();
+        }
+    }
+
+    handleIframeLoad() {
+        this.installTwineCompletionBridge();
+    }
+
+    installTwineCompletionBridge() {
+        const frameWindow = this.iframeEl?.contentWindow;
+        const frameDocument = frameWindow?.document;
+        const completionPassages = new Set(this.completionPassages || []);
+
+        if (!frameWindow || !frameDocument || completionPassages.size === 0) {
+            return;
+        }
+
+        const win = frameWindow;
+        const doc = frameDocument;
+        const attachBridge = () => {
+            if (win.__scenarioCompletionBridgeAttached) {
+                return;
+            }
+
+            const jq = win.jQuery;
+            const state = win.SugarCube?.State;
+            if (!jq || !state) {
+                window.setTimeout(attachBridge, 150);
+                return;
+            }
+
+            win.__scenarioCompletionBridgeAttached = true;
+            jq(doc).on(':passageend.scenario-complete', () => {
+                const currentPassage = win.SugarCube?.State?.passage;
+                if (!currentPassage || !completionPassages.has(currentPassage)) {
+                    return;
+                }
+
+                win.parent.postMessage({
+                    type: 'twine:complete',
+                    scenarioId: this.currentScenarioId,
+                    passage: currentPassage
+                }, '*');
+            });
+        };
+
+        delete win.__scenarioCompletionBridgeAttached;
+        attachBridge();
     }
 
     ensureElements() {
@@ -92,17 +161,11 @@ export class TwineOverlay {
         buttons.style.display = 'flex';
         buttons.style.gap = '8px';
 
-        const completeBtn = document.createElement('button');
-        completeBtn.textContent = 'Complete Quest';
-        this.applyButtonTheme(completeBtn);
-        completeBtn.onclick = () => this.complete();
-
         const closeBtn = document.createElement('button');
         closeBtn.textContent = 'Close';
         this.applyButtonTheme(closeBtn);
         closeBtn.onclick = () => this.close();
 
-        buttons.appendChild(completeBtn);
         buttons.appendChild(closeBtn);
         header.appendChild(this.titleEl);
         header.appendChild(buttons);
@@ -113,6 +176,7 @@ export class TwineOverlay {
         this.iframeEl.style.height = '100%';
         this.iframeEl.style.background = '#f3ead8';
         this.iframeEl.setAttribute('title', 'Twine Scenario');
+        this.iframeEl.addEventListener('load', this.handleIframeLoad);
 
         panel.appendChild(header);
         panel.appendChild(this.iframeEl);
