@@ -8,7 +8,7 @@ import { GamePage } from './pages/GamePage';
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/nutrition-adventures-website">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
