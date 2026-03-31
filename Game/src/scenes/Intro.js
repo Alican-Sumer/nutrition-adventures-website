@@ -21,6 +21,7 @@ export class Intro extends Phaser.Scene {
         }
 
         this.children.removeAll();
+        this.ensureDustTexture();
 
         const { width, height } = this.scale;
         this.cameras.main.setBackgroundColor('#102919');
@@ -32,29 +33,118 @@ export class Intro extends Phaser.Scene {
         background.setAlpha(0.2);
 
         const backgroundShade = this.add.rectangle(width / 2, height / 2, width, height, 0x08120c, 0.52);
+        const dustParticles = this.add.particles(0, 0, 'dust-particle', {
+            x: { min: 0, max: width },
+            y: { min: 0, max: height },
+            lifespan: 10000,
+            speedX: { min: -6, max: 6 },
+            speedY: { min: -14, max: -4 },
+            scale: { start: 0.16, end: 0.04 },
+            alpha: { start: 0.12, end: 0 },
+            tint: [0xf0d060, 0xf5ecd2],
+            quantity: 1,
+            frequency: 700,
+            emitZone: {
+                type: 'random',
+                source: new Phaser.Geom.Rectangle(0, 0, width, height)
+            },
+            blendMode: Phaser.BlendModes.ADD
+        });
 
         const panelWidth = 820;
-        const panelHeight = 820;
+        const panelHeight = 860;
         const panelX = width / 2;
         const panelY = height / 2;
 
-        const panelShadow = this.add.rectangle(panelX + 12, panelY + 14, panelWidth, panelHeight, 0x05070a, 0.5);
-        const panelFrame = this.add.rectangle(panelX, panelY, panelWidth, panelHeight, 0xc8a84b, 1).setStrokeStyle(5, 0x7a5a1a, 1);
-        const panelInner = this.add.rectangle(panelX, panelY, panelWidth - 28, panelHeight - 28, 0x09111f, 0.95).setStrokeStyle(3, 0xc8a84b, 1);
+        const panelShadow = this.add.graphics();
+        panelShadow.fillStyle(0x05070a, 0.44);
+        panelShadow.fillRoundedRect(
+            panelX - panelWidth / 2 + 12,
+            panelY - panelHeight / 2 + 14,
+            panelWidth,
+            panelHeight,
+            18
+        );
 
-        const title = this.add.text(panelX, 138, 'Nutrition Adventures', {
+        const panelBackdrop = this.add.graphics();
+        panelBackdrop.fillStyle(0x020406, 0.22);
+        panelBackdrop.fillRoundedRect(
+            panelX - panelWidth / 2 - 18,
+            panelY - panelHeight / 2 - 18,
+            panelWidth + 36,
+            panelHeight + 36,
+            26
+        );
+
+        const panelGlow = this.add.graphics();
+        panelGlow.lineStyle(18, 0xf0d060, 0.08);
+        panelGlow.strokeRoundedRect(
+            panelX - panelWidth / 2 - 6,
+            panelY - panelHeight / 2 - 6,
+            panelWidth + 12,
+            panelHeight + 12,
+            24
+        );
+
+        const panelFrame = this.add.graphics();
+        panelFrame.fillStyle(0xc8a84b, 0.96);
+        panelFrame.fillRoundedRect(
+            panelX - panelWidth / 2,
+            panelY - panelHeight / 2,
+            panelWidth,
+            panelHeight,
+            18
+        );
+        panelFrame.lineStyle(5, 0x7a5a1a, 1);
+        panelFrame.strokeRoundedRect(
+            panelX - panelWidth / 2,
+            panelY - panelHeight / 2,
+            panelWidth,
+            panelHeight,
+            18
+        );
+
+        const panelInner = this.add.graphics();
+        panelInner.fillStyle(0x09111f, 0.86);
+        panelInner.fillRoundedRect(
+            panelX - (panelWidth - 28) / 2,
+            panelY - (panelHeight - 28) / 2,
+            panelWidth - 28,
+            panelHeight - 28,
+            14
+        );
+        panelInner.lineStyle(3, 0xc8a84b, 0.9);
+        panelInner.strokeRoundedRect(
+            panelX - (panelWidth - 28) / 2,
+            panelY - (panelHeight - 28) / 2,
+            panelWidth - 28,
+            panelHeight - 28,
+            14
+        );
+
+        const panelInnerShadow = this.add.graphics();
+        panelInnerShadow.lineStyle(18, 0x000000, 0.12);
+        panelInnerShadow.strokeRoundedRect(
+            panelX - (panelWidth - 44) / 2,
+            panelY - (panelHeight - 44) / 2,
+            panelWidth - 44,
+            panelHeight - 44,
+            12
+        );
+
+        const title = this.add.text(panelX, 156, 'Nutrition Adventures', {
             fontFamily: '"Press Start 2P", monospace',
             fontSize: '38px',
             color: '#f0d060',
             align: 'center'
-        }).setOrigin(0.5).setShadow(2, 2, '#7a4f00', 0, false, true);
+        }).setOrigin(0.5).setShadow(0, 0, '#f0d060', 10, true, true).setStroke('#7a4f00', 3);
 
-        const subtitle = this.add.text(panelX, 188, 'The Dining Hall Quest', {
+        const subtitle = this.add.text(panelX, 214, 'The Dining Hall Quest', {
             fontFamily: '"Press Start 2P", monospace',
             fontSize: '18px',
             color: '#f0d060',
             letterSpacing: 1
-        }).setOrigin(0.5);
+        }).setOrigin(0.5).setShadow(0, 0, '#f0d060', 5, true, true);
 
         const sectionHeaderStyle = {
             fontFamily: '"Press Start 2P", monospace',
@@ -78,7 +168,7 @@ export class Intro extends Phaser.Scene {
             'Uncover each nutrition tale.',
             'Atrium NW  Talley W',
             'Fountain SW  Case NE',
-            'Clark E  Oval South'
+            'Clark E  Oval S'
         ].join('\n');
 
         const controlsText = [
@@ -93,23 +183,16 @@ export class Intro extends Phaser.Scene {
             'Complete scenarios to advance'
         ].join('\n');
 
-        const missionHeader = this.add.text(panelX, 268, 'Your Mission', sectionHeaderStyle).setOrigin(0.5);
-        const missionBody = this.add.text(panelX, 308, missionText, bodyStyle).setOrigin(0.5, 0);
+        const missionHeader = this.add.text(panelX, 294, 'Your Mission', sectionHeaderStyle).setOrigin(0.5);
+        const missionBody = this.add.text(panelX, 336, missionText, bodyStyle).setOrigin(0.5, 0);
 
-        const controlsHeader = this.add.text(panelX, 468, 'Controls', sectionHeaderStyle).setOrigin(0.5);
-        const controlsBody = this.add.text(panelX, 508, controlsText, bodyStyle).setOrigin(0.5, 0);
+        const controlsHeader = this.add.text(panelX, 512, 'Controls', sectionHeaderStyle).setOrigin(0.5);
+        const controlsBody = this.add.text(panelX, 554, controlsText, bodyStyle).setOrigin(0.5, 0);
 
-        const progressHeader = this.add.text(panelX, 622, 'Progress', sectionHeaderStyle).setOrigin(0.5);
-        const progressBody = this.add.text(panelX, 662, progressText, bodyStyle).setOrigin(0.5, 0);
+        const progressHeader = this.add.text(panelX, 676, 'Progress', sectionHeaderStyle).setOrigin(0.5);
+        const progressBody = this.add.text(panelX, 718, progressText, bodyStyle).setOrigin(0.5, 0);
 
-        const promptText = this.add.text(panelX, 758, 'Press ENTER or click Start Adventure', {
-            fontFamily: '"Press Start 2P", monospace',
-            fontSize: '16px',
-            color: '#f0d060',
-            align: 'center'
-        }).setOrigin(0.5);
-
-        const button = this.add.container(panelX, 712);
+        const button = this.add.container(panelX, 790);
         const buttonWidth = 300;
         const buttonHeight = 66;
         const buttonShadow = this.add.rectangle(4, 5, buttonWidth, buttonHeight, 0x000000, 0.5).setOrigin(0.5);
@@ -127,9 +210,13 @@ export class Intro extends Phaser.Scene {
         uiRoot.add([
             background,
             backgroundShade,
+            dustParticles,
+            panelBackdrop,
+            panelGlow,
             panelShadow,
             panelFrame,
             panelInner,
+            panelInnerShadow,
             title,
             subtitle,
             missionHeader,
@@ -138,11 +225,10 @@ export class Intro extends Phaser.Scene {
             controlsBody,
             progressHeader,
             progressBody,
-            promptText,
             button
         ]);
 
-        const hitArea = this.add.zone(panelX, 712, buttonWidth, buttonHeight).setOrigin(0.5).setInteractive({ useHandCursor: true });
+        const hitArea = this.add.zone(panelX, 790, buttonWidth, buttonHeight).setOrigin(0.5).setInteractive({ useHandCursor: true });
         let isHovered = false;
         let isStarting = false;
         let pulseTween = null;
@@ -251,6 +337,31 @@ export class Intro extends Phaser.Scene {
             duration: 420,
             ease: 'Quad.easeOut'
         });
+
+        this.tweens.add({
+            targets: [
+                panelBackdrop,
+                panelGlow,
+                panelShadow,
+                panelFrame,
+                panelInner,
+                panelInnerShadow,
+                title,
+                subtitle,
+                missionHeader,
+                missionBody,
+                controlsHeader,
+                controlsBody,
+                progressHeader,
+                progressBody,
+                button
+            ],
+            y: '+=4',
+            duration: 2400,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut'
+        });
     }
 
     async waitForTwineFont() {
@@ -279,6 +390,18 @@ export class Intro extends Phaser.Scene {
         link.rel = 'stylesheet';
         link.href = 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
         document.head.appendChild(link);
+    }
+
+    ensureDustTexture() {
+        if (this.textures.exists('dust-particle')) {
+            return;
+        }
+
+        const graphics = this.make.graphics({ x: 0, y: 0, add: false });
+        graphics.fillStyle(0xffffff, 1);
+        graphics.fillCircle(8, 8, 8);
+        graphics.generateTexture('dust-particle', 16, 16);
+        graphics.destroy();
     }
 
     playUiHoverSound() {
