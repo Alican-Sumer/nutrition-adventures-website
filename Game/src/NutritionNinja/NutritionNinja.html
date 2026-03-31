@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Ninja</title>
+    <link rel="stylesheet" href="./nutrition-ninja.css">
+</head>
+<body>
+    <main class="app-shell">
+        <section class="hud-card intro-card">
+            <p class="eyebrow">Training Hall</p>
+            <h1>Nutrition Ninja</h1>
+            <p class="subtitle">Slice the foods that power an adventurer. Dodge sugary traps, defend your energy, and build a balanced combo streak.</p>
+            <div class="legend-row">
+                <div class="legend-item">
+                    <span class="legend-swatch legend-good"></span>
+                    <span>Power Foods boost score and streaks</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-swatch legend-bad"></span>
+                    <span>Boss Snacks drain hearts and focus</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="hud-strip">
+            <div class="hud-card stat-card">
+                <span class="stat-label">Score</span>
+                <strong id="score">0</strong>
+            </div>
+            <div class="hud-card stat-card">
+                <span class="stat-label">Combo</span>
+                <strong id="combo">0x</strong>
+            </div>
+            <div class="hud-card stat-card">
+                <span class="stat-label">Hearts</span>
+                <strong id="hearts">3</strong>
+            </div>
+            <div class="hud-card stat-card">
+                <span class="stat-label">Quest Tip</span>
+                <strong id="tip">Slice whole foods first.</strong>
+            </div>
+        </section>
+
+        <section class="arena-card">
+            <div id="arena" class="arena" aria-label="Nutrition Ninja game arena"></div>
+            <div class="controls">
+                <button id="start-button" class="action-button">Start Quest</button>
+                <button id="restart-button" class="action-button secondary">Restart</button>
+            </div>
+        </section>
+    </main>
+
+    <template id="food-template">
+        <button class="food-item" type="button">
+            <span class="food-emoji"></span>
+            <span class="food-name"></span>
+        </button>
+    </template>
+
+    <script src="./nutrition-ninja.js"></script>
+</body>
+</html>
