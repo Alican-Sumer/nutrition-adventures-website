@@ -1,7 +1,6 @@
 package com.dhes.repository;
 
 import com.dhes.entity.Course;
-import com.dhes.entity.User;
 
 import java.util.Optional;
 
@@ -14,7 +13,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     Optional<Course> findById(Long id);
 
     Optional<Course> findByName(String name);
-
-    Optional<Course> findByUser(User user);
 
 }
