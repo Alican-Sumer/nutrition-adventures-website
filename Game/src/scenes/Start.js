@@ -51,30 +51,42 @@ export class Start extends Phaser.Scene {
             clark_door_trigger: 'scenario1',
             fountain_door_trigger: 'scenario2',
             case_door_trigger: 'scenario3',
-            talley_door_trigger: 'scenario4'
+            talley_door_trigger: 'scenario4',
+            ut_door_trigger: 'scenario6',
+            oval_door_trigger: 'scenario5'
         };
         this.activeTriggerScenario = null;
 
         this.scenarios = {
             scenario1: {
                 title: 'Scenario 1',
-                htmlPath: './src/Scenarios_new/Scenario1/Scenario1.html',
+                htmlPath: '/Scenarios/Scenario1/Scenario1.html',
                 completionPassages: ['Key Takeaways']
             },
             scenario2: {
                 title: 'Scenario 2',
-                htmlPath: './src/Scenarios_new/Scenario2/Scenario2.html',
+                htmlPath: '/Scenarios/Scenario2/Scenario2.html',
                 completionPassages: ['Exit Screen']
             },
             scenario3: {
                 title: 'Scenario 3',
-                htmlPath: './src/Scenarios_new/Scenario3/Scenario3.html',
+                htmlPath: '/Scenarios/Scenario3/Scenario3.html',
                 completionPassages: ['Meal Summary']
             },
             scenario4: {
                 title: 'Scenario 4',
-                htmlPath: './src/Scenarios_new/Scenario4/Scenario4.html',
+                htmlPath: '/Scenarios/Scenario4/Scenario4.html',
                 completionPassages: ['Exit Screen']
+            },
+            scenario5: {
+                title: 'Scenario 5',
+                htmlPath: '/Scenarios/Scenario5/Scenario5.html',
+                completionPassages: ['Finish']
+            },
+            scenario6: {
+                title: 'Scenario 6',
+                htmlPath: '/Scenarios/Scenario6/Scenario6.html',
+                completionPassages: ['ScenarioEnd']
             }
         };
 
