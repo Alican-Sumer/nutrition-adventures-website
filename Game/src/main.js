@@ -1,3 +1,4 @@
+import { Intro } from './scenes/Intro.js';
 import { Start } from './scenes/Start.js';
 
 const config = {
@@ -10,6 +11,7 @@ const config = {
     backgroundColor: '#000000',
     pixelArt: false,
     scene: [
+        Intro,
         Start
     ],
     scale: {

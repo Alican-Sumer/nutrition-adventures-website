@@ -5,7 +5,9 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const rootDir = path.resolve(__dirname, '..');
+const gameRootDir = path.resolve(__dirname, '..');
+const repoRootDir = path.resolve(gameRootDir, '..');
+const scenariosRootDir = path.join(repoRootDir, 'Scenarios');
 const requestedPort = Number(process.env.PORT) || 8080;
 
 const mimeTypes = {
@@ -28,10 +30,18 @@ const mimeTypes = {
 function getSafePath(urlPath) {
     const cleanPath = decodeURIComponent(urlPath.split('?')[0]);
     const requested = cleanPath === '/' ? '/index.html' : cleanPath;
-    const resolved = path.resolve(rootDir, `.${requested}`);
-    if (!resolved.startsWith(rootDir)) {
+    const baseDir = requested.startsWith('/Scenarios/')
+        ? scenariosRootDir
+        : gameRootDir;
+    const relativePath = requested.startsWith('/Scenarios/')
+        ? requested.slice('/Scenarios'.length)
+        : requested;
+    const resolved = path.resolve(baseDir, `.${relativePath}`);
+
+    if (!resolved.startsWith(baseDir)) {
         return null;
     }
+
     return resolved;
 }
 
