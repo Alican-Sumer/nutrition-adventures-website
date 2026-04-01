@@ -60,32 +60,32 @@ export class Start extends Phaser.Scene {
         this.scenarios = {
             scenario1: {
                 title: 'Scenario 1',
-                htmlPath: '/Scenarios/Scenario1/Scenario1.html',
+                htmlPath: 'src/Scenarios/Scenario1/Scenario1.html',
                 completionPassages: ['Key Takeaways']
             },
             scenario2: {
                 title: 'Scenario 2',
-                htmlPath: '/Scenarios/Scenario2/Scenario2.html',
+                htmlPath: 'src/Scenarios/Scenario2/Scenario2.html',
                 completionPassages: ['Exit Screen']
             },
             scenario3: {
                 title: 'Scenario 3',
-                htmlPath: '/Scenarios/Scenario3/Scenario3.html',
+                htmlPath: 'src/Scenarios/Scenario3/Scenario3.html',
                 completionPassages: ['Meal Summary']
             },
             scenario4: {
                 title: 'Scenario 4',
-                htmlPath: '/Scenarios/Scenario4/Scenario4.html',
+                htmlPath: 'src/Scenarios/Scenario4/Scenario4.html',
                 completionPassages: ['Exit Screen']
             },
             scenario5: {
                 title: 'Scenario 5',
-                htmlPath: '/Scenarios/Scenario5/Scenario5.html',
+                htmlPath: 'src/Scenarios/Scenario5/Scenario5.html',
                 completionPassages: ['Finish']
             },
             scenario6: {
                 title: 'Scenario 6',
-                htmlPath: '/Scenarios/Scenario6/Scenario6.html',
+                htmlPath: 'src/Scenarios/Scenario6/Scenario6.html',
                 completionPassages: ['ScenarioEnd']
             }
         };

@@ -24,26 +24,27 @@ export class Intro extends Phaser.Scene {
         this.ensureDustTexture();
 
         const { width, height } = this.scale;
-        this.cameras.main.setBackgroundColor('#102919');
+        this.cameras.main.setBackgroundColor('#0a1a12');
 
         const uiRoot = this.add.container(0, 0);
 
         const background = this.add.image(width / 2, height / 2, 'demo-map-bg');
         background.setDisplaySize(width, height);
-        background.setAlpha(0.2);
+        background.setAlpha(0.15);
 
-        const backgroundShade = this.add.rectangle(width / 2, height / 2, width, height, 0x08120c, 0.52);
+        const backgroundShade = this.add.rectangle(width / 2, height / 2, width, height, 0x0a1a12, 0.6);
+
         const dustParticles = this.add.particles(0, 0, 'dust-particle', {
             x: { min: 0, max: width },
             y: { min: 0, max: height },
-            lifespan: 10000,
-            speedX: { min: -6, max: 6 },
-            speedY: { min: -14, max: -4 },
-            scale: { start: 0.16, end: 0.04 },
-            alpha: { start: 0.12, end: 0 },
-            tint: [0xf0d060, 0xf5ecd2],
+            lifespan: 12000,
+            speedX: { min: -4, max: 4 },
+            speedY: { min: -10, max: -3 },
+            scale: { start: 0.12, end: 0.02 },
+            alpha: { start: 0.1, end: 0 },
+            tint: [0x4ade80, 0x86efac],
             quantity: 1,
-            frequency: 700,
+            frequency: 800,
             emitZone: {
                 type: 'random',
                 source: new Phaser.Geom.Rectangle(0, 0, width, height)
@@ -51,316 +52,212 @@ export class Intro extends Phaser.Scene {
             blendMode: Phaser.BlendModes.ADD
         });
 
-        const panelWidth = 820;
-        const panelHeight = 860;
-        const panelX = width / 2;
-        const panelY = height / 2;
+        const cx = width / 2;
+        const panelW = Math.min(700, width - 60);
+        const panelH = Math.min(780, height - 40);
+        const panelX = cx - panelW / 2;
+        const panelY = (height - panelH) / 2;
 
-        const panelShadow = this.add.graphics();
-        panelShadow.fillStyle(0x05070a, 0.44);
-        panelShadow.fillRoundedRect(
-            panelX - panelWidth / 2 + 12,
-            panelY - panelHeight / 2 + 14,
-            panelWidth,
-            panelHeight,
-            18
-        );
+        // Main panel
+        const panel = this.add.graphics();
+        panel.fillStyle(0x0f2318, 0.92);
+        panel.fillRoundedRect(panelX, panelY, panelW, panelH, 16);
+        panel.lineStyle(2, 0x4ade80, 0.6);
+        panel.strokeRoundedRect(panelX, panelY, panelW, panelH, 16);
 
-        const panelBackdrop = this.add.graphics();
-        panelBackdrop.fillStyle(0x020406, 0.22);
-        panelBackdrop.fillRoundedRect(
-            panelX - panelWidth / 2 - 18,
-            panelY - panelHeight / 2 - 18,
-            panelWidth + 36,
-            panelHeight + 36,
-            26
-        );
+        // Accent line at top of panel
+        const accentLine = this.add.graphics();
+        accentLine.fillStyle(0x4ade80, 0.8);
+        accentLine.fillRoundedRect(panelX + 20, panelY + 1, panelW - 40, 3, 2);
 
-        const panelGlow = this.add.graphics();
-        panelGlow.lineStyle(18, 0xf0d060, 0.08);
-        panelGlow.strokeRoundedRect(
-            panelX - panelWidth / 2 - 6,
-            panelY - panelHeight / 2 - 6,
-            panelWidth + 12,
-            panelHeight + 12,
-            24
-        );
-
-        const panelFrame = this.add.graphics();
-        panelFrame.fillStyle(0xc8a84b, 0.96);
-        panelFrame.fillRoundedRect(
-            panelX - panelWidth / 2,
-            panelY - panelHeight / 2,
-            panelWidth,
-            panelHeight,
-            18
-        );
-        panelFrame.lineStyle(5, 0x7a5a1a, 1);
-        panelFrame.strokeRoundedRect(
-            panelX - panelWidth / 2,
-            panelY - panelHeight / 2,
-            panelWidth,
-            panelHeight,
-            18
-        );
-
-        const panelInner = this.add.graphics();
-        panelInner.fillStyle(0x09111f, 0.86);
-        panelInner.fillRoundedRect(
-            panelX - (panelWidth - 28) / 2,
-            panelY - (panelHeight - 28) / 2,
-            panelWidth - 28,
-            panelHeight - 28,
-            14
-        );
-        panelInner.lineStyle(3, 0xc8a84b, 0.9);
-        panelInner.strokeRoundedRect(
-            panelX - (panelWidth - 28) / 2,
-            panelY - (panelHeight - 28) / 2,
-            panelWidth - 28,
-            panelHeight - 28,
-            14
-        );
-
-        const panelInnerShadow = this.add.graphics();
-        panelInnerShadow.lineStyle(18, 0x000000, 0.12);
-        panelInnerShadow.strokeRoundedRect(
-            panelX - (panelWidth - 44) / 2,
-            panelY - (panelHeight - 44) / 2,
-            panelWidth - 44,
-            panelHeight - 44,
-            12
-        );
-
-        const title = this.add.text(panelX, 156, 'Nutrition Adventures', {
+        // Title
+        const title = this.add.text(cx, panelY + 60, 'Nutrition Adventures', {
             fontFamily: '"Press Start 2P", monospace',
-            fontSize: '38px',
-            color: '#f0d060',
+            fontSize: '32px',
+            color: '#4ade80',
             align: 'center'
-        }).setOrigin(0.5).setShadow(0, 0, '#f0d060', 10, true, true).setStroke('#7a4f00', 3);
+        }).setOrigin(0.5);
 
-        const subtitle = this.add.text(panelX, 214, 'The Dining Hall Quest', {
+        const subtitle = this.add.text(cx, panelY + 110, 'The Dining Hall Quest', {
             fontFamily: '"Press Start 2P", monospace',
-            fontSize: '18px',
-            color: '#f0d060',
-            letterSpacing: 1
-        }).setOrigin(0.5).setShadow(0, 0, '#f0d060', 5, true, true);
+            fontSize: '14px',
+            color: '#86efac',
+            letterSpacing: 2
+        }).setOrigin(0.5);
 
-        const sectionHeaderStyle = {
+        // Divider
+        const divider1 = this.add.graphics();
+        divider1.fillStyle(0x4ade80, 0.25);
+        divider1.fillRect(panelX + 40, panelY + 145, panelW - 80, 1);
+
+        // Section style helpers
+        const headerStyle = {
             fontFamily: '"Press Start 2P", monospace',
-            fontSize: '20px',
-            color: '#f0d060',
+            fontSize: '14px',
+            color: '#4ade80',
             align: 'center'
         };
 
         const bodyStyle = {
             fontFamily: '"Press Start 2P", monospace',
-            fontSize: '16px',
-            color: '#e8e8d0',
-            lineSpacing: 14,
+            fontSize: '11px',
+            color: '#d1d5db',
+            lineSpacing: 16,
             align: 'center',
-            wordWrap: { width: 620 }
+            wordWrap: { width: panelW - 100 }
         };
 
-        const missionText = [
-            'Visit each dining hall.',
-            'Step to the door.',
-            'Uncover each nutrition tale.',
-            'Atrium NW  Talley W',
-            'Fountain SW  Case NE',
-            'Clark E  Oval S'
+        // Mission section
+        let yPos = panelY + 175;
+        this.add.text(cx, yPos, 'YOUR MISSION', headerStyle).setOrigin(0.5);
+
+        yPos += 40;
+        const missionLines = [
+            'Explore the NC State campus',
+            'Visit each dining hall',
+            'Complete nutrition scenarios',
+            'to become a Nutrition Master!'
         ].join('\n');
+        this.add.text(cx, yPos, missionLines, bodyStyle).setOrigin(0.5, 0);
 
-        const controlsText = [
-            'W A S D  Move',
-            'Doorways  Enter scenario',
-            'Esc  Close overlay'
-        ].join('\n');
+        // Divider
+        yPos += 110;
+        const divider2 = this.add.graphics();
+        divider2.fillStyle(0x4ade80, 0.25);
+        divider2.fillRect(panelX + 40, yPos, panelW - 80, 1);
 
-        const progressText = [
-            '+15 progress per hall',
-            '7 halls to master',
-            'Complete scenarios to advance'
-        ].join('\n');
+        // Dining Halls section
+        yPos += 25;
+        this.add.text(cx, yPos, 'DINING HALLS', headerStyle).setOrigin(0.5);
 
-        const missionHeader = this.add.text(panelX, 294, 'Your Mission', sectionHeaderStyle).setOrigin(0.5);
-        const missionBody = this.add.text(panelX, 336, missionText, bodyStyle).setOrigin(0.5, 0);
+        yPos += 35;
+        const halls = [
+            ['Clark', 'E', 'Fountain', 'SW'],
+            ['Case', 'NE', 'Talley', 'W'],
+            ['Atrium', 'NW', 'Oval', 'S']
+        ];
 
-        const controlsHeader = this.add.text(panelX, 512, 'Controls', sectionHeaderStyle).setOrigin(0.5);
-        const controlsBody = this.add.text(panelX, 554, controlsText, bodyStyle).setOrigin(0.5, 0);
+        for (const row of halls) {
+            const rowText = `${row[0]}  ${row[1]}     ${row[2]}  ${row[3]}`;
+            this.add.text(cx, yPos, rowText, {
+                fontFamily: '"Press Start 2P", monospace',
+                fontSize: '10px',
+                color: '#9ca3af',
+                align: 'center'
+            }).setOrigin(0.5);
+            yPos += 28;
+        }
 
-        const progressHeader = this.add.text(panelX, 676, 'Progress', sectionHeaderStyle).setOrigin(0.5);
-        const progressBody = this.add.text(panelX, 718, progressText, bodyStyle).setOrigin(0.5, 0);
+        // Divider
+        yPos += 5;
+        const divider3 = this.add.graphics();
+        divider3.fillStyle(0x4ade80, 0.25);
+        divider3.fillRect(panelX + 40, yPos, panelW - 80, 1);
 
-        const button = this.add.container(panelX, 790);
-        const buttonWidth = 300;
-        const buttonHeight = 66;
-        const buttonShadow = this.add.rectangle(4, 5, buttonWidth, buttonHeight, 0x000000, 0.5).setOrigin(0.5);
-        const buttonGlow = this.add.rectangle(0, 0, buttonWidth + 28, buttonHeight + 24, 0xf0d060, 0.12).setOrigin(0.5);
-        const buttonBody = this.add.rectangle(0, 0, buttonWidth, buttonHeight, 0xc8a84b, 1).setOrigin(0.5).setStrokeStyle(4, 0x7a5a1a, 1);
-        const buttonInner = this.add.rectangle(0, 0, buttonWidth - 16, buttonHeight - 16, 0x09111f, 1).setOrigin(0.5).setStrokeStyle(2, 0xc8a84b, 1);
-        const buttonLabel = this.add.text(0, 0, 'Start Adventure', {
+        // Controls section
+        yPos += 25;
+        this.add.text(cx, yPos, 'CONTROLS', headerStyle).setOrigin(0.5);
+
+        yPos += 35;
+        const controlPairs = [
+            ['W A S D', 'Move around'],
+            ['Doorways', 'Start scenario'],
+            ['ESC', 'Close overlay']
+        ];
+
+        for (const [key, desc] of controlPairs) {
+            const keyText = this.add.text(cx - 20, yPos, key, {
+                fontFamily: '"Press Start 2P", monospace',
+                fontSize: '10px',
+                color: '#4ade80'
+            }).setOrigin(1, 0.5);
+
+            this.add.text(cx + 20, yPos, desc, {
+                fontFamily: '"Press Start 2P", monospace',
+                fontSize: '10px',
+                color: '#9ca3af'
+            }).setOrigin(0, 0.5);
+
+            yPos += 28;
+        }
+
+        // Start button
+        const btnY = panelY + panelH - 80;
+        const btnW = 280;
+        const btnH = 54;
+
+        const button = this.add.container(cx, btnY);
+
+        const btnBg = this.add.graphics();
+        btnBg.fillStyle(0x4ade80, 1);
+        btnBg.fillRoundedRect(-btnW / 2, -btnH / 2, btnW, btnH, 10);
+
+        const btnLabel = this.add.text(0, 0, 'START ADVENTURE', {
             fontFamily: '"Press Start 2P", monospace',
-            fontSize: '18px',
-            color: '#f0d060'
-        }).setOrigin(0.5).setShadow(2, 2, '#7a4f00', 0, false, true);
+            fontSize: '13px',
+            color: '#0a1a12'
+        }).setOrigin(0.5);
 
-        button.add([buttonGlow, buttonShadow, buttonBody, buttonInner, buttonLabel]);
+        button.add([btnBg, btnLabel]);
 
         uiRoot.add([
-            background,
-            backgroundShade,
-            dustParticles,
-            panelBackdrop,
-            panelGlow,
-            panelShadow,
-            panelFrame,
-            panelInner,
-            panelInnerShadow,
-            title,
-            subtitle,
-            missionHeader,
-            missionBody,
-            controlsHeader,
-            controlsBody,
-            progressHeader,
-            progressBody,
+            background, backgroundShade, dustParticles,
+            panel, accentLine,
+            title, subtitle, divider1, divider2, divider3,
             button
         ]);
 
-        const hitArea = this.add.zone(panelX, 790, buttonWidth, buttonHeight).setOrigin(0.5).setInteractive({ useHandCursor: true });
-        let isHovered = false;
+        // Button interaction
+        const hitArea = this.add.zone(cx, btnY, btnW, btnH).setOrigin(0.5).setInteractive({ useHandCursor: true });
         let isStarting = false;
-        let pulseTween = null;
-        let glowTween = null;
 
-        const setButtonVisualState = () => {
-            if (isStarting) {
-                return;
-            }
+        hitArea.on('pointerover', () => {
+            if (isStarting) return;
+            button.setScale(1.05);
+            this.playUiHoverSound();
+        });
 
-            button.setScale(isHovered ? 1.05 : 1);
-            buttonBody.setFillStyle(isHovered ? 0xe0bf63 : 0xc8a84b, 1);
-            buttonGlow.setAlpha(isHovered ? 0.24 : 0.12);
-        };
-
-        const startPulse = () => {
-            pulseTween = this.tweens.add({
-                targets: button,
-                scaleX: { from: 1, to: 1.025 },
-                scaleY: { from: 1, to: 1.025 },
-                duration: 900,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
-
-            glowTween = this.tweens.add({
-                targets: buttonGlow,
-                alpha: { from: 0.12, to: 0.2 },
-                duration: 900,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
-        };
-
-        const stopPulse = () => {
-            if (pulseTween) {
-                pulseTween.stop();
-                pulseTween = null;
-            }
-            if (glowTween) {
-                glowTween.stop();
-                glowTween = null;
-            }
+        hitArea.on('pointerout', () => {
+            if (isStarting) return;
             button.setScale(1);
-            buttonGlow.setScale(1);
-            buttonGlow.setAlpha(isHovered ? 0.24 : 0.12);
-        };
+        });
 
         const startGame = () => {
-            if (isStarting) {
-                return;
-            }
-
+            if (isStarting) return;
             isStarting = true;
-            stopPulse();
             this.playUiClickSound();
 
             this.tweens.add({
                 targets: button,
-                scaleX: 0.96,
-                scaleY: 0.94,
-                y: button.y + 4,
+                scaleX: 0.95,
+                scaleY: 0.95,
                 duration: 80,
-                ease: 'Quad.easeOut',
                 yoyo: true,
-                onComplete: () => {
-                    this.scene.start('Start');
-                }
+                onComplete: () => this.scene.start('Start')
             });
         };
 
-        startPulse();
-
-        hitArea.on('pointerover', () => {
-            if (isStarting) {
-                return;
-            }
-
-            isHovered = true;
-            this.playUiHoverSound();
-            setButtonVisualState();
-        });
-        hitArea.on('pointerout', () => {
-            if (isStarting) {
-                return;
-            }
-
-            isHovered = false;
-            setButtonVisualState();
-        });
-        hitArea.on('pointerdown', () => {
-            startGame();
-        });
-
+        hitArea.on('pointerdown', startGame);
         this.input.keyboard.once('keydown-ENTER', startGame);
 
-        uiRoot.setAlpha(0);
-        uiRoot.setScale(0.985);
+        // Subtle pulse on button
         this.tweens.add({
-            targets: uiRoot,
-            alpha: 1,
-            scaleX: 1,
-            scaleY: 1,
-            duration: 420,
-            ease: 'Quad.easeOut'
-        });
-
-        this.tweens.add({
-            targets: [
-                panelBackdrop,
-                panelGlow,
-                panelShadow,
-                panelFrame,
-                panelInner,
-                panelInnerShadow,
-                title,
-                subtitle,
-                missionHeader,
-                missionBody,
-                controlsHeader,
-                controlsBody,
-                progressHeader,
-                progressBody,
-                button
-            ],
-            y: '+=4',
-            duration: 2400,
+            targets: button,
+            scaleX: { from: 1, to: 1.02 },
+            scaleY: { from: 1, to: 1.02 },
+            duration: 1200,
             yoyo: true,
             repeat: -1,
             ease: 'Sine.easeInOut'
+        });
+
+        // Fade in
+        uiRoot.setAlpha(0);
+        this.tweens.add({
+            targets: uiRoot,
+            alpha: 1,
+            duration: 500,
+            ease: 'Quad.easeOut'
         });
     }
 
