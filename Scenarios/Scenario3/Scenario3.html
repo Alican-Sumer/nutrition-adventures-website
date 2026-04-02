@@ -104,7 +104,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<tw-storydata name="Scenario 3" startnode="1" creator="Twine" creator-version="2.11.1" format="SugarCube" format-version="2.37.3" ifid="FC248183-6030-4A48-B1E5-17194FD11F24" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* === 2D RPG THEME === */
+	<tw-storydata name="Scenario 3" startnode="1" creator="Twine" creator-version="2.10.0" format="SugarCube" format-version="2.37.3" ifid="FC248183-6030-4A48-B1E5-17194FD11F24" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* === 2D RPG THEME === */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 /* --- Base layout & background --- */
@@ -551,16 +551,14 @@ setup.saveOptionConstructor = function(type, options, passage, variable) {
 &lt;&lt;set $nextPassage to &quot;Yogurt Feedback&quot;&gt;&gt;
 
 &lt;&lt;print setup.buildCard()&gt;&gt; </tw-passagedata><tw-passagedata pid="6" name="Part 2" tags="" position="900,850" size="100,100">&lt;&lt;set $title to &quot;&quot;&gt;&gt;
-&lt;&lt;set $description to setup.description([`Your breakfast choice was quick and convenient, but it’s higher in simple carbohydrates and added sugars and lower in protein, fiber, and micronutrients.`, `Foods like sweet cereals, biscuits and gravy, or donuts digest quickly and cause a rapid rise in blood sugar followed by a mid-morning energy crash. Because these foods don’t keep you full for long, you might feel hungry again before lunch and have trouble focusing.`, `Simple carbohydrates (like those in sweet cereals, biscuits, or donuts) are high on the glycemic index (GI) meaning they digest quickly and cause a rapid spike in blood sugar, followed by a sharp drop, or “energy crash.” This can leave you feeling tired, unfocused, and hungry again before lunch.`, `In contrast, complex carbohydrates (such as whole grains, oats, and fruits) are
-lower on the glycemic index and digest more slowly. They release energy gradually, helping to maintain steady blood sugar levels, sustained energy, and better focus throughout the morning.`, `In the next part of the game, you’ll have a chance to choose a balanced lunch to help stabilize your energy and nutrition for the rest of the day.`, `Click &quot;Next&quot; to continue.`]) &gt;&gt;
+&lt;&lt;set $description to setup.description([`Your breakfast was quick and convenient, but it’s higher in simple carbohydrates and added sugars and lower in protein and fiber.`, `Foods like sweet cereals, biscuits and gravy, or donuts digest quickly, causing a rapid rise in blood sugar followed by an energy crash. This can leave you feeling hungry and unfocused before lunch.`, `In contrast, complex carbohydrates like whole grains, oats, and fruits digest more slowly and provide steady energy to help you stay focused.`, `Next, you’ll have a chance to choose a balanced lunch to support your energy for the rest of the day.`, `Click &quot;Next&quot; to continue.`]) &gt;&gt;
 &lt;&lt;set $nextText to &quot;Next&quot;&gt;&gt;
 &lt;&lt;set $nextPassage to &quot;Lunch&quot;&gt;&gt;
 &lt;&lt;set $backText to &quot;&quot;&gt;&gt;
 &lt;&lt;set $backPassage to &quot;&quot;&gt;&gt;
 
 &lt;&lt;print setup.buildCard()&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="End" tags="" position="900,1975" size="100,100">&lt;&lt;set $title to &quot;Key Takeaways&quot;&gt;&gt;
-&lt;&lt;set $description to setup.description([`Great work completing the breakfast and lunch rounds! Here’s what we learned today:`, `- Energy and Balance: Your breakfast and lunch choices together determine how steady your energy levels are throughout the morning and afternoon. Meals high in complex carbohydrates, fiber, and protein help keep blood sugar stable and prevent energy crashes.`, `- Simple vs. Complex Carbs: Foods with simple carbs (like sugary cereals, white bread, or donuts) can give quick energy but often lead to a rapid dip in energy later. Complex carbs (whole grains, beans, vegetables) provide lasting fuel.`, `- Protein and Fiber Matter: Including lean proteins and fiber-rich foods in both meals helps you stay full,
-focused, and ready for physical or mental tasks.`, `- Balance Over Perfection: It’s not about a perfect day. Healthy nutrition is about making thoughtful choices and finding balance. Even if one meal was less balanced, the next one is an opportunity to recover and restore energy.`])&gt;&gt;
+&lt;&lt;set $description to setup.description([`Great work completing breakfast and lunch! Here’s what we learned:`, `- Energy and Balance: Balanced meals with complex carbs, protein, and fiber help maintain steady energy and prevent crashes.`, `- Simple vs. Complex Carbs: Simple carbs give quick energy but fade fast, while complex carbs provide lasting fuel.`, `- Protein and Fiber: These help you stay full, focused, and ready for the day.`, `- Balance Over Perfection: Healthy eating is about making thoughtful choices, with each meal being a chance to improve.`]) &gt;&gt;
 &lt;&lt;set $nextText to &quot;Restart&quot;&gt;&gt;
 &lt;&lt;set $nextPassage to &quot;Scenario Introduction&quot;&gt;&gt;
 &lt;&lt;set $backText to &quot;&quot;&gt;&gt;
