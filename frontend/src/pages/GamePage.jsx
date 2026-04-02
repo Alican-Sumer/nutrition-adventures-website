@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { saveScenarioComplete, getProgress } from '../services/gameProgressService';
 
-const GAME_URL = import.meta.env.VITE_GAME_URL ?? 'http://localhost:8090';
+const GAME_URL = import.meta.env.VITE_GAME_URL ?? 'http://localhost:8080';
 
 export function GamePage() {
   const { user } = useAuth();
@@ -31,24 +31,24 @@ export function GamePage() {
   };
 
   return (
-    <div style={{ position: 'fixed', inset: 0, background: '#111a0d', zIndex: 50 }}>
+    <div style={{ position: 'fixed', inset: 0, background: '#1a0e08', zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <Link
         to="/dashboard"
         style={{
           position: 'absolute', top: 12, left: 12, zIndex: 100,
-          color: '#f4e5c3', background: 'rgba(0,0,0,0.6)', padding: '6px 12px',
-          borderRadius: 6, fontSize: 14, fontFamily: 'Georgia, serif',
-          textDecoration: 'none',
+          color: '#f6deb0', background: 'rgba(43, 27, 16, 0.85)', padding: '6px 14px',
+          borderRadius: 6, fontSize: 14, fontFamily: '"Press Start 2P", Georgia, serif',
+          textDecoration: 'none', border: '1px solid #b38a4a',
         }}
       >
-        ← Back to Dashboard
+        ← Back
       </Link>
       <iframe
         ref={iframeRef}
         src={GAME_URL}
         title="Nutrition Adventures"
         onLoad={handleIframeLoad}
-        style={{ width: '100%', height: '100%', border: 'none' }}
+        style={{ width: '100%', height: '100%', maxWidth: '1200px', maxHeight: '900px', border: '3px solid #b38a4a', borderRadius: '8px', background: '#0f2a18' }}
         allow="fullscreen"
       />
     </div>
