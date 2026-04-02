@@ -16,6 +16,7 @@ public class UserMapper {
         dto.setUsername(entity.getUsername());
         dto.setEmail(entity.getEmail());
         dto.setDisplayName(entity.getDisplayName());
+        dto.setGrade(entity.getGrade());
         return dto;
     }
 
@@ -30,6 +31,7 @@ public class UserMapper {
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
         user.setDisplayName(dto.getDisplayName());
+        user.setGrade(dto.getGrade());
         // federatedId and roles set separately (e.g. from SAML or admin)
         return user;
     }

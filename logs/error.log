@@ -1,0 +1,72 @@
+[Thu Apr 02 19:22:46.772022 2026] [ssl:warn] [pid 35:tid 123766340171648] AH01906: localhost:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 19:22:46.772329 2026] [ssl:warn] [pid 35:tid 123766340171648] AH01909: localhost:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 19:22:46.799684 2026] [ssl:warn] [pid 35:tid 123766340171648] AH01906: localhost:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 19:22:46.799859 2026] [ssl:warn] [pid 35:tid 123766340171648] AH01909: localhost:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 19:22:46.804875 2026] [mpm_event:notice] [pid 35:tid 123766340171648] AH00489: Apache/2.4.58 (Ubuntu) OpenSSL/3.0.13 configured -- resuming normal operations
+[Thu Apr 02 19:22:46.811069 2026] [core:notice] [pid 35:tid 123766340171648] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Apr 02 19:29:56.819369 2026] [proxy:error] [pid 37:tid 123765706970816] [client 172.18.0.1:44424] AH00898: DNS lookup failure for: app returned by /, referer: https://shib.ncsu.edu/
+[Thu Apr 02 19:29:59.981854 2026] [proxy:error] [pid 37:tid 123765698578112] [client 172.18.0.1:44424] AH00898: DNS lookup failure for: app returned by /favicon.ico, referer: https://localhost/
+[Thu Apr 02 19:31:19.144637 2026] [proxy:error] [pid 36:tid 123766227527360] [client 172.18.0.1:34638] AH00898: DNS lookup failure for: app returned by /
+[Thu Apr 02 19:41:53.829152 2026] [ssl:warn] [pid 34:tid 134344796292992] AH01906: localhost:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 19:41:53.829851 2026] [ssl:warn] [pid 34:tid 134344796292992] AH01909: localhost:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 19:41:53.865737 2026] [ssl:warn] [pid 34:tid 134344796292992] AH01906: localhost:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 19:41:53.865999 2026] [ssl:warn] [pid 34:tid 134344796292992] AH01909: localhost:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 19:41:53.868486 2026] [core:warn] [pid 34:tid 134344796292992] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
+[Thu Apr 02 19:41:53.889681 2026] [mpm_event:notice] [pid 34:tid 134344796292992] AH00489: Apache/2.4.58 (Ubuntu) OpenSSL/3.0.13 configured -- resuming normal operations
+[Thu Apr 02 19:41:53.894274 2026] [core:notice] [pid 34:tid 134344796292992] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Apr 02 19:42:08.069331 2026] [proxy:error] [pid 35:tid 134344605681344] [client 172.18.0.1:34318] AH00898: DNS lookup failure for: app returned by /, referer: https://shib.ncsu.edu/
+[Thu Apr 02 19:46:07.074895 2026] [ssl:warn] [pid 35:tid 128074688309120] AH01906: localhost:5173:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 19:46:07.075256 2026] [ssl:warn] [pid 35:tid 128074688309120] AH01909: localhost:5173:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 19:46:07.110981 2026] [ssl:warn] [pid 35:tid 128074688309120] AH01906: localhost:5173:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 19:46:07.111215 2026] [ssl:warn] [pid 35:tid 128074688309120] AH01909: localhost:5173:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 19:46:07.118008 2026] [mpm_event:notice] [pid 35:tid 128074688309120] AH00489: Apache/2.4.58 (Ubuntu) OpenSSL/3.0.13 configured -- resuming normal operations
+[Thu Apr 02 19:46:07.121445 2026] [core:notice] [pid 35:tid 128074688309120] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Apr 02 19:56:51.604750 2026] [ssl:warn] [pid 34:tid 131212963440512] AH01906: localhost:5173:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 19:56:51.605418 2026] [ssl:warn] [pid 34:tid 131212963440512] AH01909: localhost:5173:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 19:56:51.646077 2026] [ssl:warn] [pid 34:tid 131212963440512] AH01906: localhost:5173:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 19:56:51.646377 2026] [ssl:warn] [pid 34:tid 131212963440512] AH01909: localhost:5173:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 19:56:51.648574 2026] [core:warn] [pid 34:tid 131212963440512] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
+[Thu Apr 02 19:56:51.652336 2026] [mpm_event:notice] [pid 34:tid 131212963440512] AH00489: Apache/2.4.58 (Ubuntu) OpenSSL/3.0.13 configured -- resuming normal operations
+[Thu Apr 02 19:56:51.653712 2026] [core:notice] [pid 34:tid 131212963440512] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Apr 02 19:58:31.439931 2026] [ssl:warn] [pid 35:tid 136758672574336] AH01906: localhost:5173:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 19:58:31.440254 2026] [ssl:warn] [pid 35:tid 136758672574336] AH01909: localhost:5173:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 19:58:31.473991 2026] [ssl:warn] [pid 35:tid 136758672574336] AH01906: localhost:5173:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 19:58:31.474269 2026] [ssl:warn] [pid 35:tid 136758672574336] AH01909: localhost:5173:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 19:58:31.480272 2026] [mpm_event:notice] [pid 35:tid 136758672574336] AH00489: Apache/2.4.58 (Ubuntu) OpenSSL/3.0.13 configured -- resuming normal operations
+[Thu Apr 02 19:58:31.483065 2026] [core:notice] [pid 35:tid 136758672574336] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Apr 02 19:58:44.631031 2026] [proxy:error] [pid 37:tid 136758568322752] [client 172.18.0.1:58944] AH00898: DNS lookup failure for: app returned by /
+[Thu Apr 02 19:58:58.413669 2026] [proxy:error] [pid 37:tid 136758201153216] [client 172.18.0.1:46474] AH00898: DNS lookup failure for: app returned by /
+[Thu Apr 02 19:59:42.233763 2026] [ssl:warn] [pid 35:tid 126280890271616] AH01906: localhost:5173:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 19:59:42.234265 2026] [ssl:warn] [pid 35:tid 126280890271616] AH01909: localhost:5173:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 19:59:42.278974 2026] [ssl:warn] [pid 35:tid 126280890271616] AH01906: localhost:5173:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 19:59:42.279352 2026] [ssl:warn] [pid 35:tid 126280890271616] AH01909: localhost:5173:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 19:59:42.287120 2026] [mpm_event:notice] [pid 35:tid 126280890271616] AH00489: Apache/2.4.58 (Ubuntu) OpenSSL/3.0.13 configured -- resuming normal operations
+[Thu Apr 02 19:59:42.287571 2026] [core:notice] [pid 35:tid 126280890271616] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Apr 02 20:03:23.843605 2026] [ssl:warn] [pid 35:tid 131092947715968] AH01906: localhost:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 20:03:23.844013 2026] [ssl:warn] [pid 35:tid 131092947715968] AH01909: localhost:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 20:03:23.886928 2026] [ssl:warn] [pid 35:tid 131092947715968] AH01906: localhost:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 20:03:23.887179 2026] [ssl:warn] [pid 35:tid 131092947715968] AH01909: localhost:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 20:03:23.892425 2026] [mpm_event:notice] [pid 35:tid 131092947715968] AH00489: Apache/2.4.58 (Ubuntu) OpenSSL/3.0.13 configured -- resuming normal operations
+[Thu Apr 02 20:03:23.892823 2026] [core:notice] [pid 35:tid 131092947715968] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Apr 02 20:03:36.438264 2026] [proxy:error] [pid 36:tid 131092826678976] [client 172.18.0.1:44376] AH00898: DNS lookup failure for: app returned by /, referer: https://shib.ncsu.edu/
+[Thu Apr 02 20:05:07.956419 2026] [ssl:warn] [pid 35:tid 129903888242560] AH01906: localhost:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 20:05:07.956758 2026] [ssl:warn] [pid 35:tid 129903888242560] AH01909: localhost:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 20:05:07.999916 2026] [ssl:warn] [pid 35:tid 129903888242560] AH01906: localhost:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 20:05:08.000122 2026] [ssl:warn] [pid 35:tid 129903888242560] AH01909: localhost:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 20:05:08.004705 2026] [mpm_event:notice] [pid 35:tid 129903888242560] AH00489: Apache/2.4.58 (Ubuntu) OpenSSL/3.0.13 configured -- resuming normal operations
+[Thu Apr 02 20:05:08.004995 2026] [core:notice] [pid 35:tid 129903888242560] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Apr 02 20:05:21.086607 2026] [proxy:error] [pid 36:tid 129903559173824] [client 172.18.0.1:59600] AH00898: DNS lookup failure for: app returned by /, referer: https://shib.ncsu.edu/
+[Thu Apr 02 20:08:09.481415 2026] [proxy:error] [pid 37:tid 129903783990976] [client 172.18.0.1:45816] AH00898: DNS lookup failure for: app returned by /
+[Thu Apr 02 20:12:49.928495 2026] [ssl:warn] [pid 35:tid 132260590737280] AH01906: localhost:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 20:12:49.929087 2026] [ssl:warn] [pid 35:tid 132260590737280] AH01909: localhost:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 20:12:50.010664 2026] [ssl:warn] [pid 35:tid 132260590737280] AH01906: localhost:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 20:12:50.011060 2026] [ssl:warn] [pid 35:tid 132260590737280] AH01909: localhost:443:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 20:12:50.016541 2026] [mpm_event:notice] [pid 35:tid 132260590737280] AH00489: Apache/2.4.58 (Ubuntu) OpenSSL/3.0.13 configured -- resuming normal operations
+[Thu Apr 02 20:12:50.017051 2026] [core:notice] [pid 35:tid 132260590737280] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Thu Apr 02 20:13:04.404252 2026] [proxy:error] [pid 37:tid 132260469700288] [client 172.18.0.1:59884] AH00898: DNS lookup failure for: app returned by /, referer: https://shib.ncsu.edu/
+[Thu Apr 02 20:14:33.010042 2026] [ssl:warn] [pid 35:tid 123847915075456] AH01906: localhost:5173:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 20:14:33.010847 2026] [ssl:warn] [pid 35:tid 123847915075456] AH01909: localhost:5173:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 20:14:33.079662 2026] [ssl:warn] [pid 35:tid 123847915075456] AH01906: localhost:5173:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Apr 02 20:14:33.080146 2026] [ssl:warn] [pid 35:tid 123847915075456] AH01909: localhost:5173:0 server certificate does NOT include an ID which matches the server name
+[Thu Apr 02 20:14:33.088086 2026] [mpm_event:notice] [pid 35:tid 123847915075456] AH00489: Apache/2.4.58 (Ubuntu) OpenSSL/3.0.13 configured -- resuming normal operations
+[Thu Apr 02 20:14:33.088571 2026] [core:notice] [pid 35:tid 123847915075456] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
