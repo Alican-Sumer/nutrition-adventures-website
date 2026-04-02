@@ -1,0 +1,260 @@
+:root {
+    --bg-deep: #1b1310;
+    --panel: rgba(52, 32, 18, 0.9);
+    --panel-soft: rgba(86, 51, 29, 0.75);
+    --border: #d1a15b;
+    --ink: #f8edcf;
+    --muted: #e4caa3;
+    --good: #67c587;
+    --bad: #e76a5b;
+    --accent: #f0bd57;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    color: var(--ink);
+    background:
+        radial-gradient(circle at top, rgba(250, 196, 104, 0.2), transparent 30%),
+        linear-gradient(180deg, #362115 0%, #1a120e 58%, #120c0a 100%);
+}
+
+.app-shell {
+    min-height: 100vh;
+    display: grid;
+    gap: 18px;
+    padding: 22px;
+}
+
+.hud-card,
+.arena-card {
+    border: 2px solid rgba(209, 161, 91, 0.85);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(73, 45, 25, 0.94), rgba(36, 22, 14, 0.94));
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+}
+
+.intro-card {
+    padding: 22px;
+}
+
+.eyebrow {
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    font-size: 0.8rem;
+}
+
+h1 {
+    margin: 0;
+    font-family: Georgia, serif;
+    font-size: clamp(2rem, 4vw, 3.3rem);
+}
+
+.subtitle {
+    margin: 10px 0 0;
+    max-width: 70ch;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.legend-row,
+.hud-strip,
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.legend-row {
+    margin-top: 18px;
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(22, 13, 8, 0.42);
+    border-radius: 999px;
+}
+
+.legend-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+}
+
+.legend-good {
+    background: var(--good);
+}
+
+.legend-bad {
+    background: var(--bad);
+}
+
+.stat-card {
+    flex: 1 1 170px;
+    min-width: 0;
+    padding: 14px 16px;
+}
+
+.stat-label {
+    display: block;
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.stat-card strong {
+    display: block;
+    margin-top: 6px;
+    font-size: 1.25rem;
+}
+
+.arena-card {
+    padding: 18px;
+}
+
+.arena {
+    position: relative;
+    overflow: hidden;
+    min-height: 56vh;
+    border-radius: 16px;
+    border: 2px solid rgba(255, 239, 196, 0.12);
+    background:
+        radial-gradient(circle at top, rgba(233, 175, 78, 0.16), transparent 28%),
+        linear-gradient(180deg, rgba(22, 39, 26, 0.94), rgba(7, 18, 12, 0.97)),
+        repeating-linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.03) 0,
+            rgba(255, 255, 255, 0.03) 3px,
+            transparent 3px,
+            transparent 72px
+        );
+}
+
+.arena::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 20%;
+    background: linear-gradient(180deg, transparent, rgba(35, 21, 10, 0.72));
+    pointer-events: none;
+}
+
+.action-button {
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #f7ca73, #cb7f2f);
+    color: #231208;
+    padding: 12px 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.action-button.secondary {
+    background: linear-gradient(180deg, #dbdfd5, #9ca08f);
+}
+
+.food-item {
+    position: absolute;
+    width: 112px;
+    min-height: 112px;
+    border: 0;
+    border-radius: 28px;
+    display: grid;
+    place-items: center;
+    gap: 4px;
+    padding: 8px;
+    transform: translate(-50%, -50%);
+    color: #fffaf0;
+    box-shadow: 0 18px 26px rgba(0, 0, 0, 0.22);
+    user-select: none;
+}
+
+.food-item.good {
+    background: linear-gradient(180deg, rgba(82, 171, 111, 0.98), rgba(36, 106, 73, 0.98));
+    border: 2px solid rgba(217, 255, 227, 0.4);
+}
+
+.food-item.bad {
+    background: linear-gradient(180deg, rgba(218, 105, 90, 0.98), rgba(136, 41, 34, 0.98));
+    border: 2px solid rgba(255, 218, 214, 0.35);
+}
+
+.food-item.sliced {
+    animation: vanish 180ms ease-out forwards;
+}
+
+.food-emoji {
+    font-size: 2.4rem;
+    line-height: 1;
+}
+
+.food-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-align: center;
+}
+
+.slash {
+    position: absolute;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(255, 243, 180, 0), rgba(255, 243, 180, 0.95), rgba(255, 243, 180, 0));
+    box-shadow: 0 0 16px rgba(255, 243, 180, 0.65);
+    transform-origin: left center;
+    pointer-events: none;
+    animation: fade-slash 220ms linear forwards;
+}
+
+.message-banner {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(10, 8, 6, 0.72);
+    border: 1px solid rgba(255, 241, 197, 0.2);
+    color: #fff2cd;
+    font-weight: 700;
+    pointer-events: none;
+}
+
+@keyframes fade-slash {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes vanish {
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}
+
+@media (max-width: 720px) {
+    .app-shell {
+        padding: 14px;
+    }
+
+    .food-item {
+        width: 92px;
+        min-height: 92px;
+    }
+
+    .food-emoji {
+        font-size: 2rem;
+    }
+}

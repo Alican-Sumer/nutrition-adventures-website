@@ -39,6 +39,8 @@ export class Start extends Phaser.Scene {
         this.player = new StudentPlayer(this, startX, startY, 'jtquresh');
         this.playerRadius = 6;
         this.triggerActivationRadius = 16;
+        this.triggerActivationHorizontalPadding = 10;
+        this.triggerActivationForwardPadding = 24;
         this.playerSpeed = 220;
         this.lastDirection = 'down';
         this.moveKeys = this.input.keyboard.addKeys('W,A,S,D');
@@ -49,31 +51,55 @@ export class Start extends Phaser.Scene {
             clark_door_trigger: 'scenario1',
             fountain_door_trigger: 'scenario2',
             case_door_trigger: 'scenario3',
-            talley_door_trigger: 'scenario4'
+            talley_door_trigger: 'scenario4',
+            ut_door_trigger: 'scenario6',
+            oval_door_trigger: 'scenario5'
         };
         this.activeTriggerScenario = null;
 
         this.scenarios = {
             scenario1: {
                 title: 'Scenario 1',
-                htmlPath: './src/Scenarios_new/Scenario1/Scenario1.html'
+                htmlPath: '/Scenarios/Scenario1/Scenario1.html',
+                completionPassages: ['Key Takeaways']
             },
             scenario2: {
                 title: 'Scenario 2',
-                htmlPath: './src/Scenarios_new/Scenario2/Scenario2.html'
+                htmlPath: '/Scenarios/Scenario2/Scenario2.html',
+                completionPassages: ['Exit Screen']
             },
             scenario3: {
                 title: 'Scenario 3',
-                htmlPath: './src/Scenarios_new/Scenario3/Scenario3.html'
+                htmlPath: '/Scenarios/Scenario3/Scenario3.html',
+                completionPassages: ['Meal Summary']
             },
             scenario4: {
                 title: 'Scenario 4',
-                htmlPath: './src/Scenarios_new/Scenario4/Scenario4.html'
+                htmlPath: '/Scenarios/Scenario4/Scenario4.html',
+                completionPassages: ['Exit Screen']
+            },
+            scenario5: {
+                title: 'Scenario 5',
+                htmlPath: '/Scenarios/Scenario5/Scenario5.html',
+                completionPassages: ['Finish']
+            },
+            scenario6: {
+                title: 'Scenario 6',
+                htmlPath: '/Scenarios/Scenario6/Scenario6.html',
+                completionPassages: ['ScenarioEnd']
             }
         };
 
         this.createPlayerAnimations();
         this.player.setMovementDirection('down', false);
+
+        window.addEventListener('message', (event) => {
+            if (event.data?.type === 'LOAD_PROGRESS') {
+                for (const scenarioId of event.data.completedScenarios) {
+                    this.player.completeScenario(scenarioId);
+                }
+            }
+        });
 
         const fitZoomX = this.scale.width / mapWidth;
         const fitZoomY = this.scale.height / mapHeight;
@@ -131,6 +157,7 @@ export class Start extends Phaser.Scene {
             scenarioId,
             title: config.title,
             htmlPath: config.htmlPath,
+            completionPassages: config.completionPassages || [],
             onComplete: (completedScenarioId) => {
                 this.player.completeScenario(completedScenarioId);
             }
@@ -159,7 +186,13 @@ export class Start extends Phaser.Scene {
             .map((obj) => ({
                 name: (obj.name || '').trim().toLowerCase(),
                 type: (obj.type || '').trim().toLowerCase(),
-                rect: new Phaser.Geom.Rectangle(obj.x, obj.y, obj.width || 0, obj.height || 0)
+                rect: new Phaser.Geom.Rectangle(obj.x, obj.y, obj.width || 0, obj.height || 0),
+                activationRect: new Phaser.Geom.Rectangle(
+                    obj.x - this.triggerActivationHorizontalPadding,
+                    obj.y,
+                    (obj.width || 0) + this.triggerActivationHorizontalPadding * 2,
+                    (obj.height || 0) + this.triggerActivationForwardPadding
+                )
             }));
     }
 
@@ -182,7 +215,7 @@ export class Start extends Phaser.Scene {
 
     checkTriggerScenarioActivation() {
         const triggerCircle = new Phaser.Geom.Circle(this.player.x, this.player.y, this.triggerActivationRadius);
-        const hitZone = this.triggerZones.find((zone) => Phaser.Geom.Intersects.CircleToRectangle(triggerCircle, zone.rect));
+        const hitZone = this.triggerZones.find((zone) => Phaser.Geom.Intersects.CircleToRectangle(triggerCircle, zone.activationRect));
         if (!hitZone) {
             this.activeTriggerScenario = null;
             return;
@@ -218,4 +251,5 @@ export class Start extends Phaser.Scene {
             });
         }
     }
+
 }

@@ -44,10 +44,6 @@ npm.cmd start
   - `S` = down sprite
   - `A` = left sprite
   - `D` = right sprite
-- `1` = open Twine Scenario 1
-- `2` = open Twine Scenario 2
-- `3` = open Twine Scenario 3
-- `4` = open Twine Scenario 4
 - `Esc` = close scenario overlay
 - `Complete Scenario` button = mark scenario complete (increments progress internally)
 

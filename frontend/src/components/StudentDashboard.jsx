@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from './Button';
 import { Card } from './Card';
 import { AddClassCodeModal } from './AddClassCodeModal';
@@ -29,9 +30,9 @@ export function StudentDashboard() {
           >
             +
           </button>
-          <a href="#">
+          <Link to="/game">
             <Button>Launch Game</Button>
-          </a>
+          </Link>
         </div>
       </div>
 
