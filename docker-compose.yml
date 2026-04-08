@@ -25,6 +25,16 @@ services:
     environment:
       - VITE_HOST=0.0.0.0 # Critical for Vite to accept the proxy connection
 
+  game:
+    build:
+      context: .
+      dockerfile: Game/Dockerfile
+    container_name: dhes-game
+    depends_on:
+      - backend
+    ports:
+      - "6767:6767"
+
   apacheshib:
     image: dockerhub.csc.ncsu.edu/ignacioxd/apacheshib-proxy
     ports:
