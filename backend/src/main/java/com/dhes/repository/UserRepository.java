@@ -12,7 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     /** Look up by SAML/Shibboleth stable identifier (e.g. persistent NameID or eduPersonPrincipalName). */
     Optional<User> findByFederatedId(String federatedId);
 
-    Optional<User> findByUsername(String username);
+    Optional<User> findByfederatedId(String federatedId);
 
     Optional<User> findByEmail(String email);
 }

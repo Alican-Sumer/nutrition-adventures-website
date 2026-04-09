@@ -46,7 +46,6 @@ class CourseControllerTest {
 
         userDto = new UserDto();
         userDto.setId(1L);
-        userDto.setUsername("jdoe123");
     }
 
     @Test
@@ -146,7 +145,6 @@ class CourseControllerTest {
 
         mockMvc.perform(get("/api/courses/1/students").with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].username").value("jdoe123"));
+                .andExpect(jsonPath("$.length()").value(1));
     }
 }
