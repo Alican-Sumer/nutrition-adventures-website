@@ -5,7 +5,7 @@ export class Intro extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('demo-map-bg', 'assets/maps/NCSU_map_forDEMO_V2.png');
+        this.load.image('intro-map-bg', 'assets/maps/edited_final_game_map.png');
     }
 
     create() {
@@ -28,7 +28,7 @@ export class Intro extends Phaser.Scene {
 
         const uiRoot = this.add.container(0, 0);
 
-        const background = this.add.image(width / 2, height / 2, 'demo-map-bg');
+        const background = this.add.image(width / 2, height / 2, 'intro-map-bg');
         background.setDisplaySize(width, height);
         background.setAlpha(0.2);
 

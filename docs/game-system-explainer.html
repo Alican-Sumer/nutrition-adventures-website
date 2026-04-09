@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nutrition Adventures System Explainer</title>
+  <style>
+    :root {
+      --bg: #f7f2e7;
+      --ink: #1f1b16;
+      --muted: #5f5446;
+      --panel: #fffaf1;
+      --line: #d9c7a3;
+      --accent: #7a4f00;
+      --accent-soft: #efe1bf;
+      --code-bg: #241d17;
+      --code-ink: #f6eed8;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 32px;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    h1, h2, h3 {
+      color: var(--accent);
+      margin: 0 0 12px 0;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-top: 34px;
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 6px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-top: 24px;
+    }
+
+    p {
+      margin: 10px 0;
+    }
+
+    ul, ol {
+      margin: 10px 0 10px 22px;
+    }
+
+    .lead {
+      font-size: 17px;
+      color: var(--muted);
+    }
+
+    .callout {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-left: 6px solid var(--accent);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin: 18px 0;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .flow div {
+      background: var(--accent-soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    pre {
+      margin: 14px 0;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: var(--code-bg);
+      color: var(--code-ink);
+      overflow-x: auto;
+      white-space: pre-wrap;
+      font: 13px/1.45 Consolas, "Courier New", monospace;
+      border: 1px solid #4f3d2d;
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media print {
+      body { padding: 18px; }
+      h2 { page-break-after: avoid; }
+      pre, .callout { page-break-inside: avoid; }
+      .flow { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Nutrition Adventures: Code And System Explainer</h1>
+    <p class="lead">
+      This document explains how the game map is exported from Tiled, how Phaser loads it, how collision and trigger rectangles work,
+      how Twine scenarios are embedded, and how player movement and animation are controlled.
+    </p>
+    <p class="small">
+      Code base: <code>2026Spring-Team43-DHES/Game</code>. The snippets below are copied from the current implementation.
+    </p>
+
+    <section>
+      <h2>1. System Overview</h2>
+      <div class="flow">
+        <div>Tiled Map</div>
+        <div>JSON Export</div>
+        <div>Phaser Scene</div>
+        <div>Trigger/Collision Logic</div>
+        <div>Twine Scenario Overlay</div>
+      </div>
+      <div class="callout">
+        The main idea is simple: Tiled stores map data as JSON, Phaser reads that JSON, the game converts object layers into runtime
+        rectangles, and those rectangles are used for blocking movement and launching scenarios.
+      </div>
+    </section>
+
+    <section>
+      <h2>2. How Tiled Exports The Map</h2>
+      <p>
+        The map file is <code>assets/maps/demoMap_V3_3_08_26_json.json</code>. This project uses:
+      </p>
+      <ul>
+        <li>A <code>background</code> image layer for the campus map art</li>
+        <li>A <code>collisions</code> object layer for blocked building areas</li>
+        <li>A <code>triggers</code> object layer for doors and interaction zones</li>
+      </ul>
+      <pre>{
+  "layers": [
+    {
+      "name": "background",
+      "type": "imagelayer",
+      "imagewidth": 1024,
+      "imageheight": 1024
+    },
+    {
+      "name": "collisions",
+      "type": "objectgroup",
+      "objects": [
+        { "x": 22.66, "y": 524, "width": 160, "height": 112 }
+      ]
+    },
+    {
+      "name": "triggers",
+      "type": "objectgroup",
+      "objects": [
+        {
+          "name": "fountain_door_trigger",
+          "x": 76,
+          "y": 573,
+          "width": 54,
+          "height": 67
+        }
+      ]
+    }
+  ]
+}</pre>
+      <p>
+        This is important for your presentation: the game is not hardcoding the map geometry by hand. Instead, it relies on Tiled’s exported object layers.
+      </p>
+    </section>
+
+    <section>
+      <h2>3. How Phaser Loads The Tiled JSON</h2>
+      <p>
+        In <code>src/scenes/Start.js</code>, the game preloads both the background image and the Tiled JSON:
+      </p>
+      <pre>preload() {
+    this.load.image('demo-map-bg', 'assets/maps/NCSU_map_forDEMO_V2.png');
+    this.load.tilemapTiledJSON('map', 'assets/maps/demoMap_V3_3_08_26_json.json');
+    this.load.spritesheet('player-up', 'assets/sprite/idle_up.png', { frameWidth: 96, frameHeight: 80 });
+    this.load.spritesheet('player-down', 'assets/sprite/idle_down.png', { frameWidth: 96, frameHeight: 80 });
+    this.load.spritesheet('player-left', 'assets/sprite/idle_left.png', { frameWidth: 96, frameHeight: 80 });
+    this.load.spritesheet('player-right', 'assets/sprite/idle_right.png', { frameWidth: 96, frameHeight: 80 });
+}</pre>
+      <p>
+        Then the scene creates the map object and reads the raw JSON data:
+      </p>
+      <pre>const map = this.make.tilemap({ key: 'map' });
+const rawMapData = this.cache.tilemap.get('map').data;
+const imageLayer = rawMapData.layers.find(
+    (layer) =&gt; layer.name === 'background' &amp;&amp; layer.type === 'imagelayer'
+);</pre>
+      <p>
+        The code uses the background layer dimensions to compute the world bounds:
+      </p>
+      <pre>const mapWidth = imageLayer.imagewidth || map.widthInPixels;
+const mapHeight = imageLayer.imageheight || map.heightInPixels;
+this.mapRect = new Phaser.Geom.Rectangle(bgX, bgY, mapWidth, mapHeight);</pre>
+      <div class="callout">
+        Phaser is using the JSON both as a content source and as a geometry source. The background image gives the visual world size, and the object layers give gameplay logic.
+      </div>
+    </section>
+
+    <section>
+      <h2>4. How Collision Rectangles Work</h2>
+      <p>
+        The <code>collisions</code> object layer from Tiled is converted into Phaser rectangles:
+      </p>
+      <pre>this.collisionZones = this.createRectanglesFromObjectLayer(map, 'collisions');</pre>
+      <pre>createRectanglesFromObjectLayer(map, layerName) {
+    const objectLayer = map.getObjectLayer(layerName);
+    if (!objectLayer || !objectLayer.objects) {
+        return [];
+    }
+
+    return objectLayer.objects
+        .filter((obj) =&gt; typeof obj.x === 'number' &amp;&amp; typeof obj.y === 'number')
+        .map((obj) =&gt; new Phaser.Geom.Rectangle(obj.x, obj.y, obj.width || 0, obj.height || 0));
+}</pre>
+      <p>
+        During movement, the player is treated as a circle. The scene checks whether that circle would intersect any collision rectangle before moving:
+      </p>
+      <pre>tryMovePlayer(dx, dy) {
+    const nextX = this.player.x + dx;
+    const nextY = this.player.y + dy;
+    const playerCircle = new Phaser.Geom.Circle(nextX, nextY, this.playerRadius);
+
+    if (!Phaser.Geom.Rectangle.Contains(this.mapRect, nextX, nextY)) {
+        return;
+    }
+
+    const hitsCollision = this.collisionZones.some((zone) =&gt;
+        Phaser.Geom.Intersects.CircleToRectangle(playerCircle, zone)
+    );
+    if (hitsCollision) {
+        return;
+    }
+
+    this.player.setPosition(nextX, nextY);
+}</pre>
+      <p>
+        So the logic is: compute where the player wants to go, check map bounds, check collision rectangles, and only then update the player position.
+      </p>
+    </section>
+
+    <section>
+      <h2>5. How Trigger Rectangles Launch Scenarios</h2>
+      <p>
+        The game reads the Tiled <code>triggers</code> object layer and stores each trigger as both a raw rectangle and a slightly enlarged activation rectangle:
+      </p>
+      <pre>this.triggerZones = this.createTriggerZonesFromObjectLayer(map, 'triggers');</pre>
+      <pre>createTriggerZonesFromObjectLayer(map, layerName) {
+    const objectLayer = map.getObjectLayer(layerName);
+    if (!objectLayer || !objectLayer.objects) {
+        return [];
+    }
+
+    return objectLayer.objects
+        .filter((obj) =&gt; typeof obj.x === 'number' &amp;&amp; typeof obj.y === 'number' &amp;&amp; (obj.width || 0) &gt; 0 &amp;&amp; (obj.height || 0) &gt; 0)
+        .map((obj) =&gt; ({
+            name: (obj.name || '').trim().toLowerCase(),
+            type: (obj.type || '').trim().toLowerCase(),
+            rect: new Phaser.Geom.Rectangle(obj.x, obj.y, obj.width || 0, obj.height || 0),
+            activationRect: new Phaser.Geom.Rectangle(
+                obj.x - this.triggerActivationHorizontalPadding,
+                obj.y,
+                (obj.width || 0) + this.triggerActivationHorizontalPadding * 2,
+                (obj.height || 0) + this.triggerActivationForwardPadding
+            )
+        }));
+}</pre>
+      <p>
+        Each trigger name from Tiled is then mapped to a scenario:
+      </p>
+      <pre>this.triggerToScenario = {
+    clark_door_trigger: 'scenario1',
+    fountain_door_trigger: 'scenario2',
+    case_door_trigger: 'scenario3',
+    talley_door_trigger: 'scenario4',
+    ut_door_trigger: 'scenario6',
+    oval_door_trigger: 'scenario5'
+};</pre>
+      <p>
+        The runtime trigger check happens here:
+      </p>
+      <pre>checkTriggerScenarioActivation() {
+    const triggerCircle = new Phaser.Geom.Circle(this.player.x, this.player.y, this.triggerActivationRadius);
+    const hitZone = this.triggerZones.find((zone) =&gt;
+        Phaser.Geom.Intersects.CircleToRectangle(triggerCircle, zone.activationRect)
+    );
+    if (!hitZone) {
+        this.activeTriggerScenario = null;
+        return;
+    }
+
+    const triggerKey = hitZone.name || hitZone.type;
+    const scenarioId = this.triggerToScenario[triggerKey];
+    if (!scenarioId) {
+        return;
+    }
+
+    if (this.activeTriggerScenario === scenarioId || this.twineOverlay.isOpen()) {
+        return;
+    }
+
+    this.activeTriggerScenario = scenarioId;
+    this.openScenario(scenarioId);
+}</pre>
+      <div class="callout">
+        This is the core gameplay loop around dining halls: walking to a door places the player circle inside a trigger rectangle, and that rectangle launches a specific Twine lesson.
+      </div>
+    </section>
+
+    <section>
+      <h2>6. How Twine Scenarios Are Embedded</h2>
+      <p>
+        The game stores scenario metadata in the scene:
+      </p>
+      <pre>this.scenarios = {
+    scenario1: {
+        title: 'Scenario 1',
+        htmlPath: '/Scenarios/Scenario1/Scenario1.html',
+        completionPassages: ['Key Takeaways']
+    },
+    scenario5: {
+        title: 'Scenario 5',
+        htmlPath: '/Scenarios/Scenario5/Scenario5.html',
+        completionPassages: ['Finish']
+    },
+    scenario6: {
+        title: 'Scenario 6',
+        htmlPath: '/Scenarios/Scenario6/Scenario6.html',
+        completionPassages: ['ScenarioEnd']
+    }
+};</pre>
+      <p>
+        When a scenario is opened, the scene delegates to <code>TwineOverlay</code>:
+      </p>
+      <pre>openScenario(scenarioId) {
+    const config = this.scenarios[scenarioId];
+    if (!config) {
+        return;
+    }
+
+    this.twineOverlay.show({
+        scenarioId,
+        title: config.title,
+        htmlPath: config.htmlPath,
+        completionPassages: config.completionPassages || [],
+        onComplete: (completedScenarioId) =&gt; {
+            this.player.completeScenario(completedScenarioId);
+        }
+    });
+}</pre>
+      <p>
+        The overlay itself is a DOM-based full-screen panel with an iframe:
+      </p>
+      <pre>show({ scenarioId, title, htmlPath, completionPassages = [], onComplete }) {
+    this.ensureElements();
+    this.currentScenarioId = scenarioId;
+    this.completeCallback = onComplete;
+    this.completionPassages = completionPassages;
+    this.titleEl.textContent = title;
+    this.iframeEl.src = htmlPath;
+    this.container.style.display = 'flex';
+    document.addEventListener('keydown', this.handleEsc);
+    window.addEventListener('message', this.messageHandlerBound);
+}</pre>
+      <pre>this.iframeEl = document.createElement('iframe');
+this.iframeEl.style.border = '0';
+this.iframeEl.style.width = '100%';
+this.iframeEl.style.height = '100%';
+this.iframeEl.style.background = '#f3ead8';
+this.iframeEl.setAttribute('title', 'Twine Scenario');</pre>
+      <p>
+        The overlay detects completion in two ways:
+      </p>
+      <ol>
+        <li>Twine can send <code>postMessage({ type: 'twine:complete' })</code></li>
+        <li>The bridge can watch SugarCube passage changes and detect specific ending passages</li>
+      </ol>
+      <pre>handleMessage(event) {
+    if (event.source !== this.iframeEl?.contentWindow) {
+        return;
+    }
+
+    const data = event.data;
+    if (!data || typeof data !== 'object') {
+        return;
+    }
+
+    if (data.type === 'twine:complete') {
+        this.complete();
+    }
+}</pre>
+      <pre>jq(doc).on(':passageend.scenario-complete', () =&gt; {
+    const currentPassage = win.SugarCube?.State?.passage;
+    if (!currentPassage || !completionPassages.has(currentPassage)) {
+        return;
+    }
+
+    win.parent.postMessage({
+        type: 'twine:complete',
+        scenarioId: this.currentScenarioId,
+        passage: currentPassage
+    }, '*');
+});</pre>
+      <p>
+        When completion is detected, the overlay notifies both the local scene and the parent page:
+      </p>
+      <pre>complete() {
+    if (this.completeCallback &amp;&amp; this.currentScenarioId) {
+        this.completeCallback(this.currentScenarioId);
+        window.parent.postMessage(
+            { type: 'SCENARIO_COMPLETE', scenarioId: this.currentScenarioId }, '*'
+        );
+    }
+    this.close();
+}</pre>
+    </section>
+
+    <section>
+      <h2>7. How The Player Is Controlled</h2>
+      <p>
+        The scene owns input and movement math. The player class owns sprite state and animation.
+      </p>
+      <p>
+        In the scene, keyboard input is registered with Phaser:
+      </p>
+      <pre>this.moveKeys = this.input.keyboard.addKeys('W,A,S,D');</pre>
+      <p>
+        Every frame, the scene computes an X/Y direction from those keys:
+      </p>
+      <pre>const inputX = (this.moveKeys.D.isDown ? 1 : 0) - (this.moveKeys.A.isDown ? 1 : 0);
+const inputY = (this.moveKeys.S.isDown ? 1 : 0) - (this.moveKeys.W.isDown ? 1 : 0);</pre>
+      <p>
+        If the player is moving, the input vector is normalized and scaled by speed:
+      </p>
+      <pre>const vec = new Phaser.Math.Vector2(inputX, inputY)
+    .normalize()
+    .scale(this.playerSpeed * dt);
+
+this.tryMovePlayer(vec.x, 0);
+this.tryMovePlayer(0, vec.y);
+this.checkTriggerScenarioActivation();</pre>
+      <p>
+        The scene also decides which direction the player should face:
+      </p>
+      <pre>let direction = this.lastDirection;
+if (Math.abs(inputX) &gt; Math.abs(inputY)) {
+    direction = inputX &gt; 0 ? 'right' : 'left';
+} else {
+    direction = inputY &gt; 0 ? 'down' : 'up';
+}
+this.lastDirection = direction;
+this.player.setMovementDirection(direction, true);</pre>
+      <p>
+        In <code>StudentPlayer.js</code>, the player object handles animation switching:
+      </p>
+      <pre>setMovementDirection(direction, moving) {
+    if (!direction) {
+        return;
+    }
+
+    if (this.currentDirection !== direction) {
+        this.currentDirection = direction;
+    }
+
+    const animKey = `player-${this.currentDirection}-anim`;
+    if (moving) {
+        this.anims.play(animKey, true);
+        return;
+    }
+
+    this.anims.stop();
+    this.setTexture(`player-${this.currentDirection}`, 0);
+}</pre>
+      <div class="callout">
+        This split is good design: the scene controls gameplay logic, while the player class controls how the sprite looks and animates.
+      </div>
+    </section>
+
+    <section>
+      <h2>8. How Phaser Starts The Whole Game</h2>
+      <p>
+        The Phaser entry point is <code>src/main.js</code>:
+      </p>
+      <pre>import { Intro } from './scenes/Intro.js';
+import { Start } from './scenes/Start.js';
+
+const config = {
+    type: Phaser.AUTO,
+    title: 'Nutrition Adventures',
+    parent: 'game-container',
+    width: 1024,
+    height: 1024,
+    scene: [
+        Intro,
+        Start
+    ],
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+}
+
+new Phaser.Game(config);</pre>
+      <p>
+        So the boot flow is:
+      </p>
+      <ol>
+        <li>Phaser creates the game instance</li>
+        <li>The intro scene loads first</li>
+        <li>The start scene loads the map, player, collisions, and triggers</li>
+        <li>Walking to doors launches Twine scenarios in the overlay</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>9. How Scenario Files Are Served</h2>
+      <p>
+        The game server is custom because the scenarios live outside the main <code>Game</code> folder, in a sibling top-level <code>Scenarios</code> directory.
+      </p>
+      <pre>const gameRootDir = path.resolve(__dirname, '..');
+const repoRootDir = path.resolve(gameRootDir, '..');
+const scenariosRootDir = path.join(repoRootDir, 'Scenarios');</pre>
+      <pre>const baseDir = requested.startsWith('/Scenarios/')
+    ? scenariosRootDir
+    : gameRootDir;</pre>
+      <p>
+        That means a URL like <code>/Scenarios/Scenario5/Scenario5.html</code> is routed to the real scenario folder on disk. Without that server logic, the Twine files would not load correctly.
+      </p>
+    </section>
+
+    <section>
+      <h2>10. Short Presentation Script</h2>
+      <p>
+        If you need a short speaking version:
+      </p>
+      <ol>
+        <li>We built the campus map in Tiled and exported it as JSON.</li>
+        <li>The JSON includes a background image layer plus object layers for collisions and triggers.</li>
+        <li>Phaser reads those object layers and turns them into runtime rectangles.</li>
+        <li>Collision rectangles stop the player from walking through buildings.</li>
+        <li>Trigger rectangles placed at dining hall doors launch Twine-based nutrition scenarios.</li>
+        <li>The player is controlled with WASD, and the scene handles movement while the player class handles animation.</li>
+        <li>Twine runs inside an iframe overlay, and completion is detected through passage endings or messages back to the game.</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>

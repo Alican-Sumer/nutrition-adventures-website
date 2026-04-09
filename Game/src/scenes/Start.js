@@ -8,8 +8,8 @@ export class Start extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('demo-map-bg', 'assets/maps/NCSU_map_forDEMO_V2.png');
-        this.load.tilemapTiledJSON('map', 'assets/maps/demoMap_V3_3_08_26_json.json');
+        this.load.image('game-map-bg', 'assets/maps/edited_final_game_map.png');
+        this.load.tilemapTiledJSON('map', 'assets/maps/finishedGameMapEditedFixedCollisions.json');
         this.load.spritesheet('player-up', 'assets/sprite/idle_up.png', { frameWidth: 96, frameHeight: 80 });
         this.load.spritesheet('player-down', 'assets/sprite/idle_down.png', { frameWidth: 96, frameHeight: 80 });
         this.load.spritesheet('player-left', 'assets/sprite/idle_left.png', { frameWidth: 96, frameHeight: 80 });
@@ -22,12 +22,12 @@ export class Start extends Phaser.Scene {
         const imageLayer = rawMapData.layers.find((layer) => layer.name === 'background' && layer.type === 'imagelayer');
 
         if (!imageLayer) {
-            throw new Error('Image layer "background" was not found in demoMap_V3_3_08_26_json.json.');
+            throw new Error('Image layer "background" was not found in finishedGameMapEditedFixedCollisions.json.');
         }
 
         const bgX = 0;
         const bgY = 0;
-        this.add.image(bgX, bgY, 'demo-map-bg').setOrigin(0, 0);
+        this.add.image(bgX, bgY, 'game-map-bg').setOrigin(0, 0);
 
         const mapWidth = imageLayer.imagewidth || map.widthInPixels;
         const mapHeight = imageLayer.imageheight || map.heightInPixels;
@@ -45,15 +45,15 @@ export class Start extends Phaser.Scene {
         this.lastDirection = 'down';
         this.moveKeys = this.input.keyboard.addKeys('W,A,S,D');
         this.twineOverlay = new TwineOverlay();
-        this.collisionZones = this.createRectanglesFromObjectLayer(map, 'collisions');
-        this.triggerZones = this.createTriggerZonesFromObjectLayer(map, 'triggers');
+        this.collisionZones = this.createCollisionZonesFromObjectLayer(map, 'collisions');
+        this.triggerZones = this.createAllTriggerZones(map);
         this.triggerToScenario = {
-            clark_door_trigger: 'scenario1',
-            fountain_door_trigger: 'scenario2',
-            case_door_trigger: 'scenario3',
-            talley_door_trigger: 'scenario4',
-            ut_door_trigger: 'scenario6',
-            oval_door_trigger: 'scenario5'
+            clark_trigger: 'scenario1',
+            fountain_trigger: 'scenario2',
+            case_trigger: 'scenario3',
+            talley_trigger: 'scenario4',
+            atrium_trigger: 'scenario6',
+            oval_trigger: 'scenario5'
         };
         this.activeTriggerScenario = null;
 
@@ -164,14 +164,18 @@ export class Start extends Phaser.Scene {
         });
     }
 
-    createRectanglesFromObjectLayer(map, layerName) {
+    createCollisionZonesFromObjectLayer(map, layerName) {
         const objectLayer = map.getObjectLayer(layerName);
         if (!objectLayer || !objectLayer.objects) {
             return [];
         }
 
         return objectLayer.objects
-            .filter((obj) => typeof obj.x === 'number' && typeof obj.y === 'number')
+            .filter((obj) =>
+                typeof obj.x === 'number' &&
+                typeof obj.y === 'number' &&
+                !this.isTriggerObject(obj)
+            )
             .map((obj) => new Phaser.Geom.Rectangle(obj.x, obj.y, obj.width || 0, obj.height || 0));
     }
 
@@ -182,7 +186,13 @@ export class Start extends Phaser.Scene {
         }
 
         return objectLayer.objects
-            .filter((obj) => typeof obj.x === 'number' && typeof obj.y === 'number' && (obj.width || 0) > 0 && (obj.height || 0) > 0)
+            .filter((obj) =>
+                typeof obj.x === 'number' &&
+                typeof obj.y === 'number' &&
+                (obj.width || 0) > 0 &&
+                (obj.height || 0) > 0 &&
+                this.isTriggerObject(obj)
+            )
             .map((obj) => ({
                 name: (obj.name || '').trim().toLowerCase(),
                 type: (obj.type || '').trim().toLowerCase(),
@@ -194,6 +204,19 @@ export class Start extends Phaser.Scene {
                     (obj.height || 0) + this.triggerActivationForwardPadding
                 )
             }));
+    }
+
+    createAllTriggerZones(map) {
+        return [
+            ...this.createTriggerZonesFromObjectLayer(map, 'triggers'),
+            ...this.createTriggerZonesFromObjectLayer(map, 'collisions')
+        ];
+    }
+
+    isTriggerObject(obj) {
+        const name = (obj.name || '').trim().toLowerCase();
+        const type = (obj.type || '').trim().toLowerCase();
+        return name.includes('trigger') || type.includes('trigger');
     }
 
     tryMovePlayer(dx, dy) {
