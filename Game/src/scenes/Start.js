@@ -9,7 +9,7 @@ export class Start extends Phaser.Scene {
 
     preload() {
         this.load.image('game-map-bg', 'assets/maps/edited_final_game_map.png');
-        this.load.tilemapTiledJSON('map', 'assets/maps/finishedGameMapEdited.json');
+        this.load.tilemapTiledJSON('map', 'assets/maps/finishedGameMapEditedFixedCollisions.json');
         this.load.spritesheet('player-up', 'assets/sprite/idle_up.png', { frameWidth: 96, frameHeight: 80 });
         this.load.spritesheet('player-down', 'assets/sprite/idle_down.png', { frameWidth: 96, frameHeight: 80 });
         this.load.spritesheet('player-left', 'assets/sprite/idle_left.png', { frameWidth: 96, frameHeight: 80 });
@@ -22,7 +22,7 @@ export class Start extends Phaser.Scene {
         const imageLayer = rawMapData.layers.find((layer) => layer.name === 'background' && layer.type === 'imagelayer');
 
         if (!imageLayer) {
-            throw new Error('Image layer "background" was not found in finishedGameMapEdited.json.');
+            throw new Error('Image layer "background" was not found in finishedGameMapEditedFixedCollisions.json.');
         }
 
         const bgX = 0;
