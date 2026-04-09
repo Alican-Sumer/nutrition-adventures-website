@@ -65,7 +65,12 @@ const server = createServer(async (req, res) => {
         const type = mimeTypes[ext] || 'application/octet-stream';
         const data = await readFile(targetPath);
 
-        res.writeHead(200, { 'Content-Type': type });
+        res.writeHead(200, {
+            'Content-Type': type,
+            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+            Pragma: 'no-cache',
+            Expires: '0'
+        });
         res.end(data);
     } catch {
         res.writeHead(404);

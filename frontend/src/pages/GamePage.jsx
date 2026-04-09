@@ -8,6 +8,7 @@ const GAME_URL = import.meta.env.VITE_GAME_URL ?? 'http://localhost:8080';
 export function GamePage() {
   const { user } = useAuth();
   const iframeRef = useRef(null);
+  const iframeUrlRef = useRef(`${GAME_URL}?embed=1&t=${Date.now()}`);
 
   // Receive progress events FROM the game
   useEffect(() => {
@@ -45,7 +46,7 @@ export function GamePage() {
       </Link>
       <iframe
         ref={iframeRef}
-        src={GAME_URL}
+        src={iframeUrlRef.current}
         title="Nutrition Adventures"
         onLoad={handleIframeLoad}
         style={{ width: '100%', height: '100%', border: 'none' }}
