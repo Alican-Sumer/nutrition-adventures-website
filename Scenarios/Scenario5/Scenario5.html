@@ -280,14 +280,120 @@ br {
   justify-content: center;
   align-items: center;
 }
-</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Start" tags="" position="600,300" size="100,100">
+
+.tts-play-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.75em;
+}
+
+.tts-play-btn {
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  padding: 0.65em 1em;
+  color: #2d1807;
+  background: linear-gradient(180deg, #e3c285 0%, #bf8a48 100%);
+  border: 2px solid #7a5a1a;
+  border-radius: 4px;
+  box-shadow: 0 2px 0 #4a3410;
+}
+
+.tts-play-btn:hover {
+  filter: brightness(1.08);
+}
+
+.tts-play-btn:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">(function () {
+    'use strict';
+
+    var synth = window.speechSynthesis;
+    var voices = [];
+
+    function loadVoices() {
+        voices = synth.getVoices();
+    }
+
+    // Voices load asynchronously in most browsers
+    synth.onvoiceschanged = loadVoices;
+    loadVoices();
+
+    function stripForSpeech(text) {
+        return text.replace(/\s+/g, ' ').trim();
+    }
+
+    function getTtsText($passage) {
+        var parts = [];
+        $passage.find('.tts').each(function () {
+            var t = stripForSpeech($(this).text());
+            if (t) {
+                parts.push(t);
+            }
+        });
+        return parts.join(' ');
+    }
+
+    function cancelSpeech() {
+        if (synth.speaking || synth.pending) {
+            synth.cancel();
+        }
+    }
+
+    function setupTtsButton() {
+        var $passage = $('#passages .passage');
+        $passage.find('.tts-play-row').remove();
+        cancelSpeech();
+
+        if (!$passage.length) return;
+
+        var text = getTtsText($passage);
+        if (!text) return;
+
+        var $btn = $('<button type="button" class="tts-play-btn" aria-label="Listen to marked text">Read Aloud</button>');
+
+        $btn.on('click', function () {
+            cancelSpeech();
+
+            var u = new SpeechSynthesisUtterance(text);
+            u.rate = 0.95;
+
+            var voices = synth.getVoices();
+
+            var voice =
+                voices.find(v => v.lang === "en-GB");
+          
+            if (voice) {
+                u.voice = voice;
+            }
+
+            synth.speak(u);
+        });
+
+        var $row = $('<div class="tts-play-row"></div>').append($btn);
+
+        var $host = $passage.find('.card').first();
+        if (!$host.length) {
+            $host = $passage;
+        }
+
+        $host.prepend($row);
+    }
+
+    $(function () {
+        $(document).on(':passageend', setupTtsButton);
+        setupTtsButton();
+    });
+})();</script><tw-passagedata pid="1" name="Start" tags="" position="600,300" size="100,100">
 &lt;div class=&quot;card&quot;&gt;
 &lt;div class=&quot;title&quot;&gt;Scenario 5: On The Oval Food Hall&lt;/div&gt;
 &lt;div class=&quot;description&quot;&gt;
 &lt;div class=&quot;center&quot;&gt;&lt;img class=&quot;diningHallImg&quot; src=&quot;https://dining.ncsu.edu/wp-content/uploads/2024/10/UD_241003_CentGuide-5-4K-scaled.jpg&quot; alt=&quot;On The Oval Food Hall&quot;&gt;&lt;/div&gt;
-&lt;div&gt;You’ve just finished a class on Centennial, and now it’s lunch time. Having some dining dollars to spend, you decide to go to the Oval Food Hall.&lt;/div&gt;
-&lt;div&gt;While deciding what to eat, you quickly try to plan out a healthy meal.&lt;/div&gt;
-&lt;div&gt;In this scenario, you will be presented with some incomplete meals. Your task is to choose an item to complete the plate that is both nutritious and delicious.&lt;/div&gt;
+&lt;div class=&quot;tts&quot;&gt;You’ve just finished a class on Centennial, and now it’s lunch time. Having some dining dollars to spend, you decide to go to the Oval Food Hall.&lt;/div&gt;
+&lt;div class=&quot;tts&quot;&gt;While deciding what to eat, you quickly try to plan out a healthy meal.&lt;/div&gt;
+&lt;div class=&quot;tts&quot;&gt;In this scenario, you will be presented with some incomplete meals. Your task is to choose an item to complete the plate that is both nutritious and delicious.&lt;/div&gt;
 &lt;div&gt;[[Begin-&gt;Newton]]&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -296,8 +402,8 @@ br {
 &lt;div class=&quot;title&quot;&gt;Meal 1: Newton&#39;s Grill&lt;/div&gt;
 &lt;div class=&quot;description&quot;&gt;
 &lt;div class=&quot;center&quot;&gt;&lt;img class=&quot;diningHallImg&quot; src=&quot;https://i.ibb.co/HLFbQ3YF/burger-And-Fries.png&quot; alt=&quot;Burger and fries meal&quot;&gt;&lt;/div&gt;
-&lt;div&gt;Looking at the available food from Newton’s Grill, you decide to get a Bacon Cheeseburger and French Fries.&lt;/div&gt;
-&lt;div&gt;This meal has plenty of protein and carbs. What else could you add to balance out the meal?&lt;/div&gt;
+&lt;div class = &quot;tts&quot;&gt;Looking at the available food from Newton’s Grill, you decide to get a Bacon Cheeseburger and French Fries.&lt;/div&gt;
+&lt;div class=&quot;tts&quot;&gt;This meal has plenty of protein and carbs. What else could you add to balance out the meal?&lt;/div&gt;
 &lt;div&gt;[[Granny Smith Apple-&gt;GrannySmith]]&lt;/div&gt;
 &lt;div&gt;[[Chocolate Chip Cookie-&gt;ChocCookie]]&lt;/div&gt;
 &lt;div&gt;[[Sauteed Zucchini &amp; Onions-&gt;SauteedVeg]]&lt;/div&gt;
@@ -308,7 +414,7 @@ br {
 &lt;div class=&quot;title&quot;&gt;Meal 1 Feedback&lt;/div&gt;
 &lt;div class=&quot;description&quot;&gt;
 &lt;div class=&quot;center&quot;&gt;&lt;img class=&quot;example&quot; src=&quot;https://i.ibb.co/bjQVD7g3/gsa.png&quot; alt=&quot;Granny Smith Apple&quot;&gt;&lt;/div&gt;
-&lt;div&gt;Great choice! A Granny Smith Apple is a healthy option that adds fiber and vitamins, making the meal more balanced.&lt;/div&gt;
+&lt;div class=&quot;tts&quot;&gt;Great choice! A Granny Smith Apple is a healthy option that adds fiber and vitamins, making the meal more balanced.&lt;/div&gt;
 &lt;div&gt;[[Continue-&gt;Fahrenheit]]&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -317,7 +423,7 @@ br {
 &lt;div class=&quot;title&quot;&gt;Meal 1 Feedback&lt;/div&gt;
 &lt;div class=&quot;description&quot;&gt;
 &lt;div class=&quot;center&quot;&gt;&lt;img class=&quot;example&quot; src=&quot;https://i.ibb.co/0Tp2wfP/choc-Cookie.png&quot; alt=&quot;Chocolate Chip Cookie&quot;&gt;&lt;/div&gt;
-&lt;div&gt;While it adds extra sugar and doesn’t improve the nutrient balance much, a Chocolate Chip Cookie tastes great and is a solid dessert option for the meal.&lt;/div&gt;
+&lt;div class=&quot;tts&quot;&gt;While it adds extra sugar and doesn’t improve the nutrient balance much, a Chocolate Chip Cookie tastes great and is a solid dessert option for the meal.&lt;/div&gt;
 &lt;div&gt;[[Continue-&gt;Fahrenheit]]&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -326,7 +432,7 @@ br {
 &lt;div class=&quot;title&quot;&gt;Meal 1 Feedback&lt;/div&gt;
 &lt;div class=&quot;description&quot;&gt;
 &lt;div class=&quot;center&quot;&gt;&lt;img class=&quot;example&quot; src=&quot;https://i.ibb.co/tPCBw8QL/zucchini.png&quot; alt=&quot;Sauteed zucchini and onions&quot;&gt;&lt;/div&gt;
-&lt;div&gt;Excellent choice. Choosing to get Sauteed Zucchini &amp; Onions adds a source of fiber and micronutrients to round out the order of a burger and fries.&lt;/div&gt;
+&lt;div class=&quot;tts&quot;&gt;Excellent choice. Choosing to get Sauteed Zucchini &amp; Onions adds a source of fiber and micronutrients to round out the order of a burger and fries.&lt;/div&gt;
 &lt;div&gt;[[Continue-&gt;Fahrenheit]]&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -335,8 +441,8 @@ br {
 &lt;div class=&quot;title&quot;&gt;Meal 2: Fahrenheit Pizza&lt;/div&gt;
 &lt;div class=&quot;description&quot;&gt;
 &lt;div class=&quot;center&quot;&gt;&lt;img class=&quot;diningHallImg&quot; src=&quot;https://i.ibb.co/bRNssLxg/veggie-Pizza.png&quot; alt=&quot;Roasted veggie pizza&quot;&gt;&lt;/div&gt;
-&lt;div&gt;From Fahrenheit Pizza, you decide to get a Roasted Veggie Pizza and Stir-Fry Vegetables.&lt;/div&gt;
-&lt;div&gt;This meal has lots of vegetables, which contain fiber and vitamins, but it is lacking protein. What could you add?&lt;/div&gt;
+&lt;div class = &quot;tts&quot;&gt;From Fahrenheit Pizza, you decide to get a Roasted Veggie Pizza and Stir-Fry Vegetables.&lt;/div&gt;
+&lt;div class = &quot;tts&quot;&gt;This meal has lots of vegetables, which contain fiber and vitamins, but it is lacking protein. What could you add?&lt;/div&gt;
 
 &lt;div&gt;[[French Fries-&gt;FrenchFries]]&lt;/div&gt;
 &lt;div&gt;[[General Tso’s Chicken-&gt;GenTso]]&lt;/div&gt;
@@ -348,7 +454,7 @@ br {
 &lt;div class=&quot;title&quot;&gt;Meal 2 Feedback&lt;/div&gt;
 &lt;div class=&quot;description&quot;&gt;
 &lt;div class=&quot;center&quot;&gt;&lt;img class=&quot;example&quot; src=&quot;https://i.ibb.co/sdh8KTFy/general-Tso.png&quot; alt=&quot;General Tso&#39;s Chicken&quot;&gt;&lt;/div&gt;
-&lt;div&gt;Great pick! General Tso’s Chicken contributes protein and helps balance out the veggie-heavy meal.&lt;/div&gt;
+&lt;div class = &quot;tts&quot;&gt;Great pick! General Tso’s Chicken contributes protein and helps balance out the veggie-heavy meal.&lt;/div&gt;
 &lt;div&gt;[[Continue-&gt;VeggieMeal]]&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -357,7 +463,7 @@ br {
 &lt;div class=&quot;title&quot;&gt;Meal 2 Feedback&lt;/div&gt;
 &lt;div class=&quot;description&quot;&gt;
 &lt;div class=&quot;center&quot;&gt;&lt;img class=&quot;example&quot; src=&quot;https://i.ibb.co/pBHfFY00/fries.png&quot; alt=&quot;French fries&quot;&gt;&lt;/div&gt;
-&lt;div&gt;French Fries have plenty of carbs and fats, but unfortunately, do not contain much protein. Some good sources of protein are meat, dairy products, and beans.&lt;/div&gt;
+&lt;div class = &quot;tts&quot;&gt;French Fries have plenty of carbs and fats, but unfortunately, do not contain much protein. Some good sources of protein are meat, dairy products, and beans.&lt;/div&gt;
 &lt;div&gt;[[Continue-&gt;VeggieMeal]]&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -366,8 +472,8 @@ br {
 &lt;div class=&quot;title&quot;&gt;Meal 3: Vegetarian Plate&lt;/div&gt;
 &lt;div class=&quot;description&quot;&gt;
 &lt;div class=&quot;center&quot;&gt;&lt;img class=&quot;diningHallImg&quot; src=&quot;https://i.ibb.co/jZ8fdnyB/rice-And-Veg-Stir-Fry.png&quot; alt=&quot;Steamed rice and stir-fry vegetables&quot;&gt;&lt;/div&gt;
-&lt;div&gt;Choosing to be conscientious about meat production, you choose to get a vegetarian meal.&lt;/div&gt;
-&lt;div&gt;On your plate of Steamed Rice and Stir-Fry Vegetables, you realize that protein is lacking. Which option could you add?&lt;/div&gt;
+&lt;div class = &quot;tts&quot;&gt;Choosing to be conscientious about meat production, you choose to get a vegetarian meal.&lt;/div&gt;
+&lt;div class = &quot;tts&quot;&gt;On your plate of Steamed Rice and Stir-Fry Vegetables, you realize that protein is lacking. Which option could you add?&lt;/div&gt;
 
 
 &lt;div&gt;[[Fried Chicken Sandwich-&gt;FriedChickenSandwich]]&lt;/div&gt;
@@ -380,7 +486,7 @@ br {
 &lt;div class=&quot;title&quot;&gt;Meal 3 Feedback&lt;/div&gt;
 &lt;div class=&quot;description&quot;&gt;
 &lt;div class=&quot;center&quot;&gt;&lt;img class=&quot;example&quot; src=&quot;https://i.ibb.co/8nj7KLFP/crispy-Tofu.png&quot; alt=&quot;Crispy tofu and vegetables&quot;&gt;&lt;/div&gt;
-&lt;div&gt;Perfect! Crispy Tofu &amp; Vegetables w/Orange Sauce keeps the meal vegetarian while adding a meaningful protein source.&lt;/div&gt;
+&lt;div class = &quot;tts&quot;&gt;Perfect! Crispy Tofu &amp; Vegetables w/Orange Sauce keeps the meal vegetarian while adding a meaningful protein source.&lt;/div&gt;
 &lt;div&gt;[[See Results-&gt;Finish]]&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -409,7 +515,7 @@ br {
 &lt;div class=&quot;title&quot;&gt;Meal 2 Feedback&lt;/div&gt;
 &lt;div class=&quot;description&quot;&gt;
 &lt;div class=&quot;center&quot;&gt;&lt;img class=&quot;example&quot; src=&quot;https://i.ibb.co/zYS89n3/strawberry-Muffin.png&quot; alt=&quot;Strawberry muffin&quot;&gt;&lt;/div&gt;
-&lt;div&gt;A Strawberry Muffin has lots of carbs and sugar but not much in the way of protein. More protein heavy options would be meat, dairy products, and beans.&lt;/div&gt;
+&lt;div class = &quot;tts&quot;&gt;A Strawberry Muffin has lots of carbs and sugar but not much in the way of protein. More protein heavy options would be meat, dairy products, and beans.&lt;/div&gt;
 &lt;div&gt;[[Continue-&gt;VeggieMeal]]&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
