@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,24 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+    @PostMapping("/sync")
+    public ResponseEntity<UserDto> syncUser(
+        @RequestHeader(value = "X-SHIB-UID") String unityId,
+        @RequestHeader(value = "X-SHIB-MAIL") String email,
+        @RequestHeader(value = "X-SHIB-DISPLAYNAME") String name
+
+    ) {
+        // Check if user exists in your DB by unityId
+        // If not, create them using the data from the headers
+        UserDto userDto = new UserDto();
+        userDto.setFederatedID(unityId);
+        userDto.setEmail(email);
+        userDto.setDisplayName(name);
+
+        
+        return ResponseEntity.ok(userService.createUser(userDto));
+    }
+
 
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
