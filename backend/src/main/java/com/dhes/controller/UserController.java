@@ -16,7 +16,7 @@ import com.dhes.dto.UserDto;
 import com.dhes.service.UserService;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
 
@@ -30,6 +30,7 @@ public class UserController {
         @RequestHeader(value = "X-SHIB-UID") String unityId,
         @RequestHeader(value = "X-SHIB-MAIL") String email,
         @RequestHeader(value = "X-SHIB-DISPLAYNAME") String name
+        
 
     ) {
         // Check if user exists in your DB by unityId
