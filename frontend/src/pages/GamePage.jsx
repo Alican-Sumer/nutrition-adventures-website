@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { saveScenarioComplete, getProgress } from '../services/gameProgressService';
 
-const GAME_URL = import.meta.env.VITE_GAME_URL ?? 'http://localhost:8080';
+const GAME_URL = import.meta.env.VITE_GAME_URL ?? 'http://localhost:6767';
 
 export function GamePage() {
   const { user } = useAuth();

@@ -1,6 +1,7 @@
 package com.dhes.service.impl;
 
 import com.dhes.dto.CourseDto;
+import com.dhes.dto.UserDto;
 import com.dhes.entity.Course;
 import com.dhes.entity.User;
 import com.dhes.repository.CourseRepository;
@@ -88,13 +89,14 @@ class CourseServiceImplTest {
     void addUser_Success() {
         // Arrange
         User user = new User();
-        user.setId(10L);
-        
-        when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
-        when(userRepository.findById(10L)).thenReturn(Optional.of(user));
+        user.setId(1L);
+        user.setGrade(100.0);        
 
-        // Act
-        CourseDto result = courseService.addUser(1L, 10L);
+        when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        user.setGrade(99.0);
+        CourseDto result = courseService.addUser(1L, 1L);
 
         // Assert
         assertNotNull(result);
