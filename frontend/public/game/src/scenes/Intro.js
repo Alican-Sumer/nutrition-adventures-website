@@ -6,10 +6,10 @@ export class Intro extends Phaser.Scene {
 
     preload() {
         this.load.image('intro-map-bg', 'assets/maps/edited_final_game_map.png');
+        this.ensureTwineFont();
     }
 
     create() {
-        this.ensureTwineFont();
         this.buildIntroWhenReady();
     }
 
@@ -20,6 +20,7 @@ export class Intro extends Phaser.Scene {
             return;
         }
 
+        this.tweens.killAll();
         this.children.removeAll();
         this.ensureDustTexture();
 
@@ -54,7 +55,7 @@ export class Intro extends Phaser.Scene {
         const panelWidth = 820;
         const panelHeight = 860;
         const panelX = width / 2;
-        const panelY = height / 2;
+        const panelY = height / 2 - 20;
 
         const panelShadow = this.add.graphics();
         panelShadow.fillStyle(0x05070a, 0.44);
@@ -76,8 +77,9 @@ export class Intro extends Phaser.Scene {
             26
         );
 
+        // Static subtle glow border
         const panelGlow = this.add.graphics();
-        panelGlow.lineStyle(18, 0xf0d060, 0.08);
+        panelGlow.lineStyle(18, 0xf0d060, 0.06);
         panelGlow.strokeRoundedRect(
             panelX - panelWidth / 2 - 6,
             panelY - panelHeight / 2 - 6,
@@ -85,6 +87,65 @@ export class Intro extends Phaser.Scene {
             panelHeight + 12,
             24
         );
+
+        // Animated orbiting shine glow
+        this.ensureGlowTexture();
+        const glowSprite = this.add.image(0, 0, 'glow-orb')
+            .setBlendMode(Phaser.BlendModes.ADD)
+            .setScale(2.5)
+            .setAlpha(0.35);
+
+        const halfW = panelWidth / 2 + 10;
+        const halfH = panelHeight / 2 + 10;
+        const perimeter = 2 * (panelWidth + panelHeight) + 40 * 2;
+        const orbitProgress = { t: 0 };
+
+        const getPointOnRect = (t) => {
+            const p = ((t % 1) + 1) % 1;
+            const d = p * perimeter;
+            const top = panelWidth + 20;
+            const right = top + panelHeight + 20;
+            const bottom = right + panelWidth + 20;
+            if (d < top) {
+                return { x: panelX - halfW + d, y: panelY - halfH };
+            } else if (d < right) {
+                return { x: panelX + halfW, y: panelY - halfH + (d - top) };
+            } else if (d < bottom) {
+                return { x: panelX + halfW - (d - right), y: panelY + halfH };
+            } else {
+                return { x: panelX - halfW, y: panelY + halfH - (d - bottom) };
+            }
+        };
+
+        this.tweens.add({
+            targets: orbitProgress,
+            t: 1,
+            duration: 4000,
+            repeat: -1,
+            ease: 'Linear',
+            onUpdate: () => {
+                const pt = getPointOnRect(orbitProgress.t);
+                glowSprite.setPosition(pt.x, pt.y);
+            }
+        });
+
+        // Secondary dimmer trailing orb
+        const glowSprite2 = this.add.image(0, 0, 'glow-orb')
+            .setBlendMode(Phaser.BlendModes.ADD)
+            .setScale(1.8)
+            .setAlpha(0.18);
+        const orbitProgress2 = { t: 0.5 };
+        this.tweens.add({
+            targets: orbitProgress2,
+            t: 1.5,
+            duration: 4000,
+            repeat: -1,
+            ease: 'Linear',
+            onUpdate: () => {
+                const pt = getPointOnRect(orbitProgress2.t);
+                glowSprite2.setPosition(pt.x, pt.y);
+            }
+        });
 
         const panelFrame = this.add.graphics();
         panelFrame.fillStyle(0xc8a84b, 0.96);
@@ -132,14 +193,16 @@ export class Intro extends Phaser.Scene {
             12
         );
 
-        const title = this.add.text(panelX, 156, 'Nutrition Adventures', {
+        const panelTop = panelY - panelHeight / 2;
+
+        const title = this.add.text(panelX, panelTop + 60, 'Nutrition Adventures', {
             fontFamily: '"Press Start 2P", monospace',
             fontSize: '38px',
             color: '#f0d060',
             align: 'center'
         }).setOrigin(0.5).setShadow(0, 0, '#f0d060', 10, true, true).setStroke('#7a4f00', 3);
 
-        const subtitle = this.add.text(panelX, 214, 'The Dining Hall Quest', {
+        const subtitle = this.add.text(panelX, panelTop + 110, 'The Dining Hall Quest', {
             fontFamily: '"Press Start 2P", monospace',
             fontSize: '18px',
             color: '#f0d060',
@@ -159,40 +222,81 @@ export class Intro extends Phaser.Scene {
             color: '#e8e8d0',
             lineSpacing: 14,
             align: 'center',
-            wordWrap: { width: 620 }
+            wordWrap: { width: panelWidth * 0.76 }
         };
 
-        const missionText = [
-            'Visit each dining hall.',
-            'Step to the door.',
-            'Uncover each nutrition tale.',
-            'Atrium NW  Talley W',
-            'Fountain SW  Case NE',
-            'Clark E  Oval S'
-        ].join('\n');
+        const highlightStyle = {
+            fontFamily: '"Press Start 2P", monospace',
+            fontSize: '16px',
+            color: '#f0d060',
+            lineSpacing: 14,
+            align: 'center',
+            wordWrap: { width: panelWidth * 0.76 }
+        };
 
-        const controlsText = [
-            'W A S D  Move',
-            'Doorways  Enter scenario',
-            'Esc  Close overlay'
-        ].join('\n');
+        const missionHeader = this.add.text(panelX, panelTop + 170, 'Your Mission', sectionHeaderStyle).setOrigin(0.5);
 
-        const progressText = [
-            '+15 progress per hall',
-            '7 halls to master',
-            'Complete scenarios to advance'
-        ].join('\n');
+        const missionLine1 = this.add.text(panelX, panelTop + 210, 'Visit each dining hall.', bodyStyle).setOrigin(0.5);
+        const missionLine2 = this.add.text(panelX, panelTop + 250, 'Step to the door.', bodyStyle).setOrigin(0.5);
+        const missionLine3 = this.add.text(panelX, panelTop + 290, 'Uncover each nutrition tale.', bodyStyle).setOrigin(0.5);
 
-        const missionHeader = this.add.text(panelX, 294, 'Your Mission', sectionHeaderStyle).setOrigin(0.5);
-        const missionBody = this.add.text(panelX, 336, missionText, bodyStyle).setOrigin(0.5, 0);
+        const controlsHeader = this.add.text(panelX, panelTop + 345, 'Controls', sectionHeaderStyle).setOrigin(0.5);
 
-        const controlsHeader = this.add.text(panelX, 512, 'Controls', sectionHeaderStyle).setOrigin(0.5);
-        const controlsBody = this.add.text(panelX, 554, controlsText, bodyStyle).setOrigin(0.5, 0);
+        // Build visual keyboard layouts
+        const keySize = 36;
+        const keyGap = 4;
+        const controlsContainer = this.add.container(panelX, panelTop + 415);
 
-        const progressHeader = this.add.text(panelX, 676, 'Progress', sectionHeaderStyle).setOrigin(0.5);
-        const progressBody = this.add.text(panelX, 718, progressText, bodyStyle).setOrigin(0.5, 0);
+        const makeKey = (x, y, label) => {
+            const bg = this.add.rectangle(x, y, keySize, keySize, 0x2a2a2a, 1)
+                .setStrokeStyle(2, 0xc8a84b, 1);
+            const txt = this.add.text(x, y, label, {
+                fontFamily: '"Press Start 2P", monospace',
+                fontSize: label.length > 1 ? '9px' : '14px',
+                color: '#f0d060'
+            }).setOrigin(0.5);
+            return [bg, txt];
+        };
 
-        const button = this.add.container(panelX, 790);
+        // WASD layout (centered at -120, 0)
+        const wasdX = -120;
+        const wasdChildren = [
+            ...makeKey(wasdX, -(keySize + keyGap) / 2, 'W'),                           // W top center
+            ...makeKey(wasdX - (keySize + keyGap), (keySize + keyGap) / 2, 'A'),        // A bottom left
+            ...makeKey(wasdX, (keySize + keyGap) / 2, 'S'),                              // S bottom center
+            ...makeKey(wasdX + (keySize + keyGap), (keySize + keyGap) / 2, 'D'),         // D bottom right
+        ];
+
+        // "or" text
+        const orText = this.add.text(0, 0, 'or', {
+            fontFamily: '"Press Start 2P", monospace',
+            fontSize: '14px',
+            color: '#e8e8d0'
+        }).setOrigin(0.5);
+
+        // Arrow keys layout (centered at +120, 0)
+        const arrowX = 120;
+        const arrowChildren = [
+            ...makeKey(arrowX, -(keySize + keyGap) / 2, '\u25B2'),                       // Up triangle
+            ...makeKey(arrowX - (keySize + keyGap), (keySize + keyGap) / 2, '\u25C0'),    // Left triangle
+            ...makeKey(arrowX, (keySize + keyGap) / 2, '\u25BC'),                          // Down triangle
+            ...makeKey(arrowX + (keySize + keyGap), (keySize + keyGap) / 2, '\u25B6'),     // Right triangle
+        ];
+
+        controlsContainer.add([...wasdChildren, orText, ...arrowChildren]);
+
+        // Other controls
+        const otherControlsY = panelTop + 500;
+        const doorLabel = this.add.text(panelX, otherControlsY, 'Doorways', highlightStyle).setOrigin(0.5);
+        const doorDesc = this.add.text(panelX, otherControlsY + 28, 'Enter scenario', bodyStyle).setOrigin(0.5);
+        const escLabel = this.add.text(panelX, otherControlsY + 68, 'Esc', highlightStyle).setOrigin(0.5);
+        const escDesc = this.add.text(panelX, otherControlsY + 96, 'Close overlay', bodyStyle).setOrigin(0.5);
+
+        const progressHeader = this.add.text(panelX, panelTop + 640, 'Progress', sectionHeaderStyle).setOrigin(0.5);
+        const progressLine1 = this.add.text(panelX, panelTop + 680, '+15 progress per hall', bodyStyle).setOrigin(0.5);
+        const progressLine2 = this.add.text(panelX, panelTop + 715, '7 halls to master', highlightStyle).setOrigin(0.5);
+
+        const button = this.add.container(panelX, panelTop + 790);
         const buttonWidth = 300;
         const buttonHeight = 66;
         const buttonShadow = this.add.rectangle(4, 5, buttonWidth, buttonHeight, 0x000000, 0.5).setOrigin(0.5);
@@ -213,6 +317,8 @@ export class Intro extends Phaser.Scene {
             dustParticles,
             panelBackdrop,
             panelGlow,
+            glowSprite,
+            glowSprite2,
             panelShadow,
             panelFrame,
             panelInner,
@@ -220,15 +326,23 @@ export class Intro extends Phaser.Scene {
             title,
             subtitle,
             missionHeader,
-            missionBody,
+            missionLine1,
+            missionLine2,
+            missionLine3,
+
             controlsHeader,
-            controlsBody,
+            controlsContainer,
+            doorLabel,
+            doorDesc,
+            escLabel,
+            escDesc,
             progressHeader,
-            progressBody,
+            progressLine1,
+            progressLine2,
             button
         ]);
 
-        const hitArea = this.add.zone(panelX, 790, buttonWidth, buttonHeight).setOrigin(0.5).setInteractive({ useHandCursor: true });
+        const hitArea = this.add.zone(panelX, panelTop + 790, buttonWidth, buttonHeight).setOrigin(0.5).setInteractive({ useHandCursor: true });
         let isHovered = false;
         let isStarting = false;
         let pulseTween = null;
@@ -349,11 +463,19 @@ export class Intro extends Phaser.Scene {
                 title,
                 subtitle,
                 missionHeader,
-                missionBody,
+                missionLine1,
+                missionLine2,
+                missionLine3,
+    
                 controlsHeader,
-                controlsBody,
+                controlsContainer,
+                doorLabel,
+                doorDesc,
+                escLabel,
+                escDesc,
                 progressHeader,
-                progressBody,
+                progressLine1,
+                progressLine2,
                 button
             ],
             y: '+=4',
@@ -373,7 +495,7 @@ export class Intro extends Phaser.Scene {
         try {
             await Promise.race([
                 document.fonts.load('16px "Press Start 2P"'),
-                new Promise((resolve) => window.setTimeout(resolve, 1500))
+                new Promise((resolve) => window.setTimeout(resolve, 4000))
             ]);
         } catch (_error) {
             await new Promise((resolve) => window.setTimeout(resolve, 250));
@@ -390,6 +512,25 @@ export class Intro extends Phaser.Scene {
         link.rel = 'stylesheet';
         link.href = 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
         document.head.appendChild(link);
+    }
+
+    ensureGlowTexture() {
+        if (this.textures.exists('glow-orb')) {
+            return;
+        }
+        const size = 64;
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+        gradient.addColorStop(0, 'rgba(240, 208, 96, 1)');
+        gradient.addColorStop(0.3, 'rgba(240, 208, 96, 0.6)');
+        gradient.addColorStop(0.6, 'rgba(240, 208, 96, 0.15)');
+        gradient.addColorStop(1, 'rgba(240, 208, 96, 0)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, size, size);
+        this.textures.addCanvas('glow-orb', canvas);
     }
 
     ensureDustTexture() {

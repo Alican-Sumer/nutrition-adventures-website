@@ -134,15 +134,14 @@ export class TwineOverlay {
         this.container.style.justifyContent = 'center';
 
         const panel = document.createElement('div');
-        panel.style.width = '90vw';
-        panel.style.height = '90vh';
+        panel.style.width = '100vw';
+        panel.style.height = '100vh';
         panel.style.background = 'linear-gradient(180deg, #2b1b10 0%, #1f140d 100%)';
-        panel.style.border = '3px solid #b38a4a';
-        panel.style.borderRadius = '12px';
+        panel.style.border = 'none';
+        panel.style.borderRadius = '0';
         panel.style.overflow = 'hidden';
         panel.style.display = 'flex';
         panel.style.flexDirection = 'column';
-        panel.style.boxShadow = '0 0 0 3px rgba(57, 37, 18, 0.9), 0 22px 45px rgba(0, 0, 0, 0.55)';
 
         const header = document.createElement('div');
         header.style.display = 'flex';
@@ -176,7 +175,8 @@ export class TwineOverlay {
         this.iframeEl = document.createElement('iframe');
         this.iframeEl.style.border = '0';
         this.iframeEl.style.width = '100%';
-        this.iframeEl.style.height = '100%';
+        this.iframeEl.style.flex = '1';
+        this.iframeEl.style.minHeight = '0';
         this.iframeEl.style.background = '#f3ead8';
         this.iframeEl.setAttribute('title', 'Twine Scenario');
         this.iframeEl.addEventListener('load', this.handleIframeLoad);

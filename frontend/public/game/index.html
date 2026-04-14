@@ -22,10 +22,7 @@
             body {
                 line-height: 1;
                 font-family: Georgia, 'Times New Roman', serif;
-                background:
-                    radial-gradient(circle at 15% 15%, rgba(138, 94, 43, 0.28), transparent 32%),
-                    radial-gradient(circle at 85% 70%, rgba(74, 120, 58, 0.22), transparent 35%),
-                    linear-gradient(160deg, #1a2314 0%, #111a0d 45%, #17120c 100%);
+                background: transparent;
                 color: #f4e5c3;
                 overflow: hidden;
                 position: relative;
@@ -33,30 +30,11 @@
                 place-items: center;
             }
 
-            body::before {
-                content: '';
-                position: absolute;
-                inset: 0;
-                pointer-events: none;
-                background-image:
-                    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-                background-size: 34px 34px;
-                mix-blend-mode: soft-light;
-            }
-
             #game-container {
                 position: relative;
-                width: min(94vmin, 1024px);
-                height: min(94vmin, 1024px);
-                border: 10px solid #5a4322;
-                outline: 3px solid #c7aa6b;
-                border-radius: 12px;
-                box-shadow:
-                    0 0 0 4px rgba(41, 25, 9, 0.7),
-                    0 28px 60px rgba(0, 0, 0, 0.45),
-                    inset 0 0 35px rgba(0, 0, 0, 0.24);
-                background: #213416;
+                width: 100%;
+                height: 100%;
+                background: transparent;
             }
 
             #game-container canvas {

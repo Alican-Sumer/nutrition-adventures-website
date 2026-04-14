@@ -44,6 +44,7 @@ export class Start extends Phaser.Scene {
         this.playerSpeed = 220;
         this.lastDirection = 'down';
         this.moveKeys = this.input.keyboard.addKeys('W,A,S,D');
+        this.arrowKeys = this.input.keyboard.createCursorKeys();
         this.twineOverlay = new TwineOverlay();
         this.collisionZones = this.createCollisionZonesFromObjectLayer(map, 'collisions');
         this.triggerZones = this.createAllTriggerZones(map);
@@ -60,32 +61,32 @@ export class Start extends Phaser.Scene {
         this.scenarios = {
             scenario1: {
                 title: 'Scenario 1',
-                htmlPath: '/Scenarios/Scenario1/Scenario1.html',
+                htmlPath: 'Scenarios/Scenario1/Scenario1.html',
                 completionPassages: ['Key Takeaways']
             },
             scenario2: {
                 title: 'Scenario 2',
-                htmlPath: '/Scenarios/Scenario2/Scenario2.html',
+                htmlPath: 'Scenarios/Scenario2/Scenario2.html',
                 completionPassages: ['Exit Screen']
             },
             scenario3: {
                 title: 'Scenario 3',
-                htmlPath: '/Scenarios/Scenario3/Scenario3.html',
+                htmlPath: 'Scenarios/Scenario3/Scenario3.html',
                 completionPassages: ['Meal Summary']
             },
             scenario4: {
                 title: 'Scenario 4',
-                htmlPath: '/Scenarios/Scenario4/Scenario4.html',
+                htmlPath: 'Scenarios/Scenario4/Scenario4.html',
                 completionPassages: ['Exit Screen']
             },
             scenario5: {
                 title: 'Scenario 5',
-                htmlPath: '/Scenarios/Scenario5/Scenario5.html',
+                htmlPath: 'Scenarios/Scenario5/Scenario5.html',
                 completionPassages: ['Finish']
             },
             scenario6: {
                 title: 'Scenario 6',
-                htmlPath: '/Scenarios/Scenario6/Scenario6.html',
+                htmlPath: 'Scenarios/Scenario6/Scenario6.html',
                 completionPassages: ['ScenarioEnd']
             }
         };
@@ -123,8 +124,8 @@ export class Start extends Phaser.Scene {
 
     update(_time, delta) {
         const dt = delta / 1000;
-        const inputX = (this.moveKeys.D.isDown ? 1 : 0) - (this.moveKeys.A.isDown ? 1 : 0);
-        const inputY = (this.moveKeys.S.isDown ? 1 : 0) - (this.moveKeys.W.isDown ? 1 : 0);
+        const inputX = (this.moveKeys.D.isDown || this.arrowKeys.right.isDown ? 1 : 0) - (this.moveKeys.A.isDown || this.arrowKeys.left.isDown ? 1 : 0);
+        const inputY = (this.moveKeys.S.isDown || this.arrowKeys.down.isDown ? 1 : 0) - (this.moveKeys.W.isDown || this.arrowKeys.up.isDown ? 1 : 0);
 
         if (inputX === 0 && inputY === 0) {
             this.player.setMovementDirection(this.lastDirection, false);

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { saveScenarioComplete, getProgress } from '../services/gameProgressService';
 
-const GAME_URL = import.meta.env.VITE_GAME_URL ?? 'http://localhost:8080';
+const GAME_URL = import.meta.env.VITE_GAME_URL ?? '/game/index.html';
 
 export function GamePage() {
   const { user } = useAuth();
@@ -49,7 +49,7 @@ export function GamePage() {
         src={iframeUrlRef.current}
         title="Nutrition Adventures"
         onLoad={handleIframeLoad}
-        style={{ width: '100%', height: '100%', maxWidth: '1200px', maxHeight: '900px', border: '3px solid #b38a4a', borderRadius: '8px', background: '#0f2a18' }}
+        style={{ width: '100vmin', height: '100vmin', maxWidth: '1024px', maxHeight: '1024px', border: '3px solid #b38a4a', borderRadius: '8px', background: '#0f2a18' }}
         allow="fullscreen"
       />
     </div>
