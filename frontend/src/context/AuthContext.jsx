@@ -5,51 +5,24 @@ const AuthContext = createContext(null);
 
 // Create the Provider component
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('mock_user');
+    return saved ? JSON.parse(saved) : null;
+  });
 
-  useEffect(() => {
-    const syncUserSession = async () => {
-      try {
-        // Because Apache's LOGIN_PATH=/ already forced them to log in at the IdP,
-        // we just hit Spring Boot so it can find/create the user in PostgreSQL.
-        const response = await fetch('/api/users/sync', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
+  const loginAs = (role) => {
+    const mockUser = { name: role === 'teacher' ? 'Professor Demo' : 'Student Demo', role };
+    setUser(mockUser);
+    localStorage.setItem('mock_user', JSON.stringify(mockUser));
+  };
 
-        if (response.ok) {
-          const userData = await response.json();
-          setUser(userData); // Save the database user profile to global state
-        } else {
-          console.error("Failed to sync user. Status:", response.status);
-        }
-      } catch (error) {
-        console.error("Network error while syncing user:", error);
-      } finally {
-        // Always stop loading, whether it succeeded or failed
-        setLoading(false); 
-      }
-    };
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('mock_user');
+  };
 
-    syncUserSession();
-  }, []);
-
-  // Show a loading screen while we wait for Spring Boot
-  // This prevents the Dashboard or Game from crashing if 'user' isn't ready yet.
-  if (loading) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20vh' }}>
-        <h2>Authenticating via Shibboleth...</h2>
-      </div>
-    );
-  }
-
-  // Once loaded, provide the user data to all the Routes inside App.jsx
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, loginAs, logout }}>
       {children}
     </AuthContext.Provider>
   );

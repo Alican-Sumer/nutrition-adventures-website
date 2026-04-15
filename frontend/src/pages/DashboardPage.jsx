@@ -5,7 +5,7 @@ import { StudentDashboard } from '../components/StudentDashboard';
 import { TeacherDashboard } from '../components/TeacherDashboard';
 
 export function DashboardPage() {
-  const { user } = useAuth();
+  const { user, loginAs } = useAuth();
 
   if (!user) {
     return (
