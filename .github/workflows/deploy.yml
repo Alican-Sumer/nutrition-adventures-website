@@ -27,11 +27,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Copy Game into frontend public folder
-        run: |
-          cp -r Game frontend/public/game
-          cp -r Scenarios/* frontend/public/game/src/Scenarios/
-
       - name: Install frontend dependencies
         run: npm ci
         working-directory: frontend

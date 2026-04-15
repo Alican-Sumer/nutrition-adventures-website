@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   db:
     image: postgres:16
@@ -9,7 +7,7 @@ services:
       POSTGRES_USER: dhes
       POSTGRES_PASSWORD: dhes
     ports:
-      - "5432:5432"
+      - "5432:5432" # <-- ADD THIS LINE
     volumes:
       - db-data:/var/lib/postgresql/data
 
@@ -22,9 +20,41 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/dhes
       SPRING_DATASOURCE_USERNAME: dhes
       SPRING_DATASOURCE_PASSWORD: dhes
+
+  frontend:
+    build: ./frontend
+    container_name: dhes-frontend
+    environment:
+      - VITE_HOST=0.0.0.0 # Critical for Vite to accept the proxy connection
+
+  game:
+    build:
+      context: .
+      dockerfile: Game/Dockerfile
+    container_name: dhes-game
+    depends_on:
+      - backend
     ports:
-      - "8080:8080"
+      - "6767:6767"
+
+  apacheshib:
+    image: dockerhub.csc.ncsu.edu/ignacioxd/apacheshib-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - frontend
+      - backend
+    environment:
+      - SERVER_NAME=localhost
+      - LOGIN_PATH=/
+      # Frontend Mapping
+      - FRONTEND_HOST=frontend
+      - FRONTEND_PORT=5173
+      # Backend Mapping
+      - BACKEND_HOST=backend
+      - BACKEND_PORT=8080
+      - BACKEND_PATH=/api     
 
 volumes:
   db-data:
-
