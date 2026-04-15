@@ -1,15 +1,31 @@
 -- 1. Create the Users table
--- Added UNIQUE constraint to email as well, common for user systems.
 CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
     federated_id VARCHAR(255) NOT NULL UNIQUE,
-    username VARCHAR(255) NOT NULL,
+    display_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE, 
-    display_name VARCHAR(255),
-    grade DOUBLE PRECISION NOT NULL DEFAULT 0.0
+    grade DOUBLE PRECISION
 );
 
--- 2. Create the Courses table
+-- 2. Create the Roles table
+CREATE TABLE roles (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+-- 3. Create the Users-Roles Join Table
+CREATE TABLE users_roles (
+    user_id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    CONSTRAINT fk_users_roles_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT fk_users_roles_role FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE
+);
+
+-- Index for optimized lookups when querying roles for a user
+CREATE INDEX idx_users_roles_user_id ON users_roles(user_id);
+
+-- 4. Create the Courses table
 CREATE TABLE courses (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -17,8 +33,7 @@ CREATE TABLE courses (
     section VARCHAR(255)
 );
 
--- 3. Create the Join Table
--- Better constraint naming helps with debugging later
+-- 5. Create the Course-Users Join Table
 CREATE TABLE course_users (
     course_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
@@ -27,5 +42,6 @@ CREATE TABLE course_users (
     CONSTRAINT fk_course_users_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
--- Index for optimized lookups when querying "Find all courses for a user"
+-- Index for optimized lookups when querying users within a course, or courses for a user
 CREATE INDEX idx_course_users_user_id ON course_users(user_id);
+CREATE INDEX idx_course_users_course_id ON course_users(course_id);

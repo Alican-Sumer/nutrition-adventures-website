@@ -1,5 +1,7 @@
 package com.dhes.entity;
 
+import java.util.Collection;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -15,13 +17,25 @@ public class User {
     private String federatedId;
 
     @Column(nullable = false)
-    private String username;
+    private String displayName;
 
     private String email;
 
-    private String displayName;
-
     private Double grade;
+
+     /** User's roles */
+    @ManyToMany ( fetch = FetchType.EAGER )
+    @JoinTable ( name = "users_roles", joinColumns = @JoinColumn ( name = "user_id", referencedColumnName = "id" ),
+            inverseJoinColumns = @JoinColumn ( name = "role_id", referencedColumnName = "id" ) )
+    private Collection<Role> roles;
+    
+    public Collection<Role> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
 
     public Long getId() {
         return id;
@@ -45,14 +59,6 @@ public class User {
 
     public void setFederatedId(String federatedId) {
         this.federatedId = federatedId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getEmail() {

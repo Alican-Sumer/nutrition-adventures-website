@@ -19,7 +19,7 @@ import com.dhes.service.CourseService;
 
 
 @RestController
-@RequestMapping("/api/courses")
+@RequestMapping("/courses")
 public class CourseController {
 
     private CourseService courseService;

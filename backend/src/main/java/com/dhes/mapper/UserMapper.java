@@ -13,7 +13,6 @@ public class UserMapper {
         if (entity == null) return null;
         UserDto dto = new UserDto();
         dto.setId(entity.getId());
-        dto.setUsername(entity.getUsername());
         dto.setEmail(entity.getEmail());
         dto.setDisplayName(entity.getDisplayName());
         dto.setGrade(entity.getGrade());
@@ -27,8 +26,7 @@ public class UserMapper {
     public User toEntity(UserDto dto) {
         if (dto == null) return null;
         User user = new User();
-        user.setId(dto.getId());
-        user.setUsername(dto.getUsername());
+        user.setFederatedId(dto.getFederatedID());
         user.setEmail(dto.getEmail());
         user.setDisplayName(dto.getDisplayName());
         user.setGrade(dto.getGrade());

@@ -6,12 +6,20 @@ import java.util.Set;
 public class UserDto {
 
     private Long id;
-    private String username;
+    private String FederatedId;
     private String email;
     private String displayName;
     private Set<String> roles;
     private double grade;
 
+
+    public void setFederatedID(String federatedId) {
+        this.FederatedId = federatedId;
+    }
+
+    public String getFederatedID() {
+        return FederatedId;
+    }
 
     public Double getGrade() {
         return grade;
@@ -26,14 +34,6 @@ public class UserDto {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getEmail() {

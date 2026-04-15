@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 const gameRootDir = path.resolve(__dirname, '..');
 const repoRootDir = path.resolve(gameRootDir, '..');
 const scenariosRootDir = path.join(repoRootDir, 'Scenarios');
-const requestedPort = Number(process.env.PORT) || 8080;
+const requestedPort = Number(process.env.PORT) || 6767;
 
 const mimeTypes = {
     '.html': 'text/html; charset=utf-8',

@@ -6,6 +6,8 @@ services:
       POSTGRES_DB: dhes
       POSTGRES_USER: dhes
       POSTGRES_PASSWORD: dhes
+    ports:
+      - "5432:5432" # <-- ADD THIS LINE
     volumes:
       - db-data:/var/lib/postgresql/data
 
@@ -25,6 +27,16 @@ services:
     environment:
       - VITE_HOST=0.0.0.0 # Critical for Vite to accept the proxy connection
 
+  game:
+    build:
+      context: .
+      dockerfile: Game/Dockerfile
+    container_name: dhes-game
+    depends_on:
+      - backend
+    ports:
+      - "6767:6767"
+
   apacheshib:
     image: dockerhub.csc.ncsu.edu/ignacioxd/apacheshib-proxy
     ports:
@@ -35,14 +47,14 @@ services:
       - backend
     environment:
       - SERVER_NAME=localhost
-      - LOGIN_PATH=/           # Protects everything with Shibboleth
+      - LOGIN_PATH=/
       # Frontend Mapping
       - FRONTEND_HOST=frontend
       - FRONTEND_PORT=5173
       # Backend Mapping
       - BACKEND_HOST=backend
       - BACKEND_PORT=8080
-      - BACKEND_PATH=/api      # Adjust this if your Spring Boot context path is different
+      - BACKEND_PATH=/api     
 
 volumes:
   db-data:

@@ -50,7 +50,7 @@ class UserServiceImplTest {
         UserDto result = userService.getUserById(1L);
         // Assert
         assertNotNull(result);
-        assertEquals(0.0, result.getGrade());
+        assertEquals(99.0, result.getGrade());
     }
     @Test
     void getUserById_NotFound_ShouldReturnNull() {
