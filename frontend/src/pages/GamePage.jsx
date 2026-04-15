@@ -49,7 +49,7 @@ export function GamePage() {
         src={iframeUrlRef.current}
         title="Nutrition Adventures"
         onLoad={handleIframeLoad}
-        style={{ width: '100vmin', height: '100vmin', maxWidth: '1024px', maxHeight: '1024px', border: '3px solid #b38a4a', borderRadius: '8px', background: '#0f2a18' }}
+        style={{ width: '95vw', height: '100vmin', maxWidth: '1300px', maxHeight: '1024px', border: '3px solid #b38a4a', borderRadius: '8px', background: '#0f2a18' }}
         allow="fullscreen"
       />
     </div>

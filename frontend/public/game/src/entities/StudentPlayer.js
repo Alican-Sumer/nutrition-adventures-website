@@ -4,7 +4,15 @@ export class StudentPlayer extends Phaser.GameObjects.Sprite {
 
         this.unityID = unityID;
         this.progress = 0;
-        this.progressPerScenario = 17;
+        this.scenarioValues = {
+            scenario1: 14,
+            scenario2: 14,
+            scenario3: 14,
+            scenario4: 14,
+            scenario5: 14,
+            scenario6: 15,
+            scenario7: 15
+        };
         this.completedScenarios = new Set();
         this.currentDirection = 'down';
 
@@ -19,7 +27,7 @@ export class StudentPlayer extends Phaser.GameObjects.Sprite {
         }
 
         this.completedScenarios.add(scenarioId);
-        this.progress += this.progressPerScenario;
+        this.progress += this.scenarioValues[scenarioId] || 14;
         return true;
     }
 

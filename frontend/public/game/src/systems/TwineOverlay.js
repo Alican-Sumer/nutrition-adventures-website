@@ -44,11 +44,7 @@ export class TwineOverlay {
     complete() {
         if (this.completeCallback && this.currentScenarioId) {
             this.completeCallback(this.currentScenarioId);
-            window.parent.postMessage(
-                { type: 'SCENARIO_COMPLETE', scenarioId: this.currentScenarioId }, '*'
-            );
         }
-        this.close();
     }
 
     handleEsc(event) {
@@ -100,17 +96,16 @@ export class TwineOverlay {
             }
 
             win.__scenarioCompletionBridgeAttached = true;
+            console.log('[TwineOverlay] Bridge attached. Listening for passages:', [...completionPassages]);
             jq(doc).on(':passageend.scenario-complete', () => {
                 const currentPassage = win.SugarCube?.State?.passage;
+                console.log('[TwineOverlay] Passage ended:', currentPassage);
                 if (!currentPassage || !completionPassages.has(currentPassage)) {
                     return;
                 }
 
-                win.parent.postMessage({
-                    type: 'twine:complete',
-                    scenarioId: this.currentScenarioId,
-                    passage: currentPassage
-                }, '*');
+                console.log('[TwineOverlay] Completion passage reached:', currentPassage);
+                this.complete();
             });
         };
 

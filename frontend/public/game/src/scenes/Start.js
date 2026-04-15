@@ -54,7 +54,8 @@ export class Start extends Phaser.Scene {
             case_trigger: 'scenario3',
             talley_trigger: 'scenario4',
             atrium_trigger: 'scenario6',
-            oval_trigger: 'scenario5'
+            oval_trigger: 'scenario5',
+            gym_trigger: 'scenario7'
         };
         this.activeTriggerScenario = null;
 
@@ -88,6 +89,11 @@ export class Start extends Phaser.Scene {
                 title: 'Scenario 6',
                 htmlPath: 'Scenarios/Scenario6/Scenario6.html',
                 completionPassages: ['ScenarioEnd']
+            },
+            scenario7: {
+                title: 'Scenario 7',
+                htmlPath: 'Scenarios/Scenario7/Scenario7.html',
+                completionPassages: ['Results']
             }
         };
 
@@ -99,6 +105,7 @@ export class Start extends Phaser.Scene {
                 for (const scenarioId of event.data.completedScenarios) {
                     this.player.completeScenario(scenarioId);
                 }
+                this.updateProgressBar();
             }
         });
 
@@ -120,6 +127,79 @@ export class Start extends Phaser.Scene {
 
         this.cameras.main.centerOn(bgX + mapWidth / 2, bgY + mapHeight / 2);
         this.cameras.main.setBackgroundColor('#0f2a18');
+
+        this.createProgressBar();
+    }
+
+    createProgressBar() {
+        const { width, height } = this.scale;
+        const barWidth = 260;
+        const barHeight = 20;
+        const barX = width - barWidth - 16;
+        const barY = height - barHeight - 12;
+        const cornerRadius = 6;
+
+        // Container for all progress bar elements (fixed to screen)
+        this.progressBg = this.add.graphics();
+        this.progressBg.fillStyle(0x020406, 0.7);
+        this.progressBg.fillRoundedRect(barX - 8, barY - 24, barWidth + 16, barHeight + 32, 8);
+        this.progressBg.lineStyle(2, 0xc8a84b, 0.8);
+        this.progressBg.strokeRoundedRect(barX - 8, barY - 24, barWidth + 16, barHeight + 32, 8);
+
+        this.progressLabel = this.add.text(barX, barY - 18, 'Progress: 0%', {
+            fontFamily: '"Press Start 2P", monospace',
+            fontSize: '10px',
+            color: '#f0d060'
+        }).setOrigin(0, 0);
+
+        // Bar track
+        this.progressTrack = this.add.graphics();
+        this.progressTrack.fillStyle(0x1a1a2e, 1);
+        this.progressTrack.fillRoundedRect(barX, barY, barWidth, barHeight, cornerRadius);
+        this.progressTrack.lineStyle(2, 0x7a5a1a, 1);
+        this.progressTrack.strokeRoundedRect(barX, barY, barWidth, barHeight, cornerRadius);
+
+        // Bar fill
+        this.progressFill = this.add.graphics();
+        this.progressBarX = barX;
+        this.progressBarY = barY;
+        this.progressBarWidth = barWidth;
+        this.progressBarHeight = barHeight;
+        this.progressBarRadius = cornerRadius;
+
+        // UI camera only sees progress bar; main camera ignores it
+        const uiCam = this.cameras.add(0, 0, width, height);
+        uiCam.setScroll(0, 0);
+        uiCam.ignore(this.children.list.filter(
+            child => child !== this.progressBg && child !== this.progressLabel && child !== this.progressTrack && child !== this.progressFill
+        ));
+
+        this.cameras.main.ignore([this.progressBg, this.progressLabel, this.progressTrack, this.progressFill]);
+
+        this.updateProgressBar();
+    }
+
+    updateProgressBar() {
+        const progress = Math.min(this.player.progress, 100);
+        console.log('[ProgressBar] Updating to:', progress, '% | Completed:', [...this.player.completedScenarios]);
+        this.progressLabel.setText(`Progress: ${progress}%`);
+
+        this.progressFill.clear();
+        if (progress > 0) {
+            const fillWidth = (progress / 100) * this.progressBarWidth;
+            this.progressFill.fillStyle(0xc8a84b, 1);
+            this.progressFill.fillRoundedRect(
+                this.progressBarX, this.progressBarY,
+                Math.max(fillWidth, this.progressBarRadius * 2), this.progressBarHeight,
+                this.progressBarRadius
+            );
+            // Gold shine gradient overlay
+            this.progressFill.fillStyle(0xf0d060, 0.3);
+            this.progressFill.fillRect(
+                this.progressBarX + 2, this.progressBarY + 2,
+                Math.max(fillWidth - 4, 0), this.progressBarHeight / 2 - 2
+            );
+        }
     }
 
     update(_time, delta) {
@@ -161,6 +241,7 @@ export class Start extends Phaser.Scene {
             completionPassages: config.completionPassages || [],
             onComplete: (completedScenarioId) => {
                 this.player.completeScenario(completedScenarioId);
+                this.updateProgressBar();
             }
         });
     }
