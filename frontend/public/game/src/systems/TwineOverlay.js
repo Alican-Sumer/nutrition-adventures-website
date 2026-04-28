@@ -69,7 +69,16 @@ export class TwineOverlay {
     }
 
     handleIframeLoad() {
+        this.hideTwineSidebar();
         this.installTwineCompletionBridge();
+    }
+
+    hideTwineSidebar() {
+        const doc = this.iframeEl?.contentWindow?.document;
+        if (!doc) return;
+        const style = doc.createElement('style');
+        style.textContent = '#ui-bar { display: none !important; } #story { margin-left: 0 !important; }';
+        doc.head.appendChild(style);
     }
 
     installTwineCompletionBridge() {

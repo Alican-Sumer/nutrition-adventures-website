@@ -97,6 +97,9 @@ export class Start extends Phaser.Scene {
             }
         };
 
+        this.scenarioIcons = {};
+        this.createScenarioIcons();
+
         this.createPlayerAnimations();
         this.player.setMovementDirection('down', false);
 
@@ -106,8 +109,14 @@ export class Start extends Phaser.Scene {
                     this.player.completeScenario(scenarioId);
                 }
                 this.updateProgressBar();
+                this.updateScenarioIcons();
             }
         });
+
+        // Tell the parent we're ready to receive progress
+        if (window.parent !== window) {
+            window.parent.postMessage({ type: 'GAME_READY' }, '*');
+        }
 
         const fitZoomX = this.scale.width / mapWidth;
         const fitZoomY = this.scale.height / mapHeight;
@@ -129,6 +138,12 @@ export class Start extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('#0f2a18');
 
         this.createProgressBar();
+
+        this.mobileInput = { up: false, down: false, left: false, right: false };
+        const isMobile = ('ontouchstart' in window || navigator.maxTouchPoints > 0) && window.innerWidth <= 768;
+        if (isMobile) {
+            this.createMobileDPad();
+        }
     }
 
     createProgressBar() {
@@ -167,16 +182,92 @@ export class Start extends Phaser.Scene {
         this.progressBarHeight = barHeight;
         this.progressBarRadius = cornerRadius;
 
-        // UI camera only sees progress bar; main camera ignores it
-        const uiCam = this.cameras.add(0, 0, width, height);
-        uiCam.setScroll(0, 0);
-        uiCam.ignore(this.children.list.filter(
-            child => child !== this.progressBg && child !== this.progressLabel && child !== this.progressTrack && child !== this.progressFill
+        // UI camera only sees UI elements; main camera ignores them
+        this.uiElements = [this.progressBg, this.progressLabel, this.progressTrack, this.progressFill];
+        this.uiCam = this.cameras.add(0, 0, width, height);
+        this.uiCam.setScroll(0, 0);
+        this.uiCam.ignore(this.children.list.filter(
+            child => !this.uiElements.includes(child)
         ));
 
-        this.cameras.main.ignore([this.progressBg, this.progressLabel, this.progressTrack, this.progressFill]);
+        this.cameras.main.ignore(this.uiElements);
 
         this.updateProgressBar();
+    }
+
+    createMobileDPad() {
+        const { width, height } = this.scale;
+        const btnSize = 40;
+        const gap = 4;
+        // Position D-pad above the progress bar, right-aligned
+        const centerX = width - 100;
+        const centerY = height - 340;
+
+        this.dpadElements = [];
+
+        const directions = [
+            { key: 'up', dx: 0, dy: -(btnSize + gap) },
+            { key: 'down', dx: 0, dy: (btnSize + gap) },
+            { key: 'left', dx: -(btnSize + gap), dy: 0 },
+            { key: 'right', dx: (btnSize + gap), dy: 0 }
+        ];
+
+        for (const dir of directions) {
+            const bx = centerX + dir.dx;
+            const by = centerY + dir.dy;
+
+            // Button background (interactive zone)
+            const zone = this.add.zone(bx, by, btnSize, btnSize).setInteractive();
+            zone.setOrigin(0.5, 0.5);
+
+            // Button visual
+            const btn = this.add.graphics();
+            btn.fillStyle(0x1a1a2e, 0.9);
+            btn.fillRoundedRect(bx - btnSize / 2, by - btnSize / 2, btnSize, btnSize, 6);
+            btn.lineStyle(1.5, 0xc8a84b, 1);
+            btn.strokeRoundedRect(bx - btnSize / 2, by - btnSize / 2, btnSize, btnSize, 6);
+
+            // Arrow symbol
+            btn.fillStyle(0xf0d060, 1);
+            btn.beginPath();
+            const s = 8; // arrow half-size
+            if (dir.key === 'up') {
+                btn.moveTo(bx, by - s);
+                btn.lineTo(bx + s, by + s);
+                btn.lineTo(bx - s, by + s);
+            } else if (dir.key === 'down') {
+                btn.moveTo(bx, by + s);
+                btn.lineTo(bx + s, by - s);
+                btn.lineTo(bx - s, by - s);
+            } else if (dir.key === 'left') {
+                btn.moveTo(bx - s, by);
+                btn.lineTo(bx + s, by - s);
+                btn.lineTo(bx + s, by + s);
+            } else if (dir.key === 'right') {
+                btn.moveTo(bx + s, by);
+                btn.lineTo(bx - s, by - s);
+                btn.lineTo(bx - s, by + s);
+            }
+            btn.closePath();
+            btn.fillPath();
+
+            zone.on('pointerdown', () => { this.mobileInput[dir.key] = true; });
+            zone.on('pointerup', () => { this.mobileInput[dir.key] = false; });
+            zone.on('pointerout', () => { this.mobileInput[dir.key] = false; });
+
+            this.dpadElements.push(zone, btn);
+        }
+
+        // Add D-pad to UI camera, hide from main camera
+        for (const el of this.dpadElements) {
+            this.cameras.main.ignore(el);
+            this.uiCam.ignore([]); // ensure uiCam sees these new elements
+        }
+        // Update uiCam to only see UI elements
+        this.uiElements.push(...this.dpadElements);
+        this.uiCam.ignore(this.children.list.filter(
+            child => !this.uiElements.includes(child)
+        ));
     }
 
     updateProgressBar() {
@@ -204,8 +295,9 @@ export class Start extends Phaser.Scene {
 
     update(_time, delta) {
         const dt = delta / 1000;
-        const inputX = (this.moveKeys.D.isDown || this.arrowKeys.right.isDown ? 1 : 0) - (this.moveKeys.A.isDown || this.arrowKeys.left.isDown ? 1 : 0);
-        const inputY = (this.moveKeys.S.isDown || this.arrowKeys.down.isDown ? 1 : 0) - (this.moveKeys.W.isDown || this.arrowKeys.up.isDown ? 1 : 0);
+        const mi = this.mobileInput;
+        const inputX = (this.moveKeys.D.isDown || this.arrowKeys.right.isDown || mi.right ? 1 : 0) - (this.moveKeys.A.isDown || this.arrowKeys.left.isDown || mi.left ? 1 : 0);
+        const inputY = (this.moveKeys.S.isDown || this.arrowKeys.down.isDown || mi.down ? 1 : 0) - (this.moveKeys.W.isDown || this.arrowKeys.up.isDown || mi.up ? 1 : 0);
 
         if (inputX === 0 && inputY === 0) {
             this.player.setMovementDirection(this.lastDirection, false);
@@ -242,6 +334,11 @@ export class Start extends Phaser.Scene {
             onComplete: (completedScenarioId) => {
                 this.player.completeScenario(completedScenarioId);
                 this.updateProgressBar();
+                this.updateScenarioIcons();
+                // Notify parent (GamePage) to persist progress to backend
+                if (window.parent !== window) {
+                    window.parent.postMessage({ type: 'SCENARIO_COMPLETE', scenarioId: completedScenarioId }, '*');
+                }
             }
         });
     }
@@ -338,6 +435,93 @@ export class Start extends Phaser.Scene {
 
         this.activeTriggerScenario = scenarioId;
         this.openScenario(scenarioId);
+    }
+
+    createScenarioIcons() {
+        // Place a floating icon above each trigger zone
+        for (const zone of this.triggerZones) {
+            const triggerKey = zone.name || zone.type;
+            const scenarioId = this.triggerToScenario[triggerKey];
+            if (!scenarioId) continue;
+
+            const iconOffsets = { talley_trigger: { dx: 30, dy: 0 } };
+            const offset = iconOffsets[triggerKey] || { dx: 0, dy: 0 };
+            const centerX = zone.rect.x + zone.rect.width / 2 + 25 + offset.dx;
+            const aboveY = zone.rect.y - 30 + offset.dy;
+
+            // Create a container for the icon
+            const container = this.add.container(centerX, aboveY);
+
+            // Exclamation mark (yellow, for incomplete)
+            const exclamation = this.createExclamationIcon();
+            container.add(exclamation);
+
+            // Checkmark (green, for complete)
+            const checkmark = this.createCheckmarkIcon();
+            checkmark.setVisible(false);
+            container.add(checkmark);
+
+            // Bouncing tween for the container
+            this.tweens.add({
+                targets: container,
+                y: aboveY - 6,
+                duration: 800,
+                yoyo: true,
+                repeat: -1,
+                ease: 'Sine.easeInOut'
+            });
+
+            this.scenarioIcons[scenarioId] = { container, exclamation, checkmark };
+        }
+    }
+
+    createExclamationIcon() {
+        const g = this.add.graphics();
+        // Black shadow/border
+        g.lineStyle(7, 0x000000, 0.8);
+        g.beginPath();
+        g.moveTo(0, -18);
+        g.lineTo(0, 6);
+        g.strokePath();
+        g.fillStyle(0x000000, 0.8);
+        g.fillCircle(0, 14, 4.5);
+        // Red exclamation bar
+        g.lineStyle(5, 0xe03030, 1);
+        g.beginPath();
+        g.moveTo(0, -18);
+        g.lineTo(0, 6);
+        g.strokePath();
+        // Red exclamation dot
+        g.fillStyle(0xe03030, 1);
+        g.fillCircle(0, 14, 3.5);
+        return g;
+    }
+
+    createCheckmarkIcon() {
+        const g = this.add.graphics();
+        // Black shadow/border
+        g.lineStyle(7, 0x000000, 0.8);
+        g.beginPath();
+        g.moveTo(-8, 2);
+        g.lineTo(-2, 10);
+        g.lineTo(10, -8);
+        g.strokePath();
+        // Green checkmark
+        g.lineStyle(5, 0x30d050, 1);
+        g.beginPath();
+        g.moveTo(-8, 2);
+        g.lineTo(-2, 10);
+        g.lineTo(10, -8);
+        g.strokePath();
+        return g;
+    }
+
+    updateScenarioIcons() {
+        for (const [scenarioId, icon] of Object.entries(this.scenarioIcons)) {
+            const completed = this.player.completedScenarios.has(scenarioId);
+            icon.exclamation.setVisible(!completed);
+            icon.checkmark.setVisible(completed);
+        }
     }
 
     createPlayerAnimations() {
