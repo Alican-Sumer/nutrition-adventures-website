@@ -446,8 +446,8 @@ export class Start extends Phaser.Scene {
 
             const iconOffsets = { talley_trigger: { dx: 30, dy: 0 } };
             const offset = iconOffsets[triggerKey] || { dx: 0, dy: 0 };
-            const centerX = zone.rect.x + zone.rect.width / 2 + 25 + offset.dx;
-            const aboveY = zone.rect.y - 30 + offset.dy;
+            const centerX = zone.rect.x + zone.rect.width / 2 + 40 + offset.dx;
+            const aboveY = zone.rect.y - 50 + offset.dy;
 
             // Create a container for the icon
             const container = this.add.container(centerX, aboveY);
@@ -477,41 +477,41 @@ export class Start extends Phaser.Scene {
 
     createExclamationIcon() {
         const g = this.add.graphics();
-        // Black shadow/border
-        g.lineStyle(7, 0x000000, 0.8);
+        // Black shadow/border (1.5x size, widened bar)
+        g.lineStyle(18, 0x000000, 0.8);
         g.beginPath();
-        g.moveTo(0, -18);
-        g.lineTo(0, 6);
+        g.moveTo(0, -27);
+        g.lineTo(0, 9);
         g.strokePath();
         g.fillStyle(0x000000, 0.8);
-        g.fillCircle(0, 14, 4.5);
-        // Red exclamation bar
-        g.lineStyle(5, 0xe03030, 1);
+        g.fillCircle(0, 21, 9);
+        // Gold exclamation bar
+        g.lineStyle(13.5, 0xf0d060, 1);
         g.beginPath();
-        g.moveTo(0, -18);
-        g.lineTo(0, 6);
+        g.moveTo(0, -27);
+        g.lineTo(0, 9);
         g.strokePath();
-        // Red exclamation dot
-        g.fillStyle(0xe03030, 1);
-        g.fillCircle(0, 14, 3.5);
+        // Gold exclamation dot
+        g.fillStyle(0xf0d060, 1);
+        g.fillCircle(0, 21, 6.75);
         return g;
     }
 
     createCheckmarkIcon() {
         const g = this.add.graphics();
-        // Black shadow/border
-        g.lineStyle(7, 0x000000, 0.8);
+        // Black shadow/border (1.5x size)
+        g.lineStyle(10.5, 0x000000, 0.8);
         g.beginPath();
-        g.moveTo(-8, 2);
-        g.lineTo(-2, 10);
-        g.lineTo(10, -8);
+        g.moveTo(-12, 3);
+        g.lineTo(-3, 15);
+        g.lineTo(15, -12);
         g.strokePath();
         // Green checkmark
-        g.lineStyle(5, 0x30d050, 1);
+        g.lineStyle(7.5, 0x30d050, 1);
         g.beginPath();
-        g.moveTo(-8, 2);
-        g.lineTo(-2, 10);
-        g.lineTo(10, -8);
+        g.moveTo(-12, 3);
+        g.lineTo(-3, 15);
+        g.lineTo(15, -12);
         g.strokePath();
         return g;
     }

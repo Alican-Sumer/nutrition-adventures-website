@@ -156,7 +156,9 @@ br {
   border-radius: 6px;
   padding: 1.5em 2em;
   width: 100%;
-  max-width: 740px;
+  max-width: 900px;
+  max-height: calc(100vh - 2em);
+  overflow-y: auto;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -270,41 +272,46 @@ br {
   min-height: 1.5em;
 }
 
+.s7-prompt { font-weight: 700; }
+.s7-carb-prompt { color: #7ad67a; }
+.s7-protein-prompt { color: #ff9d4d; text-transform: uppercase; letter-spacing: 0.03em; }
+.btn-row button.s7-protein-btn { border-color: #ff9d4d; box-shadow: 0 2px 0 #7a3a10; }
+
 /* Embedded game fixes */
 #ui-bar { display: none !important; }
 #story { margin-left: 0 !important; height: auto !important; min-height: 100vh; }
 #passages { height: auto !important; min-height: calc(100vh - 2em); }
 .passage { height: auto !important; min-height: calc(100vh - 4em); }
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">setup.scenario7Foods = [
-  { name: "Oatmeal (rolled oats)", classType: "complex" },
-  { name: "Brown rice", classType: "complex" },
-  { name: "Quinoa", classType: "complex" },
-  { name: "Whole wheat bread", classType: "complex" },
-  { name: "Barley", classType: "complex" },
-  { name: "Black beans", classType: "complex", proteinType: "incomplete" },
-  { name: "Chickpeas", classType: "complex", proteinType: "incomplete" },
-  { name: "Sweet potato", classType: "complex" },
+  { name: "Oatmeal (rolled oats)", category: "complex-carb" },
+  { name: "Brown rice", category: "complex-carb" },
+  { name: "Quinoa", category: "complex-carb" },
+  { name: "Whole wheat bread", category: "complex-carb" },
+  { name: "Barley", category: "complex-carb" },
+  { name: "Sweet potato", category: "complex-carb" },
+  { name: "Rice", category: "complex-carb" },
 
-  { name: "Apple", classType: "simple" },
-  { name: "Banana", classType: "simple" },
-  { name: "White bread", classType: "simple" },
-  { name: "Strawberries", classType: "simple" },
-  { name: "Bagel", classType: "simple" },
-  { name: "Crackers (e.g., cheese crackers)", classType: "simple" },
+  { name: "Apple", category: "simple-carb" },
+  { name: "Banana", category: "simple-carb" },
+  { name: "White bread", category: "simple-carb" },
+  { name: "Strawberries", category: "simple-carb" },
+  { name: "Bagel", category: "simple-carb" },
+  { name: "Crackers (e.g., cheese crackers)", category: "simple-carb" },
 
-  { name: "Chicken", proteinType: "complete" },
-  { name: "Eggs", proteinType: "complete" },
-  { name: "Greek yogurt", proteinType: "complete" },
-  { name: "Salmon", proteinType: "complete" },
-  { name: "Tofu", proteinType: "complete" },
-  { name: "Turkey slices (deli meat)", proteinType: "complete" },
-  { name: "Milk", proteinType: "complete" },
-  { name: "Edamame", proteinType: "complete" },
+  { name: "Chicken", category: "complete-protein" },
+  { name: "Eggs", category: "complete-protein" },
+  { name: "Greek yogurt", category: "complete-protein" },
+  { name: "Salmon", category: "complete-protein" },
+  { name: "Tofu", category: "complete-protein" },
+  { name: "Turkey slices (deli meat)", category: "complete-protein" },
+  { name: "Milk", category: "complete-protein" },
+  { name: "Edamame", category: "complete-protein" },
 
-  { name: "Lentils", proteinType: "incomplete" },
-  { name: "Peanut butter", proteinType: "incomplete" },
-  { name: "Rice", proteinType: "incomplete" },
-  { name: "Almonds", proteinType: "incomplete" }
+  { name: "Black beans", category: "incomplete-protein" },
+  { name: "Chickpeas", category: "incomplete-protein" },
+  { name: "Lentils", category: "incomplete-protein" },
+  { name: "Peanut butter", category: "incomplete-protein" },
+  { name: "Almonds", category: "incomplete-protein" }
 ];
 
 setup.resetScenario7 = function () {
@@ -330,34 +337,33 @@ setup.scenario7SecondsLeft = function () {
   return left > 0 ? left : 0;
 };
 
+setup.scenario7CategoryLabel = function (category) {
+  if (category === "complex-carb") return "Complex Carb";
+  if (category === "simple-carb") return "Simple Carb";
+  if (category === "complete-protein") return "Complete Protein";
+  if (category === "incomplete-protein") return "Incomplete Protein";
+  return "Unknown Category";
+};
+
 setup.scenario7Check = function (guess) {
   var food = State.variables.s7CurrentFood;
-
-  var isComplex = food.classType === "complex";
-  var isCompleteProtein = food.proteinType === "complete";
-
-  var correctAnswer =
-    (isComplex || isCompleteProtein)
-      ? "complex_or_complete"
-      : "simple_or_incomplete";
-  var normalizedGuess = guess;
-  if (guess === "yes") {
-    normalizedGuess = "complex_or_complete";
-  } else if (guess === "no") {
-    normalizedGuess = "simple_or_incomplete";
-  }
+  var correctAnswer = food.category || "complex-carb";
+  var normalizedGuess = String(guess || "")
+    .toLowerCase()
+    .replace(/[^a-z]+/g, "-")
+    .replace(/^-|-$/g, "");
 
   State.variables.s7Answered += 1;
 
   if (normalizedGuess === correctAnswer) {
     State.variables.s7Correct += 1;
-    State.variables.s7Feedback = "Correct!";
+    State.variables.s7Feedback =
+      "Correct! This food is best categorized as " +
+      setup.scenario7CategoryLabel(correctAnswer) + ".";
   } else {
     State.variables.s7Feedback =
-      "Not quite. This one is best tagged as " +
-      (correctAnswer === "complex_or_complete"
-        ? "Complex Carb or Complete Protein."
-        : "Simple Carb or Incomplete Protein.");
+      "Not quite. This food is best categorized as " +
+      setup.scenario7CategoryLabel(correctAnswer) + ".";
   }
 
   if (setup.scenario7SecondsLeft() <= 0) {
@@ -369,17 +375,30 @@ setup.scenario7Check = function (guess) {
   Engine.play("Quiz");
 };
 
-setup.refreshScenario7QuizLabels = function () {
-  var $prompt = $(".food-card > div").eq(1);
-  if ($prompt.length) {
-    $prompt.text("Pick the correct category for this food:");
-  }
+setup.scenario7MacroOf = function (food) {
+  return (String(food.category || "").indexOf("carb") !== -1) ? "carb" : "protein";
+};
 
-  var $buttons = $(".food-card .btn-row button");
-  if ($buttons.length >= 2) {
-    $buttons.eq(0).text("Complex Carb / Complete Protein");
-    $buttons.eq(1).text("Simple Carb / Incomplete Protein");
-  }
+setup.renderScenario7Question = function () {
+  var food = State.variables.s7CurrentFood;
+  var $prompt = $("#s7-prompt");
+  var $row = $("#s7-btn-row");
+  if (!food || !food.name || !$row.length) return;
+
+  var isProtein = setup.scenario7MacroOf(food) === "protein";
+  var opts = isProtein ? ["Complete Protein", "Incomplete Protein"]
+                       : ["Simple Carb", "Complex Carb"];
+
+  $prompt.text(isProtein ? "Now choose the type of protein:" : "Choose the type of carb:");
+  $prompt.toggleClass("s7-protein-prompt", isProtein).toggleClass("s7-carb-prompt", !isProtein);
+
+  $row.empty();
+  opts.forEach(function (label) {
+    var $btn = $('<button type="button"></button>').text(label);
+    $btn.addClass(isProtein ? "s7-protein-btn" : "s7-carb-btn");
+    $btn.on("click", function () { setup.scenario7Check(label); });
+    $row.append($btn);
+  });
 };
 
 setup.scenario7Tick = function () {
@@ -408,7 +427,7 @@ setup.startScenario7Timer = function () {
 
 $(document).on(":passagerender", function () {
   if (State.passage === "Quiz") {
-    setTimeout(setup.refreshScenario7QuizLabels, 0);
+    setTimeout(setup.renderScenario7Question, 0);
   }
 });</script><tw-passagedata pid="1" name="Carmichael Gym" tags="" position="600,400" size="100,100">&lt;div class=&quot;card&quot;&gt;
 
@@ -431,9 +450,9 @@ $(document).on(":passagerender", function () {
     &lt;/div&gt;
 
     &lt;div&gt;
-      You have 30 seconds to quickly identify foods that are either
-      &lt;strong&gt;complex carbohydrates&lt;/strong&gt; or
-      &lt;strong&gt;complete proteins&lt;/strong&gt;.
+      You have 30 seconds. For each food you will answer one quick question &mdash;
+      either the &lt;strong&gt;type of carb&lt;/strong&gt; (simple vs complex) or the
+      &lt;strong&gt;type of protein&lt;/strong&gt; (complete vs incomplete).
     &lt;/div&gt;
 
     &lt;div&gt;
@@ -478,19 +497,11 @@ $(document).on(":passagerender", function () {
       &lt;&lt;print $s7CurrentFood.name&gt;&gt;
     &lt;/div&gt;
 
-    &lt;div&gt;
-      Does this food fit the target category (Complex Carb OR Complete Protein)?
+    &lt;div id=&quot;s7-prompt&quot; class=&quot;s7-prompt&quot;&gt;
+      Choose the category for this food:
     &lt;/div&gt;
 
-    &lt;div class=&quot;btn-row&quot;&gt;
-      &lt;&lt;button &quot;Yes - Target Category&quot;&gt;&gt;
-        &lt;&lt;run setup.scenario7Check(&quot;yes&quot;);&gt;&gt;
-      &lt;&lt;/button&gt;&gt;
-
-      &lt;&lt;button &quot;No - Not Target Category&quot;&gt;&gt;
-        &lt;&lt;run setup.scenario7Check(&quot;no&quot;);&gt;&gt;
-      &lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
+    &lt;div class=&quot;btn-row&quot; id=&quot;s7-btn-row&quot;&gt;&lt;/div&gt;
   &lt;/div&gt;
 
   &lt;div class=&quot;feedback&quot;&gt;

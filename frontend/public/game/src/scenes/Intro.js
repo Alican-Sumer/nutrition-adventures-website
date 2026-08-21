@@ -303,7 +303,7 @@ export class Intro extends Phaser.Scene {
         const buttonGlow = this.add.rectangle(0, 0, buttonWidth + 28, buttonHeight + 24, 0xf0d060, 0.12).setOrigin(0.5);
         const buttonBody = this.add.rectangle(0, 0, buttonWidth, buttonHeight, 0xc8a84b, 1).setOrigin(0.5).setStrokeStyle(4, 0x7a5a1a, 1);
         const buttonInner = this.add.rectangle(0, 0, buttonWidth - 16, buttonHeight - 16, 0x09111f, 1).setOrigin(0.5).setStrokeStyle(2, 0xc8a84b, 1);
-        const buttonLabel = this.add.text(0, 0, 'Start Adventure', {
+        const buttonLabel = this.add.text(0, 0, 'Next  >', {
             fontFamily: '"Press Start 2P", monospace',
             fontSize: '18px',
             color: '#f0d060'
@@ -411,7 +411,17 @@ export class Intro extends Phaser.Scene {
                 ease: 'Quad.easeOut',
                 yoyo: true,
                 onComplete: () => {
-                    this.scene.start('Start');
+                    this.tweens.add({
+                        targets: uiRoot,
+                        alpha: 0,
+                        scaleX: 0.985,
+                        scaleY: 0.985,
+                        duration: 300,
+                        ease: 'Quad.easeIn',
+                        onComplete: () => {
+                            this.buildDisclaimerScreen();
+                        }
+                    });
                 }
             });
         };
@@ -478,6 +488,223 @@ export class Intro extends Phaser.Scene {
                 progressLine2,
                 button
             ],
+            y: '+=4',
+            duration: 2400,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut'
+        });
+    }
+
+    buildDisclaimerScreen() {
+        this.tweens.killAll();
+        this.children.removeAll();
+        this.ensureDustTexture();
+
+        const { width, height } = this.scale;
+        this.cameras.main.setBackgroundColor('#102919');
+
+        const uiRoot = this.add.container(0, 0);
+
+        const background = this.add.image(width / 2, height / 2, 'intro-map-bg');
+        background.setDisplaySize(width, height);
+        background.setAlpha(0.2);
+
+        const backgroundShade = this.add.rectangle(width / 2, height / 2, width, height, 0x08120c, 0.52);
+        const dustParticles = this.add.particles(0, 0, 'dust-particle', {
+            x: { min: 0, max: width },
+            y: { min: 0, max: height },
+            lifespan: 10000,
+            speedX: { min: -6, max: 6 },
+            speedY: { min: -14, max: -4 },
+            scale: { start: 0.16, end: 0.04 },
+            alpha: { start: 0.12, end: 0 },
+            tint: [0xf0d060, 0xf5ecd2],
+            quantity: 1,
+            frequency: 700,
+            emitZone: { type: 'random', source: new Phaser.Geom.Rectangle(0, 0, width, height) },
+            blendMode: Phaser.BlendModes.ADD
+        });
+
+        const panelWidth = 820;
+        const panelHeight = 860;
+        const panelX = width / 2;
+        const panelY = height / 2 - 20;
+
+        const panelShadow = this.add.graphics();
+        panelShadow.fillStyle(0x05070a, 0.44);
+        panelShadow.fillRoundedRect(panelX - panelWidth / 2 + 12, panelY - panelHeight / 2 + 14, panelWidth, panelHeight, 18);
+
+        const panelBackdrop = this.add.graphics();
+        panelBackdrop.fillStyle(0x020406, 0.22);
+        panelBackdrop.fillRoundedRect(panelX - panelWidth / 2 - 18, panelY - panelHeight / 2 - 18, panelWidth + 36, panelHeight + 36, 26);
+
+        const panelGlow = this.add.graphics();
+        panelGlow.lineStyle(18, 0xf0d060, 0.06);
+        panelGlow.strokeRoundedRect(panelX - panelWidth / 2 - 6, panelY - panelHeight / 2 - 6, panelWidth + 12, panelHeight + 12, 24);
+
+        this.ensureGlowTexture();
+        const glowSprite = this.add.image(0, 0, 'glow-orb').setBlendMode(Phaser.BlendModes.ADD).setScale(2.5).setAlpha(0.35);
+        const halfW = panelWidth / 2 + 10;
+        const halfH = panelHeight / 2 + 10;
+        const perimeter = 2 * (panelWidth + panelHeight) + 40 * 2;
+        const orbitProgress = { t: 0 };
+        const getPointOnRect = (t) => {
+            const p = ((t % 1) + 1) % 1;
+            const d = p * perimeter;
+            const top = panelWidth + 20;
+            const right = top + panelHeight + 20;
+            const bottom = right + panelWidth + 20;
+            if (d < top) return { x: panelX - halfW + d, y: panelY - halfH };
+            else if (d < right) return { x: panelX + halfW, y: panelY - halfH + (d - top) };
+            else if (d < bottom) return { x: panelX + halfW - (d - right), y: panelY + halfH };
+            else return { x: panelX - halfW, y: panelY + halfH - (d - bottom) };
+        };
+        this.tweens.add({ targets: orbitProgress, t: 1, duration: 4000, repeat: -1, ease: 'Linear', onUpdate: () => { const pt = getPointOnRect(orbitProgress.t); glowSprite.setPosition(pt.x, pt.y); } });
+        const glowSprite2 = this.add.image(0, 0, 'glow-orb').setBlendMode(Phaser.BlendModes.ADD).setScale(1.8).setAlpha(0.18);
+        const orbitProgress2 = { t: 0.5 };
+        this.tweens.add({ targets: orbitProgress2, t: 1.5, duration: 4000, repeat: -1, ease: 'Linear', onUpdate: () => { const pt = getPointOnRect(orbitProgress2.t); glowSprite2.setPosition(pt.x, pt.y); } });
+
+        const panelFrame = this.add.graphics();
+        panelFrame.fillStyle(0xc8a84b, 0.96);
+        panelFrame.fillRoundedRect(panelX - panelWidth / 2, panelY - panelHeight / 2, panelWidth, panelHeight, 18);
+        panelFrame.lineStyle(5, 0x7a5a1a, 1);
+        panelFrame.strokeRoundedRect(panelX - panelWidth / 2, panelY - panelHeight / 2, panelWidth, panelHeight, 18);
+
+        const panelInner = this.add.graphics();
+        panelInner.fillStyle(0x09111f, 0.86);
+        panelInner.fillRoundedRect(panelX - (panelWidth - 28) / 2, panelY - (panelHeight - 28) / 2, panelWidth - 28, panelHeight - 28, 14);
+        panelInner.lineStyle(3, 0xc8a84b, 0.9);
+        panelInner.strokeRoundedRect(panelX - (panelWidth - 28) / 2, panelY - (panelHeight - 28) / 2, panelWidth - 28, panelHeight - 28, 14);
+
+        const panelInnerShadow = this.add.graphics();
+        panelInnerShadow.lineStyle(18, 0x000000, 0.12);
+        panelInnerShadow.strokeRoundedRect(panelX - (panelWidth - 44) / 2, panelY - (panelHeight - 44) / 2, panelWidth - 44, panelHeight - 44, 12);
+
+        const panelTop = panelY - panelHeight / 2;
+
+        const bodyStyle = {
+            fontFamily: '"Press Start 2P", monospace',
+            fontSize: '13px',
+            color: '#e8e8d0',
+            lineSpacing: 12,
+            align: 'center',
+            wordWrap: { width: panelWidth * 0.76 }
+        };
+        const headerStyle = {
+            fontFamily: '"Press Start 2P", monospace',
+            fontSize: '17px',
+            color: '#f0d060',
+            align: 'center'
+        };
+
+        const title = this.add.text(panelX, panelTop + 60, 'Before You Begin', {
+            fontFamily: '"Press Start 2P", monospace',
+            fontSize: '32px',
+            color: '#f0d060',
+            align: 'center'
+        }).setOrigin(0.5).setShadow(0, 0, '#f0d060', 10, true, true).setStroke('#7a4f00', 3);
+
+        const divider1 = this.add.graphics();
+        divider1.lineStyle(1, 0xc8a84b, 0.35);
+        divider1.lineBetween(panelX - panelWidth * 0.38, panelTop + 150, panelX + panelWidth * 0.38, panelTop + 150);
+
+        const h1 = this.add.text(panelX, panelTop + 185, 'Dietary Content', headerStyle).setOrigin(0.5);
+        const b1 = this.add.text(panelX, panelTop + 230,
+            'This game features real NC State dining hall foods\u2014including meat, dairy, gluten, and common allergens. Nutritional guidance reflects general principles and does not account for personal allergies, dietary restrictions, or religious dietary practices.',
+            bodyStyle
+        ).setOrigin(0.5, 0);
+
+        const divider2 = this.add.graphics();
+        divider2.lineStyle(1, 0xc8a84b, 0.35);
+        divider2.lineBetween(panelX - panelWidth * 0.38, panelTop + 480, panelX + panelWidth * 0.38, panelTop + 480);
+
+        const h2 = this.add.text(panelX, panelTop + 510, 'A Gentle Note', headerStyle).setOrigin(0.5);
+        const b2 = this.add.text(panelX, panelTop + 555,
+            'This game explores nutrition through food choices and eating habits. All content is designed to be positive and educational. You are always welcome to pause, revisit, or step away at any time.',
+            bodyStyle
+        ).setOrigin(0.5, 0);
+
+        const buttonY = panelTop + 760;
+        const buttonWidth = 320;
+        const buttonHeight = 66;
+        const button = this.add.container(panelX, buttonY);
+        const buttonShadow = this.add.rectangle(4, 5, buttonWidth, buttonHeight, 0x000000, 0.5).setOrigin(0.5);
+        const buttonGlow = this.add.rectangle(0, 0, buttonWidth + 28, buttonHeight + 24, 0xf0d060, 0.12).setOrigin(0.5);
+        const buttonBody = this.add.rectangle(0, 0, buttonWidth, buttonHeight, 0xc8a84b, 1).setOrigin(0.5).setStrokeStyle(4, 0x7a5a1a, 1);
+        const buttonInner = this.add.rectangle(0, 0, buttonWidth - 16, buttonHeight - 16, 0x09111f, 1).setOrigin(0.5).setStrokeStyle(2, 0xc8a84b, 1);
+        const buttonLabel = this.add.text(0, 0, 'Start Adventure', {
+            fontFamily: '"Press Start 2P", monospace',
+            fontSize: '16px',
+            color: '#f0d060'
+        }).setOrigin(0.5).setShadow(2, 2, '#7a4f00', 0, false, true);
+        button.add([buttonGlow, buttonShadow, buttonBody, buttonInner, buttonLabel]);
+
+        uiRoot.add([
+            background, backgroundShade, dustParticles,
+            panelBackdrop, panelGlow, glowSprite, glowSprite2,
+            panelShadow, panelFrame, panelInner, panelInnerShadow,
+            title, divider1, h1, b1, divider2, h2, b2, button
+        ]);
+
+        let isHovered = false;
+        let isStarting = false;
+        let pulseTween = null;
+        let glowTween = null;
+
+        const setButtonVisualState = () => {
+            if (isStarting) return;
+            button.setScale(isHovered ? 1.05 : 1);
+            buttonBody.setFillStyle(isHovered ? 0xe0bf63 : 0xc8a84b, 1);
+            buttonGlow.setAlpha(isHovered ? 0.24 : 0.12);
+        };
+
+        const startPulse = () => {
+            pulseTween = this.tweens.add({ targets: button, scaleX: { from: 1, to: 1.025 }, scaleY: { from: 1, to: 1.025 }, duration: 900, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+            glowTween = this.tweens.add({ targets: buttonGlow, alpha: { from: 0.12, to: 0.2 }, duration: 900, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+        };
+
+        const stopPulse = () => {
+            if (pulseTween) { pulseTween.stop(); pulseTween = null; }
+            if (glowTween) { glowTween.stop(); glowTween = null; }
+            button.setScale(1);
+            buttonGlow.setAlpha(isHovered ? 0.24 : 0.12);
+        };
+
+        const launchGame = () => {
+            if (isStarting) return;
+            isStarting = true;
+            stopPulse();
+            this.playUiClickSound();
+            this.tweens.add({
+                targets: button,
+                scaleX: 0.96, scaleY: 0.94, y: button.y + 4,
+                duration: 80, ease: 'Quad.easeOut', yoyo: true,
+                onComplete: () => { this.scene.start('Start'); }
+            });
+        };
+
+        startPulse();
+
+        const hitArea = this.add.zone(panelX, buttonY, buttonWidth, buttonHeight).setOrigin(0.5).setInteractive({ useHandCursor: true });
+        hitArea.on('pointerover', () => { if (!isStarting) { isHovered = true; this.playUiHoverSound(); setButtonVisualState(); } });
+        hitArea.on('pointerout', () => { if (!isStarting) { isHovered = false; setButtonVisualState(); } });
+        hitArea.on('pointerdown', launchGame);
+        this.input.keyboard.once('keydown-ENTER', launchGame);
+
+        uiRoot.setAlpha(0);
+        uiRoot.setScale(0.985);
+        this.tweens.add({
+            targets: uiRoot,
+            alpha: 1,
+            scaleX: 1,
+            scaleY: 1,
+            duration: 420,
+            ease: 'Quad.easeOut'
+        });
+
+        this.tweens.add({
+            targets: [panelBackdrop, panelGlow, panelShadow, panelFrame, panelInner, panelInnerShadow, title, divider1, h1, b1, divider2, h2, b2, button],
             y: '+=4',
             duration: 2400,
             yoyo: true,

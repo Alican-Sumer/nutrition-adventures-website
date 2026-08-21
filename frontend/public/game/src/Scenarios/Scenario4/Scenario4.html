@@ -354,14 +354,11 @@ setup.proteinCard = function(varName, foodName, proteinAmountArray, unit, nextPa
         index: 0
     };
 
-    const plusSign = "https://png.pngtree.com/png-vector/20190507/ourmid/pngtree-vector-plus-icon-png-image_1024584.jpg";
-    const minusSign = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFHxW4wkcsBhnFOUdh2ktQVTGAX51j-sYkRw&s";
-
     // Protein selector elements
     const selectionElements = [
-        { element: "img", src: minusSign, id: "subtractPortion", alt: "Subtract Portion", class: "signs clickable", tabindex: "0" },
+        { element: "button", content: "&#8722;", id: "subtractPortion", "aria-label": "Decrease amount", class: "signs clickable" },
         { element: "div", content: `<span id="${varName}_display">${proteinAmountArray[0]}</span> <span>${unit}(s)</span>` },
-        { element: "img", src: plusSign, id: "addPortion", alt: "Add Portion", class: "signs clickable", tabindex: "0" }
+        { element: "button", content: "+", id: "addPortion", "aria-label": "Increase amount", class: "signs clickable" }
     ];
 
     // Description elements

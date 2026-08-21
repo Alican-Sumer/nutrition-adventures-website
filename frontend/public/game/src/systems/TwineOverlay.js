@@ -18,7 +18,7 @@ export class TwineOverlay {
         this.completeCallback = onComplete;
         this.completionPassages = completionPassages;
         this.titleEl.textContent = title;
-        this.iframeEl.src = htmlPath;
+        this.iframeEl.src = `${htmlPath}?t=${Date.now()}`;
         this.container.style.display = 'flex';
         document.addEventListener('keydown', this.handleEsc);
         window.addEventListener('message', this.messageHandlerBound);
@@ -168,7 +168,7 @@ export class TwineOverlay {
         buttons.style.gap = '8px';
 
         const closeBtn = document.createElement('button');
-        closeBtn.textContent = 'Close';
+        closeBtn.textContent = 'Back To Map';
         this.applyButtonTheme(closeBtn);
         closeBtn.onclick = () => this.close();
 
